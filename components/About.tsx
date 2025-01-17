@@ -12,7 +12,7 @@ function About() {
         <div className="w-[50%] flex flex-col items-start justify-center gap-5">
           <h1 className="text-[3.8vw] font-semibold">About ResearchBy.ai</h1>
           <p className="text-[1.2vw] text-[#A6A6A6]">
-            We're revolutionizing research with AI technology, making
+            We&#39;re revolutionizing research with AI technology, making
             high-quality research accessible to everyone.
           </p>
           <p className="text-[1.2vw] text-[#A6A6A6]">
