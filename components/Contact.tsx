@@ -14,8 +14,9 @@ function Contact() {
     // Handle form submission logic here
   };
   return (
-    <div className="w-full flex items-center justify-center px-[7vw]">
-      <div className="w-full shadow-lg p-5 flex">
+    <div className="w-full flex flex-col items-center justify-center px-[7vw] py-[4vw]">
+      <h1 className="text-[3vw] font-bold">Contact Us</h1>
+      <div className="w-full shadow-lg p-5 flex rounded-lg">
         <div className="w-[40%] bg-[#011C2B] p-8 rounded-xl flex flex-col gap-20">
           <div>
             <h1 className="text-white text-[2.2vw] font-semibold">
