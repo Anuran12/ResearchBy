@@ -6,7 +6,7 @@ import New from "@/assets/new.svg";
 
 function Sidebar() {
   return (
-    <div className="fixed left-0 top-0 h-screen w-64 bg-[#FCE38A] p-4 flex flex-col">
+    <div className="fixed left-0 top-0 h-screen w-[20%] bg-[#FCE38A] p-4 flex flex-col">
       {/* Logo section */}
       <div className="flex flex-col justify-center items-center mb-8">
         <Image src={Logo} alt="logo" width={60} height={60} />
