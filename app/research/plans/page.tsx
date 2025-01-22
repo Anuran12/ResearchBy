@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import Avatar from "@/assets/avatar.png";
 import AvatarDropdown from "@/components/AvatarDropdown";
 
 export default function Plans() {

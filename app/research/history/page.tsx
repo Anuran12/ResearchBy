@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { FiDownload, FiEdit3, FiTrash2, FiStar } from "react-icons/fi";
-import Avatar from "@/assets/avatar.png";
 import { researchPapers, type ResearchPaper } from "@/data/research";
 import AvatarDropdown from "@/components/AvatarDropdown";
 
@@ -17,13 +15,13 @@ export default function History() {
     // Implement search logic here
   };
 
-  const handleFavorite = (id: string) => {
-    setPapers(
-      papers.map((paper) =>
-        paper.id === id ? { ...paper, favorite: !paper.favorite } : paper
-      )
-    );
-  };
+  // const handleFavorite = (id: string) => {
+  //   setPapers(
+  //     papers.map((paper) =>
+  //       paper.id === id ? { ...paper, favorite: !paper.favorite } : paper
+  //     )
+  //   );
+  // };
 
   return (
     <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
