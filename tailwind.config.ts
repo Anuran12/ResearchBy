@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        "custom-1": "0px 1.68px 5.05px 0px rgba(0, 0, 0, 0.1)",
+        "custom-2": "0px 1.68px 3.37px -1.68px rgba(0, 0, 0, 0.1)",
+      },
     },
   },
   plugins: [],

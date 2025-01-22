@@ -17,7 +17,7 @@ export default function Settings() {
 
       <div className="grid grid-cols-2 gap-6">
         {/* Display Settings */}
-        <div className="border rounded-lg p-6">
+        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
           <div className="flex items-center gap-3 mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -75,7 +75,7 @@ export default function Settings() {
         </div>
 
         {/* Research Settings */}
-        <div className="border rounded-lg p-6">
+        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
           <div className="flex items-center gap-3 mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -131,7 +131,7 @@ export default function Settings() {
         </div>
 
         {/* Export Settings */}
-        <div className="border rounded-lg p-6">
+        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
           <div className="flex items-center gap-3 mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
@@ -194,7 +194,7 @@ export default function Settings() {
         </div>
 
         {/* Data Settings */}
-        <div className="border rounded-lg p-6">
+        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
           <div className="flex items-center gap-3 mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path

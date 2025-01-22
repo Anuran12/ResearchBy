@@ -28,7 +28,7 @@ export default function NewResearch() {
         </span>
       </div>
       {/* Professional Network Search Section */}
-      <div className="border rounded-lg p-6">
+      <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-7">
             <div className="w-6 h-6">
@@ -96,7 +96,7 @@ export default function NewResearch() {
         </div>
       </div>
       {/* Research Settings Section */}
-      <div className="border rounded-lg p-6">
+      <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
         <h2 className="text-lg font-semibold mb-6">Research Settings</h2>
         <div className="grid grid-cols-3 gap-8">
           <div>

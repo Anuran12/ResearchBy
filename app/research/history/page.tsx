@@ -31,7 +31,7 @@ export default function History() {
         <Image src={Avatar} alt="avatar" className="w-12 h-12 rounded-full" />
       </div>
       {/* Search and Filter Section */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 shadow-custom-1 hover:shadow-custom-2 p-3">
         <div className="relative flex-1">
           <input
             type="text"
@@ -69,7 +69,7 @@ export default function History() {
         {papers.map((paper) => (
           <div
             key={paper.id}
-            className="flex items-center justify-between p-4 border rounded-lg"
+            className="flex items-center justify-between p-4 border rounded-lg shadow-custom-1 hover:shadow-custom-2"
           >
             <div className="flex items-center gap-4">
               <div className="text-blue-600">
