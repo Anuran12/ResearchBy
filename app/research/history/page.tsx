@@ -15,13 +15,13 @@ export default function History() {
     // Implement search logic here
   };
 
-  // const handleFavorite = (id: string) => {
-  //   setPapers(
-  //     papers.map((paper) =>
-  //       paper.id === id ? { ...paper, favorite: !paper.favorite } : paper
-  //     )
-  //   );
-  // };
+  const handleFavorite = (id: string) => {
+    setPapers(
+      papers.map((paper) =>
+        paper.id === id ? { ...paper, favorite: !paper.favorite } : paper
+      )
+    );
+  };
 
   return (
     <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
@@ -144,7 +144,10 @@ export default function History() {
               <button className="p-2 hover:bg-gray-100 rounded-lg">
                 <FiTrash2 className="w-5 h-5 text-gray-600" />
               </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
+              <button
+                className="p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => handleFavorite(paper.id)}
+              >
                 <FiStar className="w-5 h-5 text-gray-600" />
               </button>
             </div>
