@@ -30,8 +30,8 @@ export default function RootLayout({
       >
         <Sidebar />
         <main className="flex">
-          <div className="w-[20%]"></div>
-          {children}
+          <div className="hidden lg:block lg:w-[20%]"></div>
+          <div className="w-full lg:w-[80%]">{children}</div>
         </main>
       </body>
     </html>

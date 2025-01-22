@@ -14,10 +14,10 @@ function Contact() {
     // Handle form submission logic here
   };
   return (
-    <div className="w-full flex flex-col items-center justify-center px-[7vw] py-[4vw]">
-      <h1 className="text-[3vw] font-bold">Contact Us</h1>
-      <div className="w-full shadow-lg p-5 flex rounded-lg">
-        <div className="w-[40%] bg-[#011C2B] p-8 rounded-xl flex flex-col gap-20">
+    <div className="w-full flex flex-col items-center justify-center px-4 lg:px-[7vw] py-8 lg:py-[4vw]">
+      <h1 className="text-3xl lg:text-[3vw] font-bold mb-6">Contact Us</h1>
+      <div className="w-full shadow-lg p-4 lg:p-5 flex flex-col lg:flex-row rounded-lg">
+        <div className="w-full lg:w-[40%] bg-[#011C2B] p-6 lg:p-8 rounded-xl flex flex-col gap-10 lg:gap-20 mb-6 lg:mb-0">
           <div>
             <h1 className="text-white text-[2.2vw] font-semibold">
               Contact Information
@@ -124,7 +124,7 @@ function Contact() {
             </div>
           </div>
         </div>
-        <div className="w-[60%] p-8 bg-white rounded-xl">
+        <div className="w-full lg:w-[60%] p-4 lg:p-8 bg-white rounded-xl">
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             <div className="flex gap-4">
               <div className="flex flex-col w-full">

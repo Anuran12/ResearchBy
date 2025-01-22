@@ -1,19 +1,40 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "@/assets/logo.png";
 import Link from "next/link";
 
 function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <div className="flex w-full items-center justify-between px-[5vw] py-4">
-      <div className="flex items-center gap-10">
+    <div className="flex w-full items-center justify-between px-4 lg:px-[5vw] py-4">
+      <div className="flex items-center gap-4 lg:gap-10">
         <div className="flex items-center gap-2">
           <Image src={Logo} alt="logo" width={40} height={40} />
-          <h1 className="text-[1.2vw] font-bold">ResearchBy.ai</h1>
+          <h1 className="text-lg lg:text-[1.2vw] font-bold">ResearchBy.ai</h1>
         </div>
-        <div className="flex gap-10">
+
+        {/* Mobile menu button */}
+        <button
+          className="lg:hidden"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Navigation links */}
+        <div
+          className={`
+          fixed top-0 left-0 w-full h-screen bg-white p-4 lg:p-0
+          lg:static lg:h-auto lg:bg-transparent
+          transform transition-transform duration-300 ease-in-out
+          ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 lg:flex lg:gap-10
+        `}
+        >
           <Link
-            className="text-[0.9vw] font-semibold hover:text-[#F9DD4D]"
+            className="block py-2 lg:py-0 text-base lg:text-[0.9vw] font-semibold hover:text-[#F9DD4D]"
             href="/home"
           >
             Home
@@ -38,7 +59,9 @@ function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex items-center gap-5">
+
+      {/* Auth buttons */}
+      <div className="hidden lg:flex items-center gap-5">
         <Link
           className="text-[0.9vw] font-semibold hover:text-[#F9DD4D]"
           href={"/login"}

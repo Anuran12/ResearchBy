@@ -1,10 +1,13 @@
+"use client";
 import AvatarDropdown from "@/components/AvatarDropdown";
+import { useState } from "react";
 
 export default function NewResearch() {
+  const [isProf, setIsProf] = useState(false);
   return (
-    <div className="w-[80%] py-6 px-5 flex flex-col gap-8">
+    <div className="w-full lg:w-[80%] py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
       <div className="flex justify-between items-center w-full">
-        <h1 className="text-2xl font-bold">Research Document Generator</h1>
+        <h1 className="text-xl lg:text-2xl font-bold">Research Document Generator</h1>
         <AvatarDropdown />
       </div>
       <div className="relative">
@@ -71,9 +74,18 @@ export default function NewResearch() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="w-12 h-6 bg-gray-200 rounded-full">
-              <div className="w-6 h-6 bg-white rounded-full shadow"></div>
-            </div>
+            <button
+              onClick={() => setIsProf(!isProf)}
+              className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                isProf ? "bg-black" : "bg-gray-200"
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
+                  isProf ? "translate-x-6" : "translate-x-0"
+                }`}
+              />
+            </button>
             <div className="w-6 h-6">
               <svg
                 width="35"
@@ -97,7 +109,7 @@ export default function NewResearch() {
       {/* Research Settings Section */}
       <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
         <h2 className="text-lg font-semibold mb-6">Research Settings</h2>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
           <div>
             <label className="block text-sm text-gray-600 mb-2">
               Word count
