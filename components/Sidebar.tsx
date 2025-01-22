@@ -37,9 +37,9 @@ function Sidebar() {
             <path
               d="M9.99999 1.66666L12.575 6.88332L18.3333 7.72499L14.1667 11.7833L15.15 17.5167L9.99999 14.8083L4.84999 17.5167L5.83332 11.7833L1.66666 7.72499L7.42499 6.88332L9.99999 1.66666Z"
               stroke="#030712"
-              stroke-width="1.66667"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.66667"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
 

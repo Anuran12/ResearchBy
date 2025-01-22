@@ -3,7 +3,7 @@ import Avatar from "@/assets/avatar.png";
 
 export default function NewResearch() {
   return (
-    <div className="w-[80%] py-6 px-5">
+    <div className="w-[80%] py-6 px-5 flex flex-col gap-8">
       <div className="flex justify-between items-center w-full">
         <h1 className="text-2xl font-bold">Research Document Generator</h1>
         <Image src={Avatar} alt="avatar" className="w-12 h-12 rounded-full" />
@@ -30,17 +30,35 @@ export default function NewResearch() {
       {/* Professional Network Search Section */}
       <div className="border rounded-lg p-6">
         <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-7">
             <div className="w-6 h-6">
               <svg
-                viewBox="0 0 24 24"
+                width="36"
+                height="41"
+                viewBox="0 0 36 41"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                  d="M17.9663 34.5402C25.8835 34.5402 32.3016 28.1236 32.3016 20.2084C32.3016 12.2931 25.8835 5.87659 17.9663 5.87659C10.0491 5.87659 3.63098 12.2931 3.63098 20.2084C3.63098 28.1236 10.0491 34.5402 17.9663 34.5402Z"
+                  stroke="#2563EB"
+                  strokeWidth="2.86636"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M17.9663 5.87659C14.2853 9.74066 12.2322 14.8723 12.2322 20.2084C12.2322 25.5445 14.2853 30.6761 17.9663 34.5402C21.6473 30.6761 23.7004 25.5445 23.7004 20.2084C23.7004 14.8723 21.6473 9.74066 17.9663 5.87659Z"
+                  stroke="#2563EB"
+                  strokeWidth="2.86636"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M3.63098 20.2083H32.3016"
+                  stroke="#2563EB"
+                  strokeWidth="2.86636"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
@@ -59,20 +77,18 @@ export default function NewResearch() {
             </div>
             <div className="w-6 h-6">
               <svg
-                viewBox="0 0 24 24"
+                width="35"
+                height="34"
+                viewBox="0 0 35 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M12 16V12M12 8H12.01"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                  d="M28.6226 18.2436C28.6226 25.2604 23.7108 28.7688 17.8728 30.8037C17.5671 30.9073 17.2351 30.9023 16.9326 30.7897C11.0806 28.7688 6.16882 25.2604 6.16882 18.2436V8.42012C6.16882 8.04793 6.31668 7.69098 6.57986 7.4278C6.84304 7.16462 7.19999 7.01677 7.57218 7.01677C10.3789 7.01677 13.8873 5.33274 16.3291 3.19963C16.6264 2.94562 17.0046 2.80606 17.3957 2.80606C17.7867 2.80606 18.1649 2.94562 18.4622 3.19963C20.9181 5.34677 24.4125 7.01677 27.2192 7.01677C27.5914 7.01677 27.9483 7.16462 28.2115 7.4278C28.4747 7.69098 28.6226 8.04793 28.6226 8.42012V18.2436Z"
+                  stroke="#9CA3AF"
+                  strokeWidth="2.80672"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>

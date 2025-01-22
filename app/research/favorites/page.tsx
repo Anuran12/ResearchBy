@@ -1,4 +1,9 @@
-import React from "react";
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { FiDownload, FiEdit3, FiTrash2, FiStar } from "react-icons/fi";
+import Avatar from "@/assets/avatar.png";
+import { researchPapers, type ResearchPaper } from "@/data/research";
 
 export default function Favorites() {
   return (
