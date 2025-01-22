@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
 import Avatar from "@/assets/avatar.png";
+import AvatarDropdown from "@/components/AvatarDropdown";
 
 export default function Plans() {
   return (
     <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
       <div className="flex justify-between items-center w-full">
         <h1 className="text-2xl font-bold">Upgrade your account</h1>
-        <Image src={Avatar} alt="avatar" className="w-12 h-12 rounded-full" />
+        <AvatarDropdown />
       </div>
 
       {/* Promotion Banner */}

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FiDownload, FiEdit3, FiTrash2, FiStar } from "react-icons/fi";
 import Avatar from "@/assets/avatar.png";
 import { researchPapers, type ResearchPaper } from "@/data/research";
+import AvatarDropdown from "@/components/AvatarDropdown";
 
 export default function History() {
   const [papers, setPapers] = useState<ResearchPaper[]>(researchPapers);
@@ -28,7 +29,7 @@ export default function History() {
     <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
       <div className="flex justify-between items-center w-full">
         <h1 className="text-2xl font-bold">Research Document Generator</h1>
-        <Image src={Avatar} alt="avatar" className="w-12 h-12 rounded-full" />
+        <AvatarDropdown />
       </div>
       {/* Search and Filter Section */}
       <div className="flex gap-4 shadow-custom-1 hover:shadow-custom-2 p-3">
