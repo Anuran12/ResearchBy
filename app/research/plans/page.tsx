@@ -57,18 +57,23 @@ export default function Plans() {
       {/* Pricing Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
         {/* Free Plan */}
-        <div className="border rounded-lg p-4 lg:p-6 flex flex-col">
+        <div className="border rounded-lg p-4 lg:p-6 flex flex-col items-center">
           <h2 className="text-xl font-bold mb-2">Free</h2>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-700 mb-4 font-bold">
             Give ResearchBy a try for free
           </p>
-          <p className="text-sm text-gray-500 mb-6">
-            Free trial of Research features to help you get taste of AI writing
+          <p className="text-sm text-gray-500 mb-6 text-center">
+            Free trial of Writesonic features to help you get a taste of AI
+            writing.
           </p>
 
           <div className="mb-6">
-            <span className="text-3xl lg:text-4xl font-bold">$0</span>
+            <span className="text-3xl lg:text-5xl font-bold">$0</span>
           </div>
+
+          <p className="text-sm text-gray-500 mb-6 text-center">
+            Try out all features to determine what works best for you
+          </p>
 
           <button className="w-full py-2 px-4 border border-black rounded-lg mb-6">
             Get Started Free
@@ -76,59 +81,63 @@ export default function Plans() {
 
           <ul className="space-y-3 text-sm lg:text-base">
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Generate 1 comprehensive research document
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Standard queue processing
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Basic research capabilities
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Perfect for one-time users or evaluation purposes
             </li>
           </ul>
         </div>
 
         {/* Starter Plan */}
-        <div className="border-2 border-black rounded-lg p-4 lg:p-6 flex flex-col">
+        <div className="border-2 border-yellow-300 rounded-lg p-4 lg:p-6 flex flex-col justify-center items-center">
           <h2 className="text-xl font-bold mb-2">Starter</h2>
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-sm text-gray-700 mb-4 text-center font-bold">
             For bloggers,freelancers businesses
           </p>
-          <p className="text-sm text-gray-500 mb-6">
-            Research tools to help you write blog posts, articles and more
+          <p className="text-sm text-gray-500 mb-6 text-center">
+            Awesome tools to help you write blog posts, books and more.
           </p>
 
-          <div className="mb-6">
-            <span className="text-3xl lg:text-4xl font-bold">$40</span>
+          <div className="mb-6 flex flex-col justify-center items-center">
+            <span className="text-3xl lg:text-5xl font-bold">$40</span>
             <span className="text-sm text-gray-500">/month</span>
           </div>
 
-          <button className="w-full py-2 px-4 bg-black text-white rounded-lg mb-6">
+          <p className="text-sm text-gray-500 mb-6 text-center">
+            Try out all features to determine what works best for you
+          </p>
+
+          <button className="w-full py-2 px-4 bg-yellow-300 text-black rounded-lg mb-6">
             Upgrade
           </button>
 
-          <p className="font-medium mb-4">Everything in Free-trial, plus</p>
+          <p className="font-medium mb-4">Everything in Free-trial,plus</p>
           <ul className="space-y-3 text-sm lg:text-base">
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>4 research documents per
+              <span className="text-orange-500">✓</span>4 research documents per
               month
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Mixed research capability allocation
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Additional documents: $12 each
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-green-500">✓</span>
+              <span className="text-orange-500">✓</span>
               Ideal for individuals and small teams with occasional research
               needs
             </li>
@@ -136,23 +145,28 @@ export default function Plans() {
         </div>
 
         {/* Professional Plans */}
-        {[1, 2].map((i) => (
-          <div key={i} className="border rounded-lg p-4 lg:p-6 flex flex-col">
+        {[95, 270].map((price) => (
+          <div
+            key={price}
+            className="border rounded-lg p-4 lg:p-6 flex flex-col items-center"
+          >
             <h2 className="text-xl font-bold mb-2">Professional</h2>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-700 mb-4 font-bold">
               For teams and businesses
             </p>
-            <p className="text-sm text-gray-500 mb-6">
-              Take your business to AI level with custom package. System AI
-              model development, onboarding and support.
+            <p className="text-sm text-gray-500 mb-6 text-center">
+              Take your business to the next level with custom packages, custom
+              AI model development, onboarding and support.
             </p>
 
-            <div className="mb-6">
-              <span className="text-3xl lg:text-4xl font-bold">
-                ${i === 1 ? "95" : "270"}
-              </span>
+            <div className="mb-6 flex flex-col items-center">
+              <span className="text-3xl lg:text-5xl font-bold">${price}</span>
               <span className="text-sm text-gray-500">/month</span>
             </div>
+
+            <p className="text-sm text-gray-500 mb-6 text-center">
+              Try out all features to determine what works best for you
+            </p>
 
             <button className="w-full py-2 px-4 border border-black rounded-lg mb-6">
               Get Started Free
@@ -161,11 +175,11 @@ export default function Plans() {
             <p className="font-medium mb-4">Everything in Long-form, plus</p>
             <ul className="space-y-3 text-sm lg:text-base">
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-orange-500">✓</span>
                 Custom number of words
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-green-500">✓</span>
+                <span className="text-orange-500">✓</span>
                 Custom number of users
               </li>
             </ul>
