@@ -16,16 +16,12 @@ export default function Profile() {
 
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    openModal("profile_save", undefined, { name, email });
+    openModal("profile_save", undefined);
   };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    openModal("password_update", undefined, {
-      currentPassword,
-      newPassword,
-      confirmPassword,
-    });
+    openModal("password_update", undefined);
   };
 
   return (
