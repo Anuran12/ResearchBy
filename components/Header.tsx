@@ -11,7 +11,7 @@ function Header() {
     <div className="fixed top-0 left-0 right-0 z-50 bg-white">
       <div className="flex w-full items-center justify-between px-4 lg:px-[5vw] py-4">
         {/* Logo and Mobile Menu Button Container */}
-        <div className="flex items-center justify-between w-full lg:w-auto">
+        <div className="flex items-center justify-between w-full lg:w-auto gap-10">
           <div className="flex items-center gap-2">
             <Image
               src={Logo}
