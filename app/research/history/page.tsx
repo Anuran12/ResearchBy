@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   FiDownload,
   FiEdit3,
@@ -18,7 +18,6 @@ export default function History() {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    // Implement search logic here
   };
 
   const handleFavorite = (id: string) => {
@@ -28,6 +27,51 @@ export default function History() {
       )
     );
   };
+
+  // Filter and sort papers based on search term, time filter, and sort option
+  const filteredPapers = useMemo(() => {
+    let filtered = [...papers];
+
+    // Apply search filter
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (paper) =>
+          paper.title.toLowerCase().includes(searchLower) ||
+          paper.tags.some((tag) => tag.toLowerCase().includes(searchLower))
+      );
+    }
+
+    // Apply time filter
+    const now = new Date();
+    if (timeFilter === "week") {
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      filtered = filtered.filter((paper) => new Date(paper.date) >= weekAgo);
+    } else if (timeFilter === "month") {
+      const monthAgo = new Date(
+        now.getFullYear(),
+        now.getMonth() - 1,
+        now.getDate()
+      );
+      filtered = filtered.filter((paper) => new Date(paper.date) >= monthAgo);
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "date":
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        case "title":
+          return a.title.localeCompare(b.title);
+        case "wordCount":
+          return b.wordCount - a.wordCount;
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [papers, searchTerm, timeFilter, sortBy]);
 
   return (
     <div className="w-full py-4 px-4 flex flex-col gap-4">
@@ -46,7 +90,6 @@ export default function History() {
             className="w-full p-2 pr-10 border rounded-lg"
           />
           <button className="absolute right-3 top-1/2 -translate-y-1/2">
-            {/* Add search icon here if needed */}
             <FiSearch />
           </button>
         </div>
@@ -74,7 +117,7 @@ export default function History() {
 
       {/* History Items */}
       <div className="flex flex-col gap-4">
-        {papers.map((paper) => (
+        {filteredPapers.map((paper) => (
           <div
             key={paper.id}
             className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg shadow-custom-1 hover:shadow-custom-2 gap-4"
