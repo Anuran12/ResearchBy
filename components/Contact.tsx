@@ -126,7 +126,7 @@ function Contact() {
         </div>
         <div className="w-full lg:w-[60%] p-4 lg:p-8 bg-white rounded-xl">
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-col lg:flex-row">
               <div className="flex flex-col w-full">
                 <label className="text-gray-600">First Name</label>
                 <input
@@ -148,7 +148,7 @@ function Contact() {
                 />
               </div>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-col lg:flex-row">
               <div className="flex flex-col w-full">
                 <label className="text-gray-600">Phone Number</label>
                 <input

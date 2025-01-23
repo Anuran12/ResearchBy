@@ -29,7 +29,7 @@ function FAQ() {
   };
 
   return (
-    <div className="py-10 px-[15vw] space-y-8 flex flex-col items-center justify-center">
+    <div className="py-10 px-[5vw] lg:px-[15vw] space-y-8 flex flex-col items-center justify-center">
       <h1 className="text-[3vw] font-bold">FAQs</h1>
       <div className="space-y-4 w-full">
         {faqs.map((faq, index) => (

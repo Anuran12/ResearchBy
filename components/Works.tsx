@@ -6,11 +6,12 @@ import Works2 from "@/assets/works2.png";
 function TickIcon() {
   return (
     <svg
-      width="21"
-      height="21"
+      width="18"
+      height="18"
       viewBox="0 0 21 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="lg:w-[21px] lg:h-[21px]"
     >
       <path
         d="M10.6897 0.523438C5.1797 0.523438 0.689697 5.01344 0.689697 10.5234C0.689697 16.0334 5.1797 20.5234 10.6897 20.5234C16.1997 20.5234 20.6897 16.0334 20.6897 10.5234C20.6897 5.01344 16.1997 0.523438 10.6897 0.523438ZM15.4697 8.22344L9.7997 13.8934C9.6597 14.0334 9.4697 14.1134 9.2697 14.1134C9.0697 14.1134 8.8797 14.0334 8.7397 13.8934L5.9097 11.0634C5.6197 10.7734 5.6197 10.2934 5.9097 10.0034C6.1997 9.71344 6.6797 9.71344 6.9697 10.0034L9.2697 12.3034L14.4097 7.16344C14.6997 6.87344 15.1797 6.87344 15.4697 7.16344C15.7597 7.45344 15.7597 7.92344 15.4697 8.22344Z"
@@ -22,106 +23,152 @@ function TickIcon() {
 
 function Works() {
   return (
-    <div className="flex flex-col items-center justify-start py-10 px-[10vw] gap-8">
-      <h1 className="text-[3vw] font-bold">How it Works?</h1>
-      <div className="w-full flex bg-[#F4F4F4] rounded-[26px] p-16">
-        <div className="w-[50%] flex flex-col items-start justify-center gap-5">
-          <h1 className="text-[2vw] font-semibold">Enter Topic</h1>
-          <p>Input your research subject and specify your requirements</p>
-          <ul className="work-list">
-            <li className="flex items-center gap-2 pt-3">
+    <div className="flex flex-col items-center justify-start py-6 lg:py-10 px-4 lg:px-[10vw] gap-4 lg:gap-8">
+      <h1 className="text-2xl lg:text-[3vw] font-bold text-center">
+        How it Works?
+      </h1>
+
+      {/* First Section */}
+      <div className="w-full flex flex-col lg:flex-row bg-[#F4F4F4] rounded-lg lg:rounded-[26px] p-6 lg:p-16">
+        <div className="w-full lg:w-[50%] flex flex-col items-start justify-center gap-4 lg:gap-5">
+          <h1 className="text-xl lg:text-[2vw] font-semibold">Enter Topic</h1>
+          <p className="text-sm lg:text-base">
+            Input your research subject and specify your requirements
+          </p>
+          <ul className="work-list space-y-2 lg:space-y-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Define your research scope
+              <span className="text-sm lg:text-base">
+                Define your research scope
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Set academic level
+              <span className="text-sm lg:text-base">Set academic level</span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Choose citation style
+              <span className="text-sm lg:text-base">
+                Choose citation style
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Specify word count
+              <span className="text-sm lg:text-base">Specify word count</span>
             </li>
           </ul>
         </div>
-        <div className="w-[50%] flex items-center justify-center">
-          <Image src={Works1} alt="work1" />
+        <div className="w-full lg:w-[50%] flex items-center justify-center mt-6 lg:mt-0">
+          <Image
+            src={Works1}
+            alt="work1"
+            className="w-full max-w-[300px] lg:max-w-none"
+          />
         </div>
       </div>
-      <div className="w-full flex gap-8">
-        <div className="w-[50%] bg-[#F4F4F4] rounded-[26px] p-16 flex flex-col items-start justify-center gap-5">
-          <h1 className="text-[2vw] font-semibold">AI Analysis</h1>
-          <p>Our AI processes and analyzes information from multiple sources</p>
-          <ul className="work-list">
-            <li className="flex items-center gap-2 pt-3">
+
+      {/* Middle Section */}
+      <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-8">
+        <div className="w-full lg:w-[50%] bg-[#F4F4F4] rounded-lg lg:rounded-[26px] p-6 lg:p-16 flex flex-col items-start justify-center gap-4 lg:gap-5">
+          <h1 className="text-xl lg:text-[2vw] font-semibold">AI Analysis</h1>
+          <p className="text-sm lg:text-base">
+            Our AI processes and analyzes information from multiple sources
+          </p>
+          <ul className="work-list space-y-2 lg:space-y-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Access academic databases
+              <span className="text-sm lg:text-base">
+                Access academic databases
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Analyze recent publications
+              <span className="text-sm lg:text-base">
+                Analyze recent publications
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Verify source credibility
+              <span className="text-sm lg:text-base">
+                Verify source credibility
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Cross-reference findings
+              <span className="text-sm lg:text-base">
+                Cross-reference findings
+              </span>
             </li>
           </ul>
         </div>
-        <div className="w-[50%] bg-[#F4F4F4] rounded-[26px] p-16 flex flex-col items-start justify-center gap-5">
-          <h1 className="text-[2vw] font-semibold">Generation</h1>
-          <p>Creates a structured research document with cited sources</p>
-          <ul className="work-list">
-            <li className="flex items-center gap-2 pt-3">
+        <div className="w-full lg:w-[50%] bg-[#F4F4F4] rounded-lg lg:rounded-[26px] p-6 lg:p-16 flex flex-col items-start justify-center gap-4 lg:gap-5">
+          <h1 className="text-xl lg:text-[2vw] font-semibold">Generation</h1>
+          <p className="text-sm lg:text-base">
+            Creates a structured research document with cited sources
+          </p>
+          <ul className="work-list space-y-2 lg:space-y-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Generate outline
+              <span className="text-sm lg:text-base">Generate outline</span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Write comprehensive content
+              <span className="text-sm lg:text-base">
+                Write comprehensive content
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Include citations
+              <span className="text-sm lg:text-base">Include citations</span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Format according to style
+              <span className="text-sm lg:text-base">
+                Format according to style
+              </span>
             </li>
           </ul>
         </div>
       </div>
-      <div className="w-full flex bg-[#F4F4F4] rounded-[26px] p-16">
-        <div className="w-[50%] flex flex-col items-start justify-center gap-5">
-          <h1 className="text-[2vw] font-semibold">Download & Edit</h1>
-          <p>Get your complete research paper ready for final touches</p>
-          <ul className="work-list">
-            <li className="flex items-center gap-2 pt-3">
+
+      {/* Last Section */}
+      <div className="w-full flex flex-col lg:flex-row bg-[#F4F4F4] rounded-lg lg:rounded-[26px] p-6 lg:p-16">
+        <div className="w-full lg:w-[50%] flex flex-col items-start justify-center gap-4 lg:gap-5">
+          <h1 className="text-xl lg:text-[2vw] font-semibold">
+            Download & Edit
+          </h1>
+          <p className="text-sm lg:text-base">
+            Get your complete research paper ready for final touches
+          </p>
+          <ul className="work-list space-y-2 lg:space-y-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Download in multiple formats
+              <span className="text-sm lg:text-base">
+                Download in multiple formats
+              </span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Edit and customize
+              <span className="text-sm lg:text-base">Edit and customize</span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Request revisions
+              <span className="text-sm lg:text-base">Request revisions</span>
             </li>
-            <li className="flex items-center gap-2 pt-3">
+            <li className="flex items-center gap-2">
               <TickIcon />
-              Share with colleagues
+              <span className="text-sm lg:text-base">
+                Share with colleagues
+              </span>
             </li>
           </ul>
         </div>
-        <div className="w-[50%] flex items-center justify-center">
-          <Image src={Works2} alt="work2" />
+        <div className="w-full lg:w-[50%] flex items-center justify-center mt-6 lg:mt-0">
+          <Image
+            src={Works2}
+            alt="work2"
+            className="w-full max-w-[300px] lg:max-w-none"
+          />
         </div>
       </div>
     </div>

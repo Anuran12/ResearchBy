@@ -9,7 +9,7 @@ import React from "react";
 
 function HomePage() {
   return (
-    <div>
+    <div className="flex flex-col">
       <Header />
       <Hero />
       <About />
