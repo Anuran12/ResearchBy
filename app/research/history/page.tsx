@@ -9,8 +9,10 @@ import {
 } from "react-icons/fi";
 import { researchPapers, type ResearchPaper } from "@/data/research";
 import AvatarDropdown from "@/components/AvatarDropdown";
+import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 
 export default function History() {
+  const { openModal } = useResearchAction();
   const [papers, setPapers] = useState<ResearchPaper[]>(researchPapers);
   const [searchTerm, setSearchTerm] = useState("");
   const [timeFilter, setTimeFilter] = useState("all");
@@ -187,13 +189,22 @@ export default function History() {
             </div>
 
             <div className="flex items-center gap-2 lg:gap-4">
-              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+              <button
+                className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => openModal("download", paper)}
+              >
                 <FiDownload className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
-              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+              <button
+                className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => openModal("edit", paper)}
+              >
                 <FiEdit3 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
-              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+              <button
+                className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => openModal("delete", paper)}
+              >
                 <FiTrash2 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
               <button
