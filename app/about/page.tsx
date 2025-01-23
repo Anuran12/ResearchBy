@@ -1,36 +1,8 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Image from "next/image";
-// import TeamMember1 from "@/assets/team1.png"; // You'll need to add these images
-// import TeamMember2 from "@/assets/team2.png";
-// import TeamMember3 from "@/assets/team3.png";
 
 export default function AboutPage() {
-  // const teamMembers = [
-  //   {
-  //     name: "Sarah Johnson",
-  //     role: "CEO & Co-founder",
-  //     image: TeamMember1,
-  //     description:
-  //       "Former research scientist with 10+ years of experience in AI and ML.",
-  //   },
-  //   {
-  //     name: "Michael Chen",
-  //     role: "CTO & Co-founder",
-  //     image: TeamMember2,
-  //     description:
-  //       "AI researcher and developer with expertise in NLP and deep learning.",
-  //   },
-  //   {
-  //     name: "Emily Rodriguez",
-  //     role: "Head of Research",
-  //     image: TeamMember3,
-  //     description:
-  //       "PhD in Computer Science, specializing in AI-driven research automation.",
-  //   },
-  // ];
-
   return (
     <div className="flex flex-col">
       <Header />
