@@ -4,8 +4,10 @@ import Image from "next/image";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import Avatar from "@/assets/avatar.png";
 import { FiEdit3, FiTrash2 } from "react-icons/fi";
+import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 
 export default function Profile() {
+  const { openModal } = useResearchAction();
   const [name, setName] = useState("Alex Thompson");
   const [email, setEmail] = useState("alex@example.com");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -14,12 +16,16 @@ export default function Profile() {
 
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle profile update logic here
+    openModal("profile_save", undefined, { name, email });
   };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle password update logic here
+    openModal("password_update", undefined, {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    });
   };
 
   return (

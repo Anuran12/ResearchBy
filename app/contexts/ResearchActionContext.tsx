@@ -2,13 +2,17 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { ResearchPaper } from "@/data/research";
 
-type ModalType = "download" | "edit" | "delete";
+type ModalType = "download" | "edit" | "delete" | "profile_save" | "password_update";
 
 interface ResearchActionContextType {
   isModalOpen: boolean;
   modalType: ModalType | null;
   selectedPaper: ResearchPaper | null;
-  openModal: (type: ModalType, paper: ResearchPaper) => void;
+  profileData?: {
+    type: "profile" | "password";
+    data: any;
+  };
+  openModal: (type: ModalType, paper?: ResearchPaper, data?: any) => void;
   closeModal: () => void;
   handleConfirm: () => void;
 }
@@ -20,13 +24,13 @@ const ResearchActionContext = createContext<
 export function ResearchActionProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>(null);
-  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(
-    null
-  );
+  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
+  const [profileData, setProfileData] = useState<any>(null);
 
-  const openModal = (type: ModalType, paper: ResearchPaper) => {
+  const openModal = (type: ModalType, paper?: ResearchPaper, data?: any) => {
     setModalType(type);
-    setSelectedPaper(paper);
+    if (paper) setSelectedPaper(paper);
+    if (data) setProfileData(data);
     setIsModalOpen(true);
   };
 
@@ -34,23 +38,26 @@ export function ResearchActionProvider({ children }: { children: ReactNode }) {
     setIsModalOpen(false);
     setModalType(null);
     setSelectedPaper(null);
+    setProfileData(null);
   };
 
   const handleConfirm = () => {
-    if (!selectedPaper || !modalType) return;
+    if (!modalType) return;
 
     switch (modalType) {
       case "download":
-        // Implement download logic
-        console.log("Downloading paper:", selectedPaper.title);
-        break;
       case "edit":
-        // Implement edit logic
-        console.log("Editing paper:", selectedPaper.title);
-        break;
       case "delete":
-        // Implement delete logic
-        console.log("Deleting paper:", selectedPaper.title);
+        if (!selectedPaper) return;
+        console.log(`${modalType}ing paper:`, selectedPaper.title);
+        break;
+      case "profile_save":
+        if (!profileData) return;
+        console.log("Saving profile changes:", profileData);
+        break;
+      case "password_update":
+        if (!profileData) return;
+        console.log("Updating password:", profileData);
         break;
     }
 
@@ -63,6 +70,7 @@ export function ResearchActionProvider({ children }: { children: ReactNode }) {
         isModalOpen,
         modalType,
         selectedPaper,
+        profileData,
         openModal,
         closeModal,
         handleConfirm,
