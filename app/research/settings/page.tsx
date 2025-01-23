@@ -8,16 +8,16 @@ export default function Settings() {
   const [autoSave, setAutoSave] = useState(true);
 
   return (
-    <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
-      <div className="flex justify-between items-center w-full">
-        <h1 className="text-2xl font-bold">Settings</h1>
+    <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-4 lg:gap-6">
+      <div className="flex justify-between items-center w-full gap-4 lg:gap-0">
+        <h1 className="text-xl lg:text-2xl font-bold">Settings</h1>
         <AvatarDropdown />
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
         {/* Display Settings */}
-        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
-          <div className="flex items-center gap-3 mb-6">
+        <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1 hover:shadow-custom-2">
+          <div className="flex items-center gap-3 mb-4 lg:mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M2 3H8V9H2V3Z"
@@ -48,13 +48,15 @@ export default function Settings() {
                 strokeLinejoin="round"
               />
             </svg>
-            <h2 className="text-lg font-semibold">Display Settings</h2>
+            <h2 className="text-base lg:text-lg font-semibold">
+              Display Settings
+            </h2>
           </div>
 
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-gray-600 mb-2">Theme</label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>System Default</option>
                 <option>Light</option>
                 <option>Dark</option>
@@ -64,7 +66,7 @@ export default function Settings() {
               <label className="block text-sm text-gray-600 mb-2">
                 Font Size
               </label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>Medium</option>
                 <option>Small</option>
                 <option>Large</option>
@@ -74,8 +76,8 @@ export default function Settings() {
         </div>
 
         {/* Research Settings */}
-        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
-          <div className="flex items-center gap-3 mb-6">
+        <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1 hover:shadow-custom-2">
+          <div className="flex items-center gap-3 mb-4 lg:mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
@@ -92,7 +94,9 @@ export default function Settings() {
                 strokeLinejoin="round"
               />
             </svg>
-            <h2 className="text-lg font-semibold">Research Settings</h2>
+            <h2 className="text-base lg:text-lg font-semibold">
+              Research Settings
+            </h2>
           </div>
 
           <div className="space-y-4">
@@ -100,7 +104,7 @@ export default function Settings() {
               <label className="block text-sm text-gray-600 mb-2">
                 Default Word Count
               </label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>5000 words</option>
                 <option>3000 words</option>
                 <option>10000 words</option>
@@ -110,7 +114,7 @@ export default function Settings() {
               <label className="block text-sm text-gray-600 mb-2">
                 Default Format
               </label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>Academic</option>
                 <option>Professional</option>
                 <option>General</option>
@@ -120,7 +124,7 @@ export default function Settings() {
               <label className="block text-sm text-gray-600 mb-2">
                 Citation Style
               </label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>APA</option>
                 <option>MLA</option>
                 <option>Chicago</option>
@@ -130,8 +134,8 @@ export default function Settings() {
         </div>
 
         {/* Export Settings */}
-        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
-          <div className="flex items-center gap-3 mb-6">
+        <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1 hover:shadow-custom-2">
+          <div className="flex items-center gap-3 mb-4 lg:mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
@@ -155,7 +159,9 @@ export default function Settings() {
                 strokeLinejoin="round"
               />
             </svg>
-            <h2 className="text-lg font-semibold">Export Settings</h2>
+            <h2 className="text-base lg:text-lg font-semibold">
+              Export Settings
+            </h2>
           </div>
 
           <div className="space-y-4">
@@ -163,7 +169,7 @@ export default function Settings() {
               <label className="block text-sm text-gray-600 mb-2">
                 Default Export Format
               </label>
-              <select className="w-full p-3 border rounded-lg bg-white">
+              <select className="w-full p-2 lg:p-3 border rounded-lg bg-white text-sm lg:text-base">
                 <option>PDF</option>
                 <option>DOCX</option>
                 <option>TXT</option>
@@ -171,20 +177,24 @@ export default function Settings() {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">Include Metadata</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-sm lg:text-base">
+                  Include Metadata
+                </p>
+                <p className="text-xs lg:text-sm text-gray-500">
                   Add generation details to exported files
                 </p>
               </div>
               <button
                 onClick={() => setIncludeMetadata(!includeMetadata)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                className={`w-10 lg:w-12 h-5 lg:h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
                   includeMetadata ? "bg-black" : "bg-gray-200"
                 }`}
               >
                 <div
-                  className={`w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
-                    includeMetadata ? "translate-x-6" : "translate-x-0"
+                  className={`w-3 lg:w-4 h-3 lg:h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
+                    includeMetadata
+                      ? "translate-x-5 lg:translate-x-6"
+                      : "translate-x-0"
                   }`}
                 />
               </button>
@@ -193,8 +203,8 @@ export default function Settings() {
         </div>
 
         {/* Data Settings */}
-        <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
-          <div className="flex items-center gap-3 mb-6">
+        <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1 hover:shadow-custom-2">
+          <div className="flex items-center gap-3 mb-4 lg:mb-6">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M21 5C21 6.65685 16.9706 8 12 8C7.02944 8 3 6.65685 3 5M21 5C21 3.34315 16.9706 2 12 2C7.02944 2 3 3.34315 3 5M21 5V19C21 20.66 17 22 12 22C7 22 3 20.66 3 19V5M21 12C21 13.66 17 15 12 15C7 15 3 13.66 3 12"
@@ -204,46 +214,52 @@ export default function Settings() {
                 strokeLinejoin="round"
               />
             </svg>
-            <h2 className="text-lg font-semibold">Data Settings</h2>
+            <h2 className="text-base lg:text-lg font-semibold">
+              Data Settings
+            </h2>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">Save History</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-sm lg:text-base">Save History</p>
+                <p className="text-xs lg:text-sm text-gray-500">
                   Keep record of generated research
                 </p>
               </div>
               <button
                 onClick={() => setSaveHistory(!saveHistory)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                className={`w-10 lg:w-12 h-5 lg:h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
                   saveHistory ? "bg-black" : "bg-gray-200"
                 }`}
               >
                 <div
-                  className={`w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
-                    saveHistory ? "translate-x-6" : "translate-x-0"
+                  className={`w-3 lg:w-4 h-3 lg:h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
+                    saveHistory
+                      ? "translate-x-5 lg:translate-x-6"
+                      : "translate-x-0"
                   }`}
                 />
               </button>
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">Auto-Save</p>
-                <p className="text-sm text-gray-500">
+                <p className="font-medium text-sm lg:text-base">Auto-Save</p>
+                <p className="text-xs lg:text-sm text-gray-500">
                   Automatically save research progress
                 </p>
               </div>
               <button
                 onClick={() => setAutoSave(!autoSave)}
-                className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
+                className={`w-10 lg:w-12 h-5 lg:h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
                   autoSave ? "bg-black" : "bg-gray-200"
                 }`}
               >
                 <div
-                  className={`w-4 h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
-                    autoSave ? "translate-x-6" : "translate-x-0"
+                  className={`w-3 lg:w-4 h-3 lg:h-4 rounded-full bg-white transition-transform duration-200 ease-in-out ${
+                    autoSave
+                      ? "translate-x-5 lg:translate-x-6"
+                      : "translate-x-0"
                   }`}
                 />
               </button>

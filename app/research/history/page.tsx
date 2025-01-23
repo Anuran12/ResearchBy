@@ -24,43 +24,45 @@ export default function History() {
   };
 
   return (
-    <div className="w-[80%] py-6 px-5 flex flex-col gap-6">
-      <div className="flex justify-between items-center w-full">
-        <h1 className="text-2xl font-bold">Research Document Generator</h1>
+    <div className="w-full py-4 px-4 flex flex-col gap-4">
+      <div className="flex justify-between items-center gap-4">
+        <h1 className="text-xl font-bold">Research Document Generator</h1>
         <AvatarDropdown />
       </div>
       {/* Search and Filter Section */}
-      <div className="flex gap-4 shadow-custom-1 hover:shadow-custom-2 p-3">
+      <div className="flex flex-col gap-4 shadow-custom-1 hover:shadow-custom-2 p-3">
         <div className="relative flex-1">
           <input
             type="text"
             placeholder="Search in history..."
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full p-3 pr-10 border rounded-lg"
+            className="w-full p-2 pr-10 border rounded-lg"
           />
           <button className="absolute right-3 top-1/2 -translate-y-1/2">
             {/* Add search icon here if needed */}
           </button>
         </div>
-        <select
-          className="px-4 py-2 border rounded-lg min-w-[120px]"
-          value={timeFilter}
-          onChange={(e) => setTimeFilter(e.target.value)}
-        >
-          <option value="all">All Time</option>
-          <option value="week">Last Week</option>
-          <option value="month">Last Month</option>
-        </select>
-        <select
-          className="px-4 py-2 border rounded-lg min-w-[120px]"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="date">Sort by Date</option>
-          <option value="title">Sort by Name</option>
-          <option value="wordCount">Sort by Word Count</option>
-        </select>
+        <div className="flex gap-2">
+          <select
+            className="px-2 py-2 border rounded-lg min-w-[100px]"
+            value={timeFilter}
+            onChange={(e) => setTimeFilter(e.target.value)}
+          >
+            <option value="all">All Time</option>
+            <option value="week">Last Week</option>
+            <option value="month">Last Month</option>
+          </select>
+          <select
+            className="px-2 py-2 border rounded-lg min-w-[100px]"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="date">Sort by Date</option>
+            <option value="title">Sort by Name</option>
+            <option value="wordCount">Sort by Word Count</option>
+          </select>
+        </div>
       </div>
 
       {/* History Items */}
@@ -68,9 +70,9 @@ export default function History() {
         {papers.map((paper) => (
           <div
             key={paper.id}
-            className="flex items-center justify-between p-4 border rounded-lg shadow-custom-1 hover:shadow-custom-2"
+            className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg shadow-custom-1 hover:shadow-custom-2 gap-4"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-start lg:items-center gap-4">
               <div className="text-blue-600">
                 <svg
                   width="28"
@@ -117,8 +119,8 @@ export default function History() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-medium">{paper.title}</h3>
-                <div className="flex items-center gap-4 text-sm text-gray-500">
+                <h3 className="font-medium mb-2">{paper.title}</h3>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
                   <span>{paper.date}</span>
                   <span>{paper.wordCount} words</span>
                   <span className="flex items-center gap-1">
@@ -134,21 +136,21 @@ export default function History() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
-                <FiDownload className="w-5 h-5 text-gray-600" />
+            <div className="flex items-center gap-2 lg:gap-4">
+              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+                <FiDownload className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
-                <FiEdit3 className="w-5 h-5 text-gray-600" />
+              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+                <FiEdit3 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg">
-                <FiTrash2 className="w-5 h-5 text-gray-600" />
+              <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+                <FiTrash2 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
               <button
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
                 onClick={() => handleFavorite(paper.id)}
               >
-                <FiStar className="w-5 h-5 text-gray-600" />
+                <FiStar className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
               </button>
             </div>
           </div>

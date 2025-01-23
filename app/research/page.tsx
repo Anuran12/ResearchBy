@@ -5,9 +5,11 @@ import { useState } from "react";
 export default function NewResearch() {
   const [isProf, setIsProf] = useState(false);
   return (
-    <div className="w-full lg:w-[80%] py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
+    <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
       <div className="flex justify-between items-center w-full">
-        <h1 className="text-xl lg:text-2xl font-bold">Research Document Generator</h1>
+        <h1 className="text-xl lg:text-2xl font-bold">
+          Research Document Generator
+        </h1>
         <AvatarDropdown />
       </div>
       <div className="relative">
@@ -93,10 +95,12 @@ export default function NewResearch() {
                 viewBox="0 0 35 34"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className={`${
+                  isProf ? "stroke-[#2563EB]" : "stroke-[#9CA3AF]"
+                }`}
               >
                 <path
                   d="M28.6226 18.2436C28.6226 25.2604 23.7108 28.7688 17.8728 30.8037C17.5671 30.9073 17.2351 30.9023 16.9326 30.7897C11.0806 28.7688 6.16882 25.2604 6.16882 18.2436V8.42012C6.16882 8.04793 6.31668 7.69098 6.57986 7.4278C6.84304 7.16462 7.19999 7.01677 7.57218 7.01677C10.3789 7.01677 13.8873 5.33274 16.3291 3.19963C16.6264 2.94562 17.0046 2.80606 17.3957 2.80606C17.7867 2.80606 18.1649 2.94562 18.4622 3.19963C20.9181 5.34677 24.4125 7.01677 27.2192 7.01677C27.5914 7.01677 27.9483 7.16462 28.2115 7.4278C28.4747 7.69098 28.6226 8.04793 28.6226 8.42012V18.2436Z"
-                  stroke="#9CA3AF"
                   strokeWidth="2.80672"
                   strokeLinecap="round"
                   strokeLinejoin="round"
