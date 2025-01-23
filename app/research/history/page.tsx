@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
-import { FiDownload, FiEdit3, FiTrash2, FiStar } from "react-icons/fi";
+import {
+  FiDownload,
+  FiEdit3,
+  FiTrash2,
+  FiStar,
+  FiSearch,
+} from "react-icons/fi";
 import { researchPapers, type ResearchPaper } from "@/data/research";
 import AvatarDropdown from "@/components/AvatarDropdown";
 
@@ -30,7 +36,7 @@ export default function History() {
         <AvatarDropdown />
       </div>
       {/* Search and Filter Section */}
-      <div className="flex flex-col gap-4 shadow-custom-1 hover:shadow-custom-2 p-3">
+      <div className="flex flex-col lg:flex-row gap-4 shadow-custom-1 hover:shadow-custom-2 p-4 bg-[#F9FAFB]">
         <div className="relative flex-1">
           <input
             type="text"
@@ -41,6 +47,7 @@ export default function History() {
           />
           <button className="absolute right-3 top-1/2 -translate-y-1/2">
             {/* Add search icon here if needed */}
+            <FiSearch />
           </button>
         </div>
         <div className="flex gap-2">

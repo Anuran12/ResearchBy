@@ -1,6 +1,7 @@
 "use client";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
 
 export default function NewResearch() {
   const [isProf, setIsProf] = useState(false);
@@ -12,13 +13,17 @@ export default function NewResearch() {
         </h1>
         <AvatarDropdown />
       </div>
-      <div className="bg-[#F9FAFB] p-4 rounded-lg flex flex-col gap-3">
+      <div className="bg-[#F9FAFB] p-4 rounded-lg flex flex-col gap-3 shadow-custom-1 hover:shadow-custom-2">
         <div className="relative">
           <input
             type="text"
             placeholder="Enter your research topic..."
             className="w-full p-3 border rounded-lg"
           />
+          <button className="absolute right-3 top-1/2 -translate-y-1/2">
+            {/* Add search icon here if needed */}
+            <FiSearch />
+          </button>
         </div>
         {/* Keywords/Topics */}
         <div className="flex flex-wrap gap-2">
