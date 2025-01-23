@@ -1,25 +1,36 @@
 "use client";
 import { useResearchAction } from "@/app/contexts/ResearchActionContext";
-import { FiDownload, FiEdit3, FiTrash2, FiStar } from "react-icons/fi";
 
 export default function ResearchActionModal() {
-  const { isModalOpen, modalType, selectedPaper, profileData, closeModal, handleConfirm } =
-    useResearchAction();
+  const {
+    isModalOpen,
+    modalType,
+    selectedPaper,
+    profileData,
+    closeModal,
+    handleConfirm,
+  } = useResearchAction();
 
   if (!isModalOpen || !modalType) return null;
 
   const modalContent = {
     download: {
       title: "Download Research Paper",
-      message: selectedPaper ? `Are you sure you want to download "${selectedPaper.title}"?` : "",
+      message: selectedPaper
+        ? `Are you sure you want to download "${selectedPaper.title}"?`
+        : "",
     },
     edit: {
       title: "Edit Research Paper",
-      message: selectedPaper ? `Do you want to edit "${selectedPaper.title}"?` : "",
+      message: selectedPaper
+        ? `Do you want to edit "${selectedPaper.title}"?`
+        : "",
     },
     delete: {
       title: "Delete Research Paper",
-      message: selectedPaper ? `Are you sure you want to delete "${selectedPaper.title}"? This action cannot be undone.` : "",
+      message: selectedPaper
+        ? `Are you sure you want to delete "${selectedPaper.title}"? This action cannot be undone.`
+        : "",
     },
     profile_save: {
       title: "Save Profile Changes",
