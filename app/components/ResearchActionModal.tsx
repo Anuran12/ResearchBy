@@ -2,14 +2,8 @@
 import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 
 export default function ResearchActionModal() {
-  const {
-    isModalOpen,
-    modalType,
-    selectedPaper,
-    profileData,
-    closeModal,
-    handleConfirm,
-  } = useResearchAction();
+  const { isModalOpen, modalType, selectedPaper, closeModal, handleConfirm } =
+    useResearchAction();
 
   if (!isModalOpen || !modalType) return null;
 

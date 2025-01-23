@@ -2,17 +2,31 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { ResearchPaper } from "@/data/research";
 
-type ModalType = "download" | "edit" | "delete" | "profile_save" | "password_update";
+type ModalType =
+  | "download"
+  | "edit"
+  | "delete"
+  | "profile_save"
+  | "password_update";
+
+interface ProfileData {
+  type: "profile" | "password";
+  data: {
+    // Define the structure of your data here
+    [key: string]: string | number; // Example structure, adjust as needed
+  };
+}
 
 interface ResearchActionContextType {
   isModalOpen: boolean;
   modalType: ModalType | null;
   selectedPaper: ResearchPaper | null;
-  profileData?: {
-    type: "profile" | "password";
-    data: any;
-  };
-  openModal: (type: ModalType, paper?: ResearchPaper, data?: any) => void;
+  profileData?: ProfileData;
+  openModal: (
+    type: ModalType,
+    paper?: ResearchPaper,
+    data?: ProfileData
+  ) => void;
   closeModal: () => void;
   handleConfirm: () => void;
 }
@@ -24,10 +38,16 @@ const ResearchActionContext = createContext<
 export function ResearchActionProvider({ children }: { children: ReactNode }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType | null>(null);
-  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
-  const [profileData, setProfileData] = useState<any>(null);
+  const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(
+    null
+  );
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
 
-  const openModal = (type: ModalType, paper?: ResearchPaper, data?: any) => {
+  const openModal = (
+    type: ModalType,
+    paper?: ResearchPaper,
+    data?: ProfileData
+  ) => {
     setModalType(type);
     if (paper) setSelectedPaper(paper);
     if (data) setProfileData(data);
@@ -70,7 +90,6 @@ export function ResearchActionProvider({ children }: { children: ReactNode }) {
         isModalOpen,
         modalType,
         selectedPaper,
-        profileData,
         openModal,
         closeModal,
         handleConfirm,
