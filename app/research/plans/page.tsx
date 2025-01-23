@@ -75,7 +75,7 @@ export default function Plans() {
             Try out all features to determine what works best for you
           </p>
 
-          <button className="w-full py-2 px-4 border border-black rounded-lg mb-6">
+          <button className="w-full py-2 px-4 border border-black rounded-lg mb-6 font-bold">
             Get Started Free
           </button>
 
@@ -118,7 +118,7 @@ export default function Plans() {
             Try out all features to determine what works best for you
           </p>
 
-          <button className="w-full py-2 px-4 bg-yellow-300 text-black rounded-lg mb-6">
+          <button className="w-full py-2 px-4 bg-yellow-300 text-black rounded-lg mb-6 font-bold">
             Upgrade
           </button>
 
@@ -168,8 +168,8 @@ export default function Plans() {
               Try out all features to determine what works best for you
             </p>
 
-            <button className="w-full py-2 px-4 border border-black rounded-lg mb-6">
-              Get Started Free
+            <button className="w-full py-2 px-4 border border-black rounded-lg mb-6 font-bold">
+              Upgrade
             </button>
 
             <p className="font-medium mb-4">Everything in Long-form, plus</p>
