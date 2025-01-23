@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import Avatar from "@/assets/avatar.png";
+import { FiEdit3, FiTrash2 } from "react-icons/fi";
 
 export default function Profile() {
   const [name, setName] = useState("Alex Thompson");
@@ -153,11 +154,11 @@ export default function Profile() {
                   <span className="text-sm text-gray-500">Expires 12/25</span>
                 </div>
                 <div className="flex gap-2">
-                  <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded">
-                    ✏️
+                  <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+                    <FiEdit3 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
                   </button>
-                  <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded">
-                    🗑️
+                  <button className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg">
+                    <FiTrash2 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
                   </button>
                 </div>
               </div>

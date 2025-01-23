@@ -12,24 +12,32 @@ export default function NewResearch() {
         </h1>
         <AvatarDropdown />
       </div>
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Enter your research topic..."
-          className="w-full p-3 border rounded-lg"
-        />
-      </div>
-      {/* Keywords/Topics */}
-      <div className="flex flex-wrap gap-2">
-        <span className="px-4 py-2 bg-[#FFEB82] rounded-full">Technology</span>
-        <span className="px-4 py-2 bg-white border rounded-full">Business</span>
-        <span className="px-4 py-2 bg-white border rounded-full">Science</span>
-        <span className="px-4 py-2 bg-white border rounded-full">
-          Healthcare
-        </span>
-        <span className="px-4 py-2 bg-white border rounded-full">
-          Environment
-        </span>
+      <div className="bg-[#F9FAFB] p-4 rounded-lg flex flex-col gap-3">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Enter your research topic..."
+            className="w-full p-3 border rounded-lg"
+          />
+        </div>
+        {/* Keywords/Topics */}
+        <div className="flex flex-wrap gap-2">
+          <span className="px-4 py-2 bg-[#FFEB82] rounded-full">
+            Technology
+          </span>
+          <span className="px-4 py-2 bg-white border rounded-full">
+            Business
+          </span>
+          <span className="px-4 py-2 bg-white border rounded-full">
+            Science
+          </span>
+          <span className="px-4 py-2 bg-white border rounded-full">
+            Healthcare
+          </span>
+          <span className="px-4 py-2 bg-white border rounded-full">
+            Environment
+          </span>
+        </div>
       </div>
       {/* Professional Network Search Section */}
       <div className="border rounded-lg p-6 shadow-custom-1 hover:shadow-custom-2">
@@ -88,7 +96,7 @@ export default function NewResearch() {
                 }`}
               />
             </button>
-            <div className="w-6 h-6">
+            <div className="w-6 h-8">
               <svg
                 width="35"
                 height="34"
