@@ -27,19 +27,19 @@ export default function NewResearch() {
         </div>
         {/* Keywords/Topics */}
         <div className="flex flex-wrap gap-2">
-          <span className="px-4 py-2 bg-[#FFEB82] rounded-full">
+          <span className="px-4 py-2 bg-[#FFEB82] rounded-full cursor-pointer">
             Technology
           </span>
-          <span className="px-4 py-2 bg-white border rounded-full">
+          <span className="px-4 py-2 bg-white border rounded-full cursor-pointer">
             Business
           </span>
-          <span className="px-4 py-2 bg-white border rounded-full">
+          <span className="px-4 py-2 bg-white border rounded-full cursor-pointer">
             Science
           </span>
-          <span className="px-4 py-2 bg-white border rounded-full">
+          <span className="px-4 py-2 bg-white border rounded-full cursor-pointer">
             Healthcare
           </span>
-          <span className="px-4 py-2 bg-white border rounded-full">
+          <span className="px-4 py-2 bg-white border rounded-full cursor-pointer">
             Environment
           </span>
         </div>

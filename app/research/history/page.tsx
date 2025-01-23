@@ -76,7 +76,7 @@ export default function History() {
   return (
     <div className="w-full py-4 px-4 flex flex-col gap-4">
       <div className="flex justify-between items-center gap-4">
-        <h1 className="text-xl font-bold">Research Document Generator</h1>
+        <h1 className="text-xl lg:text-2xl font-bold">History</h1>
         <AvatarDropdown />
       </div>
       {/* Search and Filter Section */}
@@ -200,7 +200,13 @@ export default function History() {
                 className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
                 onClick={() => handleFavorite(paper.id)}
               >
-                <FiStar className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
+                <FiStar
+                  className={`w-4 h-4 lg:w-5 lg:h-5 ${
+                    paper.favorite
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-gray-600"
+                  }`}
+                />
               </button>
             </div>
           </div>
