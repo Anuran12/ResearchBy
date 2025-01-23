@@ -14,7 +14,7 @@ export default function AboutPage() {
             Revolutionizing Research with AI
           </h1>
           <p className="text-lg lg:text-[1.2vw] text-gray-600 mb-8">
-            We're on a mission to make high-quality research accessible to
+            We&#39;re on a mission to make high-quality research accessible to
             everyone through the power of artificial intelligence.
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function AboutPage() {
               research process.
             </p>
             <p className="text-gray-600">
-              We're committed to providing researchers, students, and
+              We&#39;re committed to providing researchers, students, and
               professionals with powerful tools that streamline the research
               process while maintaining the highest standards of academic
               integrity.
