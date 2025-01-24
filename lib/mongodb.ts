@@ -8,13 +8,7 @@ interface MongooseCache {
 
 // Extend the global object to include the `mongoose` property
 declare global {
-  // Use `let` or `const` for modern syntax
-  // eslint-disable-next-line no-var
-  namespace NodeJS {
-    interface Global {
-      mongoose: MongooseCache;
-    }
-  }
+  var mongoose: MongooseCache | undefined; // Use `var` only in `declare global`
 }
 
 // Ensure the MONGODB_URI environment variable is defined
@@ -24,17 +18,12 @@ if (!process.env.MONGODB_URI) {
 
 const MONGODB_URI: string = process.env.MONGODB_URI;
 
-// Use a cached global object for the connection
-const globalWithMongoose = global as typeof global & {
-  mongoose?: MongooseCache;
-};
+// Use a cached global variable for the connection
+const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
 
-// Initialize the global mongoose cache if it doesn't exist
-if (!globalWithMongoose.mongoose) {
-  globalWithMongoose.mongoose = { conn: null, promise: null };
+if (!global.mongoose) {
+  global.mongoose = cached; // Initialize global.mongoose
 }
-
-const cached = globalWithMongoose.mongoose;
 
 async function connectDB() {
   if (cached.conn) {
