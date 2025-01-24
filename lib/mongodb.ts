@@ -16,8 +16,6 @@ if (!process.env.MONGODB_URI) {
   throw new Error("Please add your MONGODB_URI to .env.local");
 }
 
-const MONGODB_URI: string = process.env.MONGODB_URI;
-
 // Initialize or retrieve the cached connection object
 const cached: MongooseCache = globalForMongoose.mongoose || {
   conn: null,
