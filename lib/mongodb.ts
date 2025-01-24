@@ -28,29 +28,22 @@ if (!globalForMongoose.mongoose) {
   globalForMongoose.mongoose = cached;
 }
 
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose
-      .connect(MONGODB_URI, opts)
-      .then((m) => m.connection);
-  }
-
+const connectDB = async () => {
   try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
+    if (mongoose.connections[0].readyState) {
+      return;
+    }
 
-  return cached.conn;
-}
+    await mongoose.connect(process.env.MONGODB_URI!, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s
+      socketTimeoutMS: 45000, // Close sockets after 45s
+    });
+
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    throw error;
+  }
+};
 
 export default connectDB;

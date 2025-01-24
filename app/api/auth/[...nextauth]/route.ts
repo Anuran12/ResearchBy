@@ -16,7 +16,14 @@ const handler = NextAuth({
       async authorize(credentials) {
         try {
           await connectDB();
-          const user = await User.findOne({ email: credentials?.email });
+
+          // Add timeout to database query
+          const user = await Promise.race([
+            User.findOne({ email: credentials?.email }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error("Database timeout")), 5000)
+            ),
+          ]);
 
           if (!user) {
             throw new Error("No user found with this email");
@@ -33,7 +40,8 @@ const handler = NextAuth({
             email: user.email,
             name: user.name,
           };
-        } catch {
+        } catch (error) {
+          console.error("Authorization error:", error);
           return null;
         }
       },
