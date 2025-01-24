@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import LoginPageImg from "@/assets/LoginPage.png";
 import Link from "next/link";
 import GoogleIcon from "@/assets/Google.png";
-import GithubIcon from "@/assets/GitHub.png";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function LoginPage() {
       } else {
         router.push("/research");
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred during login");
     }
   };

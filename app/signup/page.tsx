@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import LoginPage from "@/assets/LoginPage.png";
 import Link from "next/link";
 import GoogleIcon from "@/assets/Google.png";
-import GithubIcon from "@/assets/GitHub.png";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -18,7 +17,6 @@ export default function SignupPage() {
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Create user first
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -36,7 +34,6 @@ export default function SignupPage() {
         throw new Error(data.error || "Failed to create account");
       }
 
-      // Then sign in
       const result = await signIn("credentials", {
         email,
         password,
@@ -48,17 +45,13 @@ export default function SignupPage() {
       } else {
         router.push("/research");
       }
-    } catch (error: any) {
-      setError(error.message || "An error occurred during signup");
+    } catch (error: unknown) {
+      setError((error as Error).message || "An error occurred during signup");
     }
   };
 
   const handleGoogleSignup = () => {
     signIn("google", { callbackUrl: "/research" });
-  };
-
-  const handleGithubSignup = () => {
-    signIn("github", { callbackUrl: "/research" });
   };
 
   return (

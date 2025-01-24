@@ -33,7 +33,7 @@ const handler = NextAuth({
             email: user.email,
             name: user.name,
           };
-        } catch (error) {
+        } catch {
           return null;
         }
       },
@@ -47,15 +47,11 @@ const handler = NextAuth({
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: "jwt",
-  },
   pages: {
     signIn: "/login",
   },
   callbacks: {
-    async session({ session, token }) {
+    async session({ session }) {
       return session;
     },
     async jwt({ token, user }) {
