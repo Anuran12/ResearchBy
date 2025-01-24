@@ -1,31 +1,35 @@
 import mongoose from "mongoose";
 
+// Define a type for the cached connection
+interface MongooseCache {
+  conn: mongoose.Connection | null;
+  promise: Promise<mongoose.Connection> | null;
+}
+
+// Extend the global object to include the `mongoose` property
 declare global {
+  // Use `let` or `const` for modern syntax
+  // eslint-disable-next-line no-var
   namespace NodeJS {
     interface Global {
-      mongoose?: {
-        conn: mongoose.Connection | null;
-        promise: Promise<mongoose.Connection> | null;
-      };
+      mongoose: MongooseCache;
     }
   }
 }
 
-// Ensure MONGODB_URI is defined
+// Ensure the MONGODB_URI environment variable is defined
 if (!process.env.MONGODB_URI) {
   throw new Error("Please add your MONGODB_URI to .env.local");
 }
 
 const MONGODB_URI: string = process.env.MONGODB_URI;
 
-// Use a global variable to cache the connection
-const globalWithMongoose = global as typeof globalThis & {
-  mongoose?: {
-    conn: mongoose.Connection | null;
-    promise: Promise<mongoose.Connection> | null;
-  };
+// Use a cached global object for the connection
+const globalWithMongoose = global as typeof global & {
+  mongoose?: MongooseCache;
 };
 
+// Initialize the global mongoose cache if it doesn't exist
 if (!globalWithMongoose.mongoose) {
   globalWithMongoose.mongoose = { conn: null, promise: null };
 }
