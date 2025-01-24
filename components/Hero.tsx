@@ -17,7 +17,7 @@ function Hero() {
           Generate comprehensive research documents in minutes.
         </p>
         <Link
-          className="bg-gradient-to-t from-[#F9DD4D] to-[#FCE38A] px-5 py-2.5 text-black font-semibold rounded-full text-[0.9vw]"
+          className="bg-gradient-to-t from-[#F9DD4D] to-[#FCE38A] px-5 py-2.5 text-black font-semibold rounded-full text-[10px] md:text-[0.9vw]"
           href="/signup"
         >
           Start for free

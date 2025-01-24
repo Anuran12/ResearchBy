@@ -3,8 +3,8 @@ import { useState } from "react";
 import Image from "next/image";
 import LoginPage from "@/assets/LoginPage.png";
 import Link from "next/link";
-import GoogleIcon from "@/assets/google.png";
-import GithubIcon from "@/assets/github.png";
+import GoogleIcon from "@/assets/Google.png";
+import GithubIcon from "@/assets/GitHub.png";
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
