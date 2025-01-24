@@ -1,20 +1,64 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import LoginPage from "@/assets/LoginPage.png";
 import Link from "next/link";
 import GoogleIcon from "@/assets/Google.png";
 import GithubIcon from "@/assets/GitHub.png";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log("Signing up...", { fullName, email, password });
+    try {
+      // Create user first
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to create account");
+      }
+
+      // Then sign in
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError(result.error);
+      } else {
+        router.push("/research");
+      }
+    } catch (error: any) {
+      setError(error.message || "An error occurred during signup");
+    }
+  };
+
+  const handleGoogleSignup = () => {
+    signIn("google", { callbackUrl: "/research" });
+  };
+
+  const handleGithubSignup = () => {
+    signIn("github", { callbackUrl: "/research" });
   };
 
   return (
@@ -38,7 +82,13 @@ export default function SignupPage() {
             Create your Free Account
           </h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleEmailSignup} className="space-y-6">
             <div>
               <label className="block text-gray-600 mb-2">Full Name</label>
               <input
@@ -98,13 +148,12 @@ export default function SignupPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+              <button
+                onClick={handleGoogleSignup}
+                className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+              >
                 <Image src={GoogleIcon} alt="Google" width={20} height={20} />
                 Sign up with Google
-              </button>
-              <button className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-                <Image src={GithubIcon} alt="GitHub" width={20} height={20} />
-                Sign up with GitHub
               </button>
             </div>
           </div>

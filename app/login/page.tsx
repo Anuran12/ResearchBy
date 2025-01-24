@@ -1,19 +1,40 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import LoginPageImg from "@/assets/LoginPage.png";
 import Link from "next/link";
 import GoogleIcon from "@/assets/Google.png";
 import GithubIcon from "@/assets/GitHub.png";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Logging in...", { email, password });
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Invalid credentials");
+      } else {
+        router.push("/research");
+      }
+    } catch (error) {
+      setError("An error occurred during login");
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    signIn("google", { callbackUrl: "/research" });
   };
 
   return (
@@ -35,7 +56,13 @@ export default function LoginPage() {
         <div className="max-w-md w-full">
           <h1 className="text-2xl lg:text-3xl font-bold mb-8">Welcome Back</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleEmailLogin} className="space-y-6">
             <div>
               <label className="block text-gray-600 mb-2">Email</label>
               <input
@@ -58,15 +85,6 @@ export default function LoginPage() {
                 className="w-full p-3 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#F9DD4D]"
                 required
               />
-            </div>
-
-            <div className="flex justify-end">
-              <Link
-                href="/forgot-password"
-                className="text-[#F9DD4D] hover:underline"
-              >
-                Forgot Password?
-              </Link>
             </div>
 
             <button
@@ -92,13 +110,12 @@ export default function LoginPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
+              <button
+                onClick={handleGoogleLogin}
+                className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+              >
                 <Image src={GoogleIcon} alt="Google" width={20} height={20} />
                 Login with Google
-              </button>
-              <button className="w-full p-3 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-                <Image src={GithubIcon} alt="GitHub" width={20} height={20} />
-                Login with GitHub
               </button>
             </div>
           </div>

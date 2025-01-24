@@ -3,13 +3,17 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Avatar from "@/assets/avatar.png";
+import { signOut } from "next-auth/react";
 
 export default function AvatarDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLogout = () => {
-    // Add logout logic here
-    console.log("Logging out...");
+  const handleLogout = async () => {
+    try {
+      await signOut({ callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (
