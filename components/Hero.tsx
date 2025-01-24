@@ -1,6 +1,7 @@
 import React from "react";
 import Herobg from "@/assets/herobg.png";
 import Image from "next/image";
+import Link from "next/link";
 
 function Hero() {
   return (
@@ -15,6 +16,12 @@ function Hero() {
         <p className="text-base lg:text-[1.2vw] text-[#5F5F5F] text-center max-w-[90%] lg:max-w-none">
           Generate comprehensive research documents in minutes.
         </p>
+        <Link
+          className="bg-gradient-to-t from-[#F9DD4D] to-[#FCE38A] px-5 py-2.5 text-black font-semibold rounded-full text-[0.9vw]"
+          href="/signup"
+        >
+          Start for free
+        </Link>
       </div>
       <Image
         src={Herobg}
