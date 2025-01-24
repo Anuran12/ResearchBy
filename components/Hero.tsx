@@ -2,6 +2,12 @@ import React from "react";
 import Herobg from "@/assets/herobg.png";
 import Image from "next/image";
 import Link from "next/link";
+// Import your logo images here
+import Logo1 from "@/assets/logo1.png";
+import Logo2 from "@/assets/logo1.png";
+import Logo3 from "@/assets/logo1.png";
+import Logo4 from "@/assets/logo1.png";
+import Logo5 from "@/assets/logo1.png";
 
 function Hero() {
   return (
@@ -23,15 +29,73 @@ function Hero() {
           Start for free
         </Link>
       </div>
+
+      {/* Logos Section */}
+      <div className="relative w-full max-w-[1200px] h-[400px] mt-16">
+        {/* Left side logos */}
+        <div className="absolute left-[25%] top-[25%] animate-float-slow">
+          <Image
+            src={Logo1}
+            alt="Logo 1"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+        <div className="absolute left-[10%] top-[50%] animate-float-medium">
+          <Image
+            src={Logo2}
+            alt="Logo 2"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+        <div className="absolute left-[10%] -top-[5%] animate-float-medium">
+          <Image
+            src={Logo2}
+            alt="Logo 2"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+
+        {/* Right side logos */}
+        <div className="absolute right-[25%] top-[40%] animate-float-fast">
+          <Image
+            src={Logo3}
+            alt="Logo 3"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+        <div className="absolute right-[10%] top-[20%] animate-float-medium">
+          <Image
+            src={Logo4}
+            alt="Logo 4"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+        <div className="absolute right-0 -top-[20%] animate-float-medium">
+          <Image
+            src={Logo4}
+            alt="Logo 4"
+            width={60}
+            height={60}
+            className="rounded-xl"
+          />
+        </div>
+      </div>
+
       <Image
         src={Herobg}
         alt="Hero Background"
-        className="w-full absolute left-0 bottom-0 -z-10"
+        className="w-full absolute left-0 bottom-0 -z-20"
       />
-      <div className="w-full flex justify-between ">
-        <div className="w-[30%] relative">logo1</div>
-        <div>logo2</div>
-      </div>
     </div>
   );
 }
