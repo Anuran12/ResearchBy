@@ -2,12 +2,6 @@ import React from "react";
 import Herobg from "@/assets/herobg.png";
 import Image from "next/image";
 import Link from "next/link";
-// Import your logo images here
-import Logo1 from "@/assets/logo1.png";
-import Logo2 from "@/assets/logo1.png";
-import Logo3 from "@/assets/logo1.png";
-import Logo4 from "@/assets/logo1.png";
-import Logo5 from "@/assets/logo1.png";
 
 function Hero() {
   return (
