@@ -6,10 +6,10 @@ interface MongooseCache {
   promise: Promise<mongoose.Connection> | null;
 }
 
-// Extend the global object to include the `mongoose` property
-declare global {
-  var mongoose: MongooseCache | undefined; // Use `var` only in `declare global`
-}
+// Extend the global object explicitly
+const globalForMongoose = global as typeof global & {
+  mongoose?: MongooseCache;
+};
 
 // Ensure the MONGODB_URI environment variable is defined
 if (!process.env.MONGODB_URI) {
@@ -18,11 +18,14 @@ if (!process.env.MONGODB_URI) {
 
 const MONGODB_URI: string = process.env.MONGODB_URI;
 
-// Use a cached global variable for the connection
-const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
+// Initialize or retrieve the cached connection object
+const cached: MongooseCache = globalForMongoose.mongoose || {
+  conn: null,
+  promise: null,
+};
 
-if (!global.mongoose) {
-  global.mongoose = cached; // Initialize global.mongoose
+if (!globalForMongoose.mongoose) {
+  globalForMongoose.mongoose = cached;
 }
 
 async function connectDB() {
