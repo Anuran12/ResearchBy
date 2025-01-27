@@ -60,12 +60,6 @@ function Footer() {
             >
               Privacy Policy
             </a>
-            <a
-              href="/security"
-              className="text-gray-600 text-sm lg:text-base hover:text-[#F9DD4D]"
-            >
-              Security
-            </a>
           </div>
         </div>
       </div>

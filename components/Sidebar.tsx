@@ -214,9 +214,9 @@ function Sidebar() {
             <Link href="/terms" className="block mb-1">
               terms & condition
             </Link>
-            <Link href="/support" className="block">
+            {/* <Link href="/support" className="block">
               support
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
