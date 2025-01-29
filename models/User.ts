@@ -15,10 +15,59 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a password"],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  avatar: {
+    type: String,
+    default: "/default-avatar.png",
   },
+  plan: {
+    type: String,
+    enum: ["free", "starter", "professional"],
+    default: "free",
+  },
+  billing: {
+    paymentMethods: [
+      {
+        last4: String,
+        expiryMonth: Number,
+        expiryYear: Number,
+        type: String,
+      },
+    ],
+    invoices: [
+      {
+        invoiceId: String,
+        amount: Number,
+        date: Date,
+        status: {
+          type: String,
+          enum: ["paid", "pending", "failed"],
+        },
+        downloadUrl: String,
+      },
+    ],
+    nextBillingDate: { type: Date, default: Date.now },
+  },
+  settings: {
+    display: {
+      theme: { type: String, default: "light" },
+      fontSize: { type: String, default: "medium" },
+      language: { type: String, default: "en" },
+    },
+    research: {
+      defaultWordCount: { type: Number, default: 5000 },
+      defaultCitationStyle: { type: String, default: "MLA" },
+      includeMetadata: { type: Boolean, default: false },
+      saveHistory: { type: Boolean, default: true },
+      autoSave: { type: Boolean, default: true },
+    },
+  },
+  usage: {
+    researchCount: { type: Number, default: 0 },
+    lastResearchDate: { type: Date, default: Date.now },
+    remainingCredits: { type: Number, default: 1 },
+  },
+  createdAt: { type: Date, default: Date.now },
+  lastLogin: { type: Date, default: Date.now },
 });
 
 userSchema.pre("save", async function (next) {

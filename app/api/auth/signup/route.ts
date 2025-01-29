@@ -16,12 +16,40 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create user
-    await User.create({
+    const user = new User({
       name,
       email,
       password,
+      avatar: "/default-avatar.png",
+      plan: "free",
+      billing: {
+        paymentMethods: [],
+        invoices: [],
+        nextBillingDate: new Date(),
+      },
+      settings: {
+        display: {
+          theme: "light",
+          fontSize: "medium",
+          language: "en",
+        },
+        research: {
+          defaultWordCount: 5000,
+          defaultCitationStyle: "MLA",
+          includeMetadata: false,
+          saveHistory: true,
+          autoSave: true,
+        },
+      },
+      usage: {
+        researchCount: 0,
+        lastResearchDate: new Date(),
+        remainingCredits: 1,
+      },
+      lastLogin: new Date(),
     });
+
+    await user.save();
 
     return NextResponse.json(
       { message: "User created successfully" },

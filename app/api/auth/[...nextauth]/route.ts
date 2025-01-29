@@ -55,11 +55,69 @@ const handler = NextAuth({
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        try {
+          await connectDB();
+
+          // Check if user exists
+          const existingUser = await User.findOne({ email: user.email });
+
+          if (!existingUser) {
+            // Create new user if doesn't exist
+            await User.create({
+              name: user.name,
+              email: user.email,
+              password: Math.random().toString(36).slice(-16),
+              avatar: user.image || "/default-avatar.png",
+              plan: "free",
+              billing: {
+                paymentMethods: [],
+                invoices: [],
+                nextBillingDate: new Date(),
+              },
+              settings: {
+                display: {
+                  theme: "light",
+                  fontSize: "medium",
+                  language: "en",
+                },
+                research: {
+                  defaultWordCount: 5000,
+                  defaultCitationStyle: "MLA",
+                  includeMetadata: false,
+                  saveHistory: true,
+                  autoSave: true,
+                },
+              },
+              usage: {
+                researchCount: 0,
+                lastResearchDate: new Date(),
+                remainingCredits: 1,
+              },
+              lastLogin: new Date(),
+            });
+          }
+        } catch (error) {
+          console.error("Error saving Google user:", error);
+          return false;
+        }
+      }
+      return true;
+    },
     async session({ session }) {
+      if (session.user?.email) {
+        try {
+          await connectDB();
+          const user = await User.findOne({ email: session.user.email });
+          if (user) {
+            session.user.id = user._id.toString();
+          }
+        } catch (error) {
+          console.error("Session callback error:", error);
+        }
+      }
       return session;
     },
     async jwt({ token, user }) {
@@ -68,6 +126,9 @@ const handler = NextAuth({
       }
       return token;
     },
+  },
+  pages: {
+    signIn: "/login",
   },
 });
 

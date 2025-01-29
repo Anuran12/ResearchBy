@@ -1,29 +1,135 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import Avatar from "@/assets/avatar.png";
 import { FiEdit3, FiTrash2 } from "react-icons/fi";
 import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
+interface UserProfile {
+  name: string;
+  email: string;
+  avatar: string;
+  plan: string;
+  billing: {
+    paymentMethods: Array<{
+      last4: string;
+      expiryMonth: number;
+      expiryYear: number;
+      type: string;
+    }>;
+    invoices: Array<{
+      invoiceId: string;
+      amount: number;
+      date: string;
+      status: string;
+      downloadUrl: string;
+    }>;
+    nextBillingDate: Date;
+  };
+  settings: {
+    display: {
+      theme: string;
+      fontSize: string;
+      language: string;
+    };
+    research: {
+      defaultWordCount: number;
+      defaultCitationStyle: string;
+      includeMetadata: boolean;
+      saveHistory: boolean;
+      autoSave: boolean;
+    };
+  };
+  usage: {
+    researchCount: number;
+    lastResearchDate: Date;
+    remainingCredits: number;
+  };
+  createdAt: Date;
+  lastLogin: Date;
+}
+
 export default function Profile() {
+  const { data: session } = useSession();
   const { openModal } = useResearchAction();
-  const [name, setName] = useState("Alex Thompson");
-  const [email, setEmail] = useState("alex@example.com");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [name, setName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleProfileSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    openModal("profile_save", undefined);
+  useEffect(() => {
+    fetchUserProfile();
+  }, [session]);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch("/api/user/profile");
+      if (!response.ok) throw new Error("Failed to fetch profile");
+      const data = await response.json();
+      setUserProfile(data);
+      setName(data.name);
+    } catch (error) {
+      toast.error("Error loading profile");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    openModal("password_update", undefined);
+    setSaving(true);
+    try {
+      const response = await fetch("/api/user/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update profile");
+      const updatedProfile = await response.json();
+      setUserProfile(updatedProfile);
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      toast.error("Error updating profile");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords don't match");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/user/password", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update password");
+      toast.success("Password updated successfully");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      toast.error("Error updating password");
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ProtectedRoute>
@@ -72,8 +178,7 @@ export default function Profile() {
                 </label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userProfile?.email || ""}
                   className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
                   disabled
                 />
