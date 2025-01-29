@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import Avatar from "@/assets/avatar.png";
 import { FiEdit3, FiTrash2 } from "react-icons/fi";
-import { useResearchAction } from "@/app/contexts/ResearchActionContext";
+// import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 interface UserProfile {
@@ -55,7 +55,7 @@ interface UserProfile {
 
 export default function Profile() {
   const { data: session } = useSession();
-  const { openModal } = useResearchAction();
+  // const { openModal } = useResearchAction();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -75,7 +75,7 @@ export default function Profile() {
       const data = await response.json();
       setUserProfile(data);
       setName(data.name);
-    } catch (error) {
+    } catch {
       toast.error("Error loading profile");
     } finally {
       setLoading(false);
@@ -84,6 +84,7 @@ export default function Profile() {
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(saving);
     setSaving(true);
     try {
       const response = await fetch("/api/user/profile", {
@@ -96,7 +97,7 @@ export default function Profile() {
       const updatedProfile = await response.json();
       setUserProfile(updatedProfile);
       toast.success("Profile updated successfully");
-    } catch (error) {
+    } catch {
       toast.error("Error updating profile");
     } finally {
       setSaving(false);
@@ -122,7 +123,7 @@ export default function Profile() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-    } catch (error) {
+    } catch {
       toast.error("Error updating password");
     }
   };
