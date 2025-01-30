@@ -63,6 +63,8 @@ export default function Profile() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   useEffect(() => {
     fetchUserProfile();
@@ -128,6 +130,45 @@ export default function Profile() {
     }
   };
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatarFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAvatarUpload = async () => {
+    if (!avatarFile) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("avatar", avatarFile);
+
+      const response = await fetch("/api/user/avatar", {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to update avatar");
+
+      const data = await response.json();
+      setUserProfile((prev) =>
+        prev ? { ...prev, avatar: data.avatar } : null
+      );
+      toast.success("Avatar updated successfully");
+    } catch (error) {
+      toast.error("Failed to update avatar");
+    } finally {
+      setAvatarFile(null);
+      setAvatarPreview(null);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -153,13 +194,29 @@ export default function Profile() {
               <div className="flex flex-col lg:flex-row items-center gap-4 mb-4 lg:mb-6">
                 <UserAvatar
                   name={userProfile?.name || ""}
-                  image={userProfile?.avatar}
+                  image={avatarPreview || userProfile?.avatar}
                   signupMethod={userProfile?.signupMethod || "credentials"}
                   size="lg"
                 />
-                <button className="text-blue-600 hover:underline text-sm lg:text-base">
-                  Change Avatar
-                </button>
+                <div className="flex flex-col gap-2">
+                  <label className="cursor-pointer text-blue-600 hover:underline text-sm lg:text-base">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleAvatarChange}
+                    />
+                    Change Avatar
+                  </label>
+                  {avatarFile && (
+                    <button
+                      onClick={handleAvatarUpload}
+                      className="text-green-600 hover:underline text-sm lg:text-base"
+                    >
+                      Save Avatar
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div>

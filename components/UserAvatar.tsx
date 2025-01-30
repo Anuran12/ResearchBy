@@ -34,7 +34,10 @@ export default function UserAvatar({
     }
   }, [name]);
 
-  if (signupMethod === "google" && image) {
+  if (
+    (signupMethod === "google" && image) ||
+    (image && image.startsWith("data:"))
+  ) {
     return (
       <Image
         src={image}
