@@ -1,10 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
-import Avatar from "@/assets/avatar.png";
 import { FiEdit3, FiTrash2 } from "react-icons/fi";
 // import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
