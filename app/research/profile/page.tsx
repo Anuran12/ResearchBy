@@ -161,7 +161,7 @@ export default function Profile() {
         prev ? { ...prev, avatar: data.avatar } : null
       );
       toast.success("Avatar updated successfully");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update avatar");
     } finally {
       setAvatarFile(null);
