@@ -70,6 +70,7 @@ const handler = NextAuth({
               name: user.name,
               email: user.email,
               password: Math.random().toString(36).slice(-16),
+              signupMethod: "google",
               avatar: user.image || "/default-avatar.png",
               plan: "free",
               billing: {
@@ -106,13 +107,15 @@ const handler = NextAuth({
       }
       return true;
     },
-    async session({ session }) {
+    async session({ session, token }) {
       if (session.user?.email) {
         try {
           await connectDB();
           const user = await User.findOne({ email: session.user.email });
           if (user) {
             session.user.id = user._id.toString();
+            session.user.image = user.avatar;
+            session.user.signupMethod = user.signupMethod;
           }
         } catch (error) {
           console.error("Session callback error:", error);

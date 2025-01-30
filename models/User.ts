@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a password"],
   },
+  signupMethod: {
+    type: String,
+    enum: ["credentials", "google"],
+    default: "credentials",
+  },
   avatar: {
     type: String,
     default: "/default-avatar.png",

@@ -19,6 +19,14 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Check if user signed up with Google
+    if (user.signupMethod === "google") {
+      return NextResponse.json(
+        { error: "Password change not allowed for Google accounts" },
+        { status: 403 }
+      );
+    }
+
     const isMatch = await user.matchPassword(currentPassword);
     if (!isMatch) {
       return NextResponse.json(

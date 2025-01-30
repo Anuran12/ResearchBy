@@ -8,6 +8,7 @@ import Avatar from "@/assets/avatar.png";
 import { FiEdit3, FiTrash2 } from "react-icons/fi";
 // import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import UserAvatar from "@/components/UserAvatar";
 
 interface UserProfile {
   name: string;
@@ -51,6 +52,7 @@ interface UserProfile {
   };
   createdAt: Date;
   lastLogin: Date;
+  signupMethod: string;
 }
 
 export default function Profile() {
@@ -151,10 +153,11 @@ export default function Profile() {
               className="space-y-4 lg:space-y-6"
             >
               <div className="flex flex-col lg:flex-row items-center gap-4 mb-4 lg:mb-6">
-                <Image
-                  src={Avatar}
-                  alt="avatar"
-                  className="w-16 h-16 rounded-full"
+                <UserAvatar
+                  name={userProfile?.name || ""}
+                  image={userProfile?.avatar}
+                  signupMethod={userProfile?.signupMethod || "credentials"}
+                  size="lg"
                 />
                 <button className="text-blue-600 hover:underline text-sm lg:text-base">
                   Change Avatar
@@ -195,58 +198,160 @@ export default function Profile() {
           </div>
 
           {/* Password Section */}
-          <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1">
-            <h2 className="text-base lg:text-lg font-semibold mb-4 lg:mb-6">
-              Password
-            </h2>
-            <form
-              onSubmit={handlePasswordSubmit}
-              className="space-y-4 lg:space-y-6"
-            >
-              <div>
-                <label className="block text-sm text-gray-600 mb-2">
-                  Current Password
-                </label>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-600 mb-2">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm text-gray-600 mb-2">
-                  Confirm New Password
-                </label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full lg:w-auto bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-lg hover:bg-blue-700 text-sm lg:text-base"
+          {userProfile?.signupMethod === "credentials" ? (
+            <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1">
+              <h2 className="text-base lg:text-lg font-semibold mb-4 lg:mb-6">
+                Password
+              </h2>
+              <form
+                onSubmit={handlePasswordSubmit}
+                className="space-y-4 lg:space-y-6"
               >
-                Update Password
-              </button>
-            </form>
-          </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-gray-600 mb-2">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full lg:w-auto bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-lg hover:bg-blue-700 text-sm lg:text-base"
+                >
+                  Update Password
+                </button>
+              </form>
+            </div>
+          ) : (
+            <div className="relative">
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gray-50/50 backdrop-blur-[2px] rounded-lg flex items-center justify-center">
+                <div className="text-center p-6">
+                  <div className="bg-yellow-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        stroke="#EAB308"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 8V12"
+                        stroke="#EAB308"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 16H12.01"
+                        stroke="#EAB308"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    Password Management Unavailable
+                  </h3>
+                  <p className="text-gray-600">
+                    Password management is handled through your Google account
+                    settings since you signed up with Google.
+                  </p>
+                </div>
+              </div>
+
+              {/* Background Content */}
+              <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1">
+                <h2 className="text-base lg:text-lg font-semibold mb-4 lg:mb-6">
+                  Password
+                </h2>
+                <form
+                  onSubmit={handlePasswordSubmit}
+                  className="space-y-4 lg:space-y-6"
+                >
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full p-2 lg:p-3 border rounded-lg text-sm lg:text-base"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full lg:w-auto bg-blue-600 text-white px-4 lg:px-6 py-2 rounded-lg hover:bg-blue-700 text-sm lg:text-base"
+                  >
+                    Update Password
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
 
           {/* Billing Section */}
           <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1">

@@ -20,6 +20,7 @@ export async function POST(req: Request) {
       name,
       email,
       password,
+      signupMethod: "credentials",
       avatar: "/default-avatar.png",
       plan: "free",
       billing: {
