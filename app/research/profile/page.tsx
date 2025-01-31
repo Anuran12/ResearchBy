@@ -7,6 +7,7 @@ import { FiEdit3, FiTrash2 } from "react-icons/fi";
 // import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
+import { loadStripe } from "@stripe/stripe-js";
 
 interface UserProfile {
   name: string;
@@ -166,6 +167,72 @@ export default function Profile() {
     } finally {
       setAvatarFile(null);
       setAvatarPreview(null);
+    }
+  };
+
+  const handleUpgrade = async () => {
+    try {
+      // Fetch available plans first
+      const plansResponse = await fetch("/api/stripe/plans");
+      if (!plansResponse.ok) {
+        throw new Error(`Plans fetch failed: ${plansResponse.statusText}`);
+      }
+
+      const plans = await plansResponse.json();
+      console.log("Available plans:", plans); // Debug log
+
+      const upgradePlan =
+        plans.find((p: any) => p.name === "Starter") || plans[0];
+      if (!upgradePlan) {
+        throw new Error("No plans available");
+      }
+      console.log("Selected plan:", upgradePlan); // Debug log
+
+      const response = await fetch("/api/stripe/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId: upgradePlan.id }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `Checkout failed: ${errorData.error || response.statusText}`
+        );
+      }
+
+      const { sessionId } = await response.json();
+      if (!sessionId) {
+        throw new Error("No session ID returned");
+      }
+
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      );
+      if (!stripe) {
+        throw new Error("Failed to load Stripe");
+      }
+
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (error: any) {
+      console.error("Upgrade error:", error); // Debug log
+      toast.error(`Error upgrading plan: ${error.message}`);
+    }
+  };
+
+  const handleManageBilling = async () => {
+    try {
+      const response = await fetch("/api/stripe/create-portal", {
+        method: "POST",
+      });
+
+      const { url } = await response.json();
+      window.location.href = url;
+    } catch (error) {
+      toast.error("Error accessing billing portal");
     }
   };
 
@@ -463,34 +530,51 @@ export default function Profile() {
 
           {/* Plan Section */}
           <div className="border rounded-lg p-4 lg:p-6 shadow-custom-1">
-            <h2 className="text-base lg:text-lg font-semibold mb-4 lg:mb-6">
-              Plan
-            </h2>
-            <div className="space-y-4 lg:space-y-6">
-              <div>
-                <h3 className="text-sm text-gray-600 mb-3 lg:mb-4">
-                  Current Plan
-                </h3>
-                <div className="border rounded-lg p-3 lg:p-4">
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-2 lg:gap-0 mb-4">
-                    <div>
-                      <h4 className="font-semibold text-sm lg:text-base">
-                        Professional
-                      </h4>
-                      <p className="text-sm text-gray-500">
-                        Next billing date: 2025-02-13
-                      </p>
-                    </div>
-                    <button className="text-blue-600 hover:underline text-sm lg:text-base">
-                      Cancel Plan
-                    </button>
-                  </div>
-                  <div className="text-sm">
-                    <div>• 5 researches/month</div>
-                    <div>• Basic sources</div>
-                    <div>• Standard support</div>
-                  </div>
+            <div className="flex justify-between items-center mb-4 lg:mb-6">
+              <h2 className="text-base lg:text-lg font-semibold">
+                Current Plan
+              </h2>
+              <button
+                onClick={handleManageBilling}
+                className="text-blue-600 hover:underline text-sm lg:text-base"
+              >
+                Manage Billing
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center p-4 border rounded-lg">
+                <div>
+                  <h3 className="font-medium mb-1">
+                    {userProfile?.plan || "Free"}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {userProfile?.usage?.remainingCredits} credits remaining
+                  </p>
                 </div>
+                <button
+                  onClick={handleUpgrade}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm"
+                >
+                  Upgrade Plan
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-sm text-gray-600">Usage This Month</h3>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-600 rounded-full"
+                    style={{
+                      width: `${
+                        (userProfile?.usage?.researchCount || 0) * 10
+                      }%`,
+                    }}
+                  ></div>
+                </div>
+                <p className="text-sm text-gray-600">
+                  {userProfile?.usage?.researchCount || 0} / 10 researches
+                </p>
               </div>
             </div>
           </div>

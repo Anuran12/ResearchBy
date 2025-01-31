@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
   },
   plan: {
     type: String,
-    enum: ["free", "starter", "professional"],
+    enum: ["free", "pro", "enterprise"],
     default: "free",
   },
   billing: {
@@ -73,6 +73,13 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: { type: Date, default: Date.now },
   lastLogin: { type: Date, default: Date.now },
+  stripeCustomerId: String,
+  subscriptionId: String,
+  subscriptionStatus: {
+    type: String,
+    enum: ["active", "canceled", "past_due", "unpaid"],
+    default: "active",
+  },
 });
 
 userSchema.pre("save", async function (next) {

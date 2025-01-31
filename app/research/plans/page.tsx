@@ -1,8 +1,15 @@
 "use client";
-import AvatarDropdown from "@/components/AvatarDropdown";
+import { usePlans } from "@/hooks/usePlans";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import AvatarDropdown from "@/components/AvatarDropdown";
 
 export default function Plans() {
+  const { plans, loading, handleSubscribe } = usePlans();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ProtectedRoute>
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-4 lg:gap-6">
@@ -62,132 +69,40 @@ export default function Plans() {
 
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
-          {/* Free Plan */}
-          <div className="border rounded-lg p-4 lg:p-6 flex flex-col items-center">
-            <h2 className="text-xl font-bold mb-2">Free</h2>
-            <p className="text-sm text-gray-700 mb-4 font-bold">
-              Give ResearchBy a try for free
-            </p>
-            <p className="text-sm text-gray-500 mb-6 text-center">
-              Free trial of Writesonic features to help you get a taste of AI
-              writing.
-            </p>
-
-            <div className="mb-6">
-              <span className="text-3xl lg:text-5xl font-bold">$0</span>
-            </div>
-
-            <p className="text-sm text-gray-500 mb-6 text-center">
-              Try out all features to determine what works best for you
-            </p>
-
-            <button className="w-full py-2 px-4 border border-black rounded-lg mb-6 font-bold">
-              Get Started Free
-            </button>
-
-            <ul className="space-y-3 text-sm lg:text-base">
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Generate 1 comprehensive research document
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Standard queue processing
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Basic research capabilities
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Perfect for one-time users or evaluation purposes
-              </li>
-            </ul>
-          </div>
-
-          {/* Starter Plan */}
-          <div className="border-2 border-yellow-300 rounded-lg p-4 lg:p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold mb-2">Starter</h2>
-            <p className="text-sm text-gray-700 mb-4 text-center font-bold">
-              For bloggers,freelancers businesses
-            </p>
-            <p className="text-sm text-gray-500 mb-6 text-center">
-              Awesome tools to help you write blog posts, books and more.
-            </p>
-
-            <div className="mb-6 flex flex-col justify-center items-center">
-              <span className="text-3xl lg:text-5xl font-bold">$40</span>
-              <span className="text-sm text-gray-500">/month</span>
-            </div>
-
-            <p className="text-sm text-gray-500 mb-6 text-center">
-              Try out all features to determine what works best for you
-            </p>
-
-            <button className="w-full py-2 px-4 bg-yellow-300 text-black rounded-lg mb-6 font-bold">
-              Upgrade
-            </button>
-
-            <p className="font-medium mb-4">Everything in Free-trial,plus</p>
-            <ul className="space-y-3 text-sm lg:text-base">
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>4 research documents
-                per month
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Mixed research capability allocation
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Additional documents: $12 each
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span>
-                Ideal for individuals and small teams with occasional research
-                needs
-              </li>
-            </ul>
-          </div>
-
-          {/* Professional Plans */}
-          {[95, 270].map((price) => (
+          {plans.map((plan) => (
             <div
-              key={price}
+              key={plan.id}
               className="border rounded-lg p-4 lg:p-6 flex flex-col items-center"
             >
-              <h2 className="text-xl font-bold mb-2">Professional</h2>
-              <p className="text-sm text-gray-700 mb-4 font-bold">
-                For teams and businesses
-              </p>
-              <p className="text-sm text-gray-500 mb-6 text-center">
-                Take your business to the next level with custom packages,
-                custom AI model development, onboarding and support.
+              <h2 className="text-xl font-bold mb-2">{plan.name}</h2>
+              <p className="text-sm text-gray-700 mb-4 text-center">
+                {plan.description}
               </p>
 
-              <div className="mb-6 flex flex-col items-center">
-                <span className="text-3xl lg:text-5xl font-bold">${price}</span>
-                <span className="text-sm text-gray-500">/month</span>
+              <div className="mb-6">
+                <span className="text-3xl lg:text-5xl font-bold">
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: plan.currency,
+                  }).format(plan.price)}
+                </span>
+                <span className="text-sm text-gray-500">/{plan.interval}</span>
               </div>
 
-              <p className="text-sm text-gray-500 mb-6 text-center">
-                Try out all features to determine what works best for you
-              </p>
-
-              <button className="w-full py-2 px-4 border border-black rounded-lg mb-6 font-bold">
-                Upgrade
+              <button
+                onClick={() => handleSubscribe(plan.id)}
+                className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg mb-6 font-bold hover:bg-blue-700"
+              >
+                Subscribe
               </button>
 
-              <p className="font-medium mb-4">Everything in Long-form, plus</p>
               <ul className="space-y-3 text-sm lg:text-base">
-                <li className="flex items-center gap-2">
-                  <span className="text-orange-500">✓</span>
-                  Custom number of words
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-orange-500">✓</span>
-                  Custom number of users
-                </li>
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <span className="text-orange-500">✓</span>
+                    {feature}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
