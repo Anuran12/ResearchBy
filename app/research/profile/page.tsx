@@ -223,9 +223,9 @@ export default function Profile() {
       if (error) {
         throw new Error(error.message);
       }
-    } catch (error: any) {
-      console.error("Upgrade error:", error); // Debug log
-      toast.error(`Error upgrading plan: ${error.message}`);
+    } catch {
+      console.error("Upgrade error:"); // Debug log
+      toast.error(`Error upgrading plan`);
     }
   };
 
@@ -237,7 +237,7 @@ export default function Profile() {
 
       const { url } = await response.json();
       window.location.href = url;
-    } catch (error) {
+    } catch {
       toast.error("Error accessing billing portal");
     }
   };
