@@ -53,6 +53,12 @@ interface UserProfile {
   lastLogin: Date;
   signupMethod: string;
 }
+interface Plan {
+  id: string;
+  name: string;
+  price: number;
+  features: string[];
+}
 
 export default function Profile() {
   const { data: session } = useSession();
@@ -182,7 +188,7 @@ export default function Profile() {
       console.log("Available plans:", plans); // Debug log
 
       const upgradePlan =
-        plans.find((p: any) => p.name === "Starter") || plans[0];
+        plans.find((p: Plan) => p.name === "Starter") || plans[0];
       if (!upgradePlan) {
         throw new Error("No plans available");
       }
