@@ -5,7 +5,11 @@ interface ResearchContextType {
   isResearching: boolean;
   currentStatus: string[];
   requestId: string | null;
-  startResearch: (query: string) => Promise<void>;
+  startResearch: (
+    query: string,
+    wordCount?: number,
+    professional?: boolean
+  ) => Promise<void>;
   checkStatus: () => Promise<void>;
   downloadResult: () => Promise<void>;
 }
@@ -19,14 +23,24 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   const [currentStatus, setCurrentStatus] = useState<string[]>([]);
   const [requestId, setRequestId] = useState<string | null>(null);
 
-  const startResearch = async (query: string) => {
+  const startResearch = async (
+    query: string,
+    wordCount?: number,
+    professional: boolean = false
+  ) => {
     try {
+      const payload = {
+        query,
+        ...(wordCount && { wordCount }),
+        professional,
+      };
+
       const response = await fetch(
         "http://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/start",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query }),
+          body: JSON.stringify(payload),
         }
       );
 
