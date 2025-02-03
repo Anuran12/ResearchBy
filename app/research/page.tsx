@@ -1,11 +1,36 @@
 "use client";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiSearch, FiDownload } from "react-icons/fi";
+import { useResearch } from "@/app/contexts/ResearchContext";
 
 export default function NewResearch() {
   const [isProf, setIsProf] = useState(false);
+  const [query, setQuery] = useState("");
+  const {
+    isResearching,
+    currentStatus,
+    requestId,
+    startResearch,
+    checkStatus,
+    downloadResult,
+  } = useResearch();
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isResearching) {
+      interval = setInterval(checkStatus, 5000); // Check status every 5 seconds
+    }
+    return () => clearInterval(interval);
+  }, [isResearching]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    await startResearch(query);
+  };
+
   return (
     <ProtectedRoute>
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
@@ -16,17 +41,25 @@ export default function NewResearch() {
           <AvatarDropdown />
         </div>
         <div className="bg-[#F9FAFB] p-4 rounded-lg flex flex-col gap-3 shadow-custom-1 hover:shadow-custom-2">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Enter your research topic..."
-              className="w-full p-3 border rounded-lg"
-            />
-            <button className="absolute right-3 top-1/2 -translate-y-1/2">
-              {/* Add search icon here if needed */}
-              <FiSearch />
-            </button>
-          </div>
+          <form onSubmit={handleSubmit} className="w-full">
+            <div className="relative">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Enter your research topic..."
+                className="w-full p-3 border rounded-lg"
+                disabled={isResearching}
+              />
+              <button
+                type="submit"
+                disabled={isResearching || !query.trim()}
+                className="absolute right-3 top-1/2 -translate-y-1/2"
+              >
+                <FiSearch />
+              </button>
+            </div>
+          </form>
           {/* Keywords/Topics */}
           <div className="flex flex-wrap gap-2">
             <span className="px-4 py-2 bg-[#FFEB82] rounded-full cursor-pointer">
@@ -161,6 +194,27 @@ export default function NewResearch() {
             </div>
           </div>
         </div>
+        {(isResearching || currentStatus.length > 0) && (
+          <div className="border rounded-lg p-4">
+            <h3 className="font-semibold mb-2">Research Status</h3>
+            <ul className="space-y-2">
+              {currentStatus.map((status, index) => (
+                <li key={index} className="text-gray-600">
+                  {status}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {requestId && !isResearching && currentStatus.includes("COMPLETED") && (
+          <button
+            onClick={downloadResult}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            <FiDownload />
+            Download Result
+          </button>
+        )}
       </div>
     </ProtectedRoute>
   );
