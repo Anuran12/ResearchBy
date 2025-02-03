@@ -77,7 +77,7 @@ export default function NewResearch() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <div className="w-[30%] sm:w-auto">
+              <div className="w-[40%] sm:w-[20%]">
                 <select
                   className="w-full p-3 py-4 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   onChange={(e) =>
@@ -97,7 +97,7 @@ export default function NewResearch() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-between gap-4 mb-2 w-[70%] sm:w-auto bg-white px-8 py-1 border rounded-lg">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-2 w-[70%] sm:w-auto bg-white px-8 py-1 border rounded-lg">
                 <div className="flex items-center gap-7">
                   <div className="w-6 h-6 flex items-center justify-center">
                     <svg
@@ -142,7 +142,11 @@ export default function NewResearch() {
                 </div>
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={() => setIsProfessional(!isProfessional)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsProfessional(!isProfessional);
+                    }}
                     className={`w-12 h-6 rounded-full p-1 transition-colors duration-200 ease-in-out ${
                       isProfessional ? "bg-black" : "bg-gray-200"
                     }`}
