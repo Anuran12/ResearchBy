@@ -2,7 +2,7 @@
 import AvatarDropdown from "@/components/AvatarDropdown";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState, useEffect } from "react";
-import { FiSearch, FiDownload } from "react-icons/fi";
+import { FiDownload } from "react-icons/fi";
 import { useResearch } from "@/app/contexts/ResearchContext";
 
 export default function NewResearch() {
