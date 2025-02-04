@@ -16,7 +16,7 @@ export async function GET(
         "Content-Type": contentType || "application/octet-stream",
       },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to download" }, { status: 500 });
   }
 }
