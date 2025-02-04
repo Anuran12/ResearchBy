@@ -7,6 +7,7 @@ import {
   FiStar,
   FiSearch,
 } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import { useResearch } from "@/app/contexts/ResearchContext";
@@ -35,8 +36,10 @@ export default function History() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
+      toast.success("Research downloaded successfully");
     } catch (error) {
       console.error("Error downloading research:", error);
+      toast.error("Failed to download research");
     }
   };
 
@@ -52,10 +55,39 @@ export default function History() {
       });
 
       if (response.ok) {
-        fetchResearches();
+        await fetchResearches();
+        toast.success(
+          research.favorite ? "Removed from favorites" : "Added to favorites"
+        );
       }
     } catch (error) {
       console.error("Error updating favorite:", error);
+      toast.error("Failed to update favorite status");
+    }
+  };
+
+  const handleDelete = async (requestId: string) => {
+    if (!window.confirm("Are you sure you want to delete this research?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/research/save?requestId=${requestId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        await fetchResearches();
+        toast.success("Research deleted successfully");
+      } else {
+        throw new Error("Failed to delete research");
+      }
+    } catch (error) {
+      console.error("Error deleting research:", error);
+      toast.error("Failed to delete research");
     }
   };
 
@@ -127,9 +159,6 @@ export default function History() {
                   <span>
                     {new Date(research.createdAt).toLocaleDateString()}
                   </span>
-                  {research.wordCount && (
-                    <span>{research.wordCount} words</span>
-                  )}
                   <span className="flex items-center gap-1">
                     <span
                       className={`w-2 h-2 rounded-full ${
@@ -151,6 +180,7 @@ export default function History() {
                   <button
                     onClick={() => handleDownload(research.requestId)}
                     className="p-2 hover:bg-gray-100 rounded-lg"
+                    title="Download"
                   >
                     <FiDownload className="w-5 h-5 text-gray-600" />
                   </button>
@@ -158,6 +188,11 @@ export default function History() {
                 <button
                   onClick={() => handleFavorite(research)}
                   className="p-2 hover:bg-gray-100 rounded-lg"
+                  title={
+                    research.favorite
+                      ? "Remove from favorites"
+                      : "Add to favorites"
+                  }
                 >
                   <FiStar
                     className={`w-5 h-5 ${
@@ -166,6 +201,13 @@ export default function History() {
                         : "text-gray-600"
                     }`}
                   />
+                </button>
+                <button
+                  onClick={() => handleDelete(research.requestId)}
+                  className="p-2 hover:bg-gray-100 rounded-lg text-red-500 hover:text-red-600"
+                  title="Delete"
+                >
+                  <FiTrash2 className="w-5 h-5" />
                 </button>
               </div>
             </div>

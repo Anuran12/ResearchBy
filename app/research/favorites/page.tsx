@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   FiDownload,
   FiEdit3,
@@ -7,74 +7,55 @@ import {
   FiStar,
   FiSearch,
 } from "react-icons/fi";
-import { researchPapers, type ResearchPaper } from "@/data/research";
+import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
-import { useResearchAction } from "@/app/contexts/ResearchActionContext";
+import { useResearch } from "@/app/contexts/ResearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 
 export default function Favorites() {
+  const { researches, fetchResearches } = useResearch();
   const { openModal } = useResearchAction();
-  const [papers, setPapers] = useState<ResearchPaper[]>(researchPapers);
   const [searchTerm, setSearchTerm] = useState("");
   const [timeFilter, setTimeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");
+
+  useEffect(() => {
+    fetchResearches();
+  }, []);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
   };
 
-  const handleFavorite = (id: string) => {
-    setPapers(
-      papers.map((paper) =>
-        paper.id === id ? { ...paper, favorite: !paper.favorite } : paper
-      )
-    );
+  const handleFavorite = async (research: any) => {
+    try {
+      const response = await fetch(`/api/research/save`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestId: research.requestId,
+          favorite: !research.favorite,
+        }),
+      });
+
+      if (response.ok) {
+        await fetchResearches();
+        toast.success(
+          research.favorite ? "Removed from favorites" : "Added to favorites"
+        );
+      }
+    } catch (error) {
+      console.error("Error updating favorite:", error);
+      toast.error("Failed to update favorite status");
+    }
   };
 
+  // Filter only favorite researches
+  const favoriteResearches = researches.filter((research) => research.favorite);
+
   // Filter and sort papers based on search term, time filter, and sort option
-  const filteredFavorites = useMemo(() => {
-    let filtered = papers.filter((paper) => paper.favorite);
-
-    // Apply search filter
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (paper) =>
-          paper.title.toLowerCase().includes(searchLower) ||
-          paper.tags.some((tag) => tag.toLowerCase().includes(searchLower))
-      );
-    }
-
-    // Apply time filter
-    const now = new Date();
-    if (timeFilter === "week") {
-      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-      filtered = filtered.filter((paper) => new Date(paper.date) >= weekAgo);
-    } else if (timeFilter === "month") {
-      const monthAgo = new Date(
-        now.getFullYear(),
-        now.getMonth() - 1,
-        now.getDate()
-      );
-      filtered = filtered.filter((paper) => new Date(paper.date) >= monthAgo);
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case "date":
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        case "title":
-          return a.title.localeCompare(b.title);
-        case "wordCount":
-          return b.wordCount - a.wordCount;
-        default:
-          return 0;
-      }
-    });
-
-    return filtered;
-  }, [papers, searchTerm, timeFilter, sortBy]);
+  const filteredFavorites = researches.filter((paper) => paper.favorite);
 
   return (
     <ProtectedRoute>
@@ -186,8 +167,7 @@ export default function Favorites() {
                   <div>
                     <h3 className="font-medium mb-2">{paper.title}</h3>
                     <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                      <span>{paper.date}</span>
-                      <span>{paper.wordCount} words</span>
+                      <span>{new Date(paper.date).toLocaleDateString()}</span>
                       <span className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-green-500"></span>
                         {paper.status === "completed"
@@ -210,19 +190,13 @@ export default function Favorites() {
                   </button>
                   <button
                     className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
-                    onClick={() => openModal("edit", paper)}
-                  >
-                    <FiEdit3 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
-                  </button>
-                  <button
-                    className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
                     onClick={() => openModal("delete", paper)}
                   >
                     <FiTrash2 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
                   </button>
                   <button
                     className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
-                    onClick={() => handleFavorite(paper.id)}
+                    onClick={() => handleFavorite(paper)}
                   >
                     <FiStar
                       className={`w-4 h-4 lg:w-5 lg:h-5 ${
