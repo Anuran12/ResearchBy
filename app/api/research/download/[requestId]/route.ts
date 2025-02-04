@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { requestId: string } }
 ) {
   try {
@@ -16,7 +16,7 @@ export async function GET(
         "Content-Type": contentType || "application/octet-stream",
       },
     });
-  } catch {
+  } catch (error) {
     return NextResponse.json({ error: "Failed to download" }, { status: 500 });
   }
 }
