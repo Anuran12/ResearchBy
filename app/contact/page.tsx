@@ -23,32 +23,13 @@ export default function ContactPage() {
 
       {/* Contact Information */}
       <div className="py-16 px-4 lg:px-[15vw]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="flex flex-col items-center justify-center mb-16">
           <div className="bg-white p-8 rounded-lg shadow-md text-center">
             <div className="w-12 h-12 bg-[#FFF8D6] rounded-lg flex items-center justify-center mb-4 mx-auto">
               <FiMail className="w-6 h-6 text-[#F9DD4D]" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Email Us</h3>
             <p className="text-gray-600">support@researchby.ai</p>
-            <p className="text-gray-600">info@researchby.ai</p>
-          </div>
-
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="w-12 h-12 bg-[#FFF8D6] rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <FiPhone className="w-6 h-6 text-[#F9DD4D]" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Call Us</h3>
-            <p className="text-gray-600">+1 (555) 123-4567</p>
-            <p className="text-gray-600">Mon-Fri, 9AM-6PM EST</p>
-          </div>
-
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="w-12 h-12 bg-[#FFF8D6] rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <FiMapPin className="w-6 h-6 text-[#F9DD4D]" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Visit Us</h3>
-            <p className="text-gray-600">123 AI Avenue</p>
-            <p className="text-gray-600">New York, NY 10001</p>
           </div>
         </div>
 
@@ -144,11 +125,11 @@ export default function ContactPage() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="font-semibold mb-2">
-              Can I request revisions to my research paper?
+              What subjects can I research on?"
             </h3>
             <p className="text-gray-600">
-              Yes, you can request revisions to your generated research paper
-              through our platform.
+              You can research on any topic, person or company, or comparison of
+              people or companies!.
             </p>
           </div>
         </div>

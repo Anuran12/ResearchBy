@@ -21,53 +21,6 @@ export default function Plans() {
           <AvatarDropdown />
         </div>
 
-        {/* Promotion Banner */}
-        <div className="bg-[#FFEB82] p-4 rounded-lg flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 lg:gap-0">
-          <div className="flex flex-col gap-2 w-full lg:w-[48%]">
-            <span className="text-sm font-bold bg-white w-fit px-3 py-1.5 rounded-lg">
-              ⭐ New Offer
-            </span>
-            <div>
-              <h3 className="font-bold">Easter Offer-Get up to 50%Off</h3>
-              <p className="text-sm text-[#838383]">
-                20%off on all existing 30%off on Annual plans*
-              </p>
-            </div>
-          </div>
-
-          {/* Hide divider on mobile */}
-          <svg
-            className="hidden lg:block"
-            width="5"
-            height="86"
-            viewBox="0 0 5 86"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <line
-              x1="2.5"
-              y1="8.74227e-08"
-              x2="2.5"
-              y2="86"
-              stroke="white"
-              strokeWidth="4"
-              strokeDasharray="4 4"
-            />
-          </svg>
-
-          <div className="w-full lg:w-[50%] flex flex-col justify-center items-center gap-1">
-            <p className="text-sm text-[#838383] font-medium">
-              Use Coupon Code
-            </p>
-            <p className="font-bold bg-white w-fit px-3 py-1.5 rounded-lg">
-              EASTER20
-            </p>
-            <p className="text-xs text-[#838383] font-medium text-center">
-              Valid until 14th Apr 17:59 PM UTC
-            </p>
-          </div>
-        </div>
-
         {/* Pricing Grid */}
         <div className="py-16 px-4 lg:px-[5vw]">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

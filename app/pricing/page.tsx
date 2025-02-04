@@ -20,37 +20,6 @@ export default function PricingPage() {
         </div>
       </div>
 
-      {/* Promotion Banner */}
-      <div className="px-4 lg:px-[15vw] -mt-8">
-        <div className="bg-[#FFEB82] p-4 rounded-lg flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 lg:gap-0">
-          <div className="flex flex-col gap-2 w-full lg:w-[48%]">
-            <span className="text-sm font-bold bg-white w-fit px-3 py-1.5 rounded-lg">
-              ⭐ New Offer
-            </span>
-            <div>
-              <h3 className="font-bold">Easter Offer-Get up to 50%Off</h3>
-              <p className="text-sm text-[#838383]">
-                20%off on all existing 30%off on Annual plans*
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden lg:block w-[1px] h-20 bg-white"></div>
-
-          <div className="w-full lg:w-[50%] flex flex-col justify-center items-center gap-1">
-            <p className="text-sm text-[#838383] font-medium">
-              Use Coupon Code
-            </p>
-            <p className="font-bold bg-white w-fit px-3 py-1.5 rounded-lg">
-              EASTER20
-            </p>
-            <p className="text-xs text-[#838383] font-medium text-center">
-              Valid until 14th Apr 17:59 PM UTC
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Pricing Grid */}
       <div className="py-16 px-4 lg:px-[15vw]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

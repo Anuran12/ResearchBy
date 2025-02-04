@@ -38,23 +38,23 @@ function Works() {
           <ul className="work-list space-y-2 lg:space-y-3">
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">
-                Define your research scope
-              </span>
+              <span className="text-sm lg:text-base">Define Topic</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">Set academic level</span>
+              <span className="text-sm lg:text-base">Click Enter</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">
-                Choose citation style
+                People and Business Supported
               </span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">Specify word count</span>
+              <span className="text-sm lg:text-base">
+                Get comprehensive word document covering your topic
+              </span>
             </li>
           </ul>
         </div>
@@ -77,27 +77,21 @@ function Works() {
           <ul className="work-list space-y-2 lg:space-y-3">
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">
-                Access academic databases
-              </span>
+              <span className="text-sm lg:text-base">Full Internet Search</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <TickIcon />
+              <span className="text-sm lg:text-base">LLM Knowledge</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">
-                Analyze recent publications
+                Company and People Knowledge
               </span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">
-                Verify source credibility
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <TickIcon />
-              <span className="text-sm lg:text-base">
-                Cross-reference findings
-              </span>
+              <span className="text-sm lg:text-base">Media and Images</span>
             </li>
           </ul>
         </div>
@@ -109,23 +103,23 @@ function Works() {
           <ul className="work-list space-y-2 lg:space-y-3">
             <li className="flex items-center gap-2">
               <TickIcon />
-              <span className="text-sm lg:text-base">Generate outline</span>
+              <span className="text-sm lg:text-base">Table of Contents</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">
-                Write comprehensive content
+                Introduction, Extensive Research Details
               </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <TickIcon />
-              <span className="text-sm lg:text-base">Include citations</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">
-                Format according to style
+                Media and Image references
               </span>
+            </li>
+            <li className="flex items-center gap-2">
+              <TickIcon />
+              <span className="text-sm lg:text-base">References</span>
             </li>
           </ul>
         </div>
@@ -144,16 +138,12 @@ function Works() {
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">
-                Download in multiple formats
+                Download in Microsoft Word
               </span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />
               <span className="text-sm lg:text-base">Edit and customize</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <TickIcon />
-              <span className="text-sm lg:text-base">Request revisions</span>
             </li>
             <li className="flex items-center gap-2">
               <TickIcon />

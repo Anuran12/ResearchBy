@@ -8,10 +8,10 @@ function Hero() {
     <div className="flex flex-col items-center justify-start min-h-[45vh] lg:min-h-screen lg:h-[110vh] relative px-4 lg:px-0">
       <div className="flex flex-col items-center gap-5 pt-[10vh] lg:pt-[7vw] text-center">
         <h1 className="text-4xl lg:text-[5.5vw] font-bold leading-tight">
-          Research Powered by
+          A Team of AI Agents
         </h1>
-        <h1 className="text-4xl lg:text-[5.5vw] font-bold bg-gradient-to-l from-[#F9DD4D] to-[#FCE38A] text-transparent bg-clip-text leading-[1]">
-          AI Intelligence
+        <h1 className="text-4xl lg:text-[5.5vw] font-bold bg-gradient-to-l from-[#F9DD4D] to-[#FCE38A] text-transparent bg-clip-text leading-[1.2]">
+          Doing Research
         </h1>
         <p className="text-base lg:text-[1.2vw] text-[#5F5F5F] text-center max-w-[90%] lg:max-w-none">
           Generate comprehensive research documents in minutes.
