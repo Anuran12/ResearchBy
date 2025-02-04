@@ -35,14 +35,11 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
         professional,
       };
 
-      const response = await fetch(
-        "https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/start",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch("/api/research/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       const data = await response.json();
       setRequestId(data.requestId);
@@ -57,9 +54,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
     if (!requestId) return;
 
     try {
-      const response = await fetch(
-        `https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/status/${requestId}`
-      );
+      const response = await fetch(`/api/research/status/${requestId}`);
       const data = await response.json();
       setCurrentStatus(data.status);
 
@@ -75,17 +70,16 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
     if (!requestId) return;
 
     try {
-      const response = await fetch(
-        `https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/download/${requestId}`
-      );
+      const response = await fetch(`/api/research/download/${requestId}`);
       const contentType = response.headers.get("content-type");
       const blob = await response.blob();
 
-      const fileExtension = contentType?.includes("markdown") ? "md" : "docx";
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `research-result.${fileExtension}`;
+      a.download = `research-result.${
+        contentType?.includes("markdown") ? "md" : "docx"
+      }`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
