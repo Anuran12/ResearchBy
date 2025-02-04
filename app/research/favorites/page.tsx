@@ -6,6 +6,21 @@ import AvatarDropdown from "@/components/AvatarDropdown";
 import { useResearch } from "@/app/contexts/ResearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useResearchAction } from "@/app/contexts/ResearchActionContext";
+import { ResearchPaper } from "@/data/research";
+
+interface Research {
+  requestId: string;
+  title: string;
+  query: string;
+  wordCount?: number;
+  professional: boolean;
+  status: "in_progress" | "completed" | "failed";
+  networkType: "Professional Network" | "General";
+  favorite: boolean;
+  tags?: string[];
+  lastModified: Date;
+  createdAt: Date;
+}
 
 export default function Favorites() {
   const { researches, fetchResearches } = useResearch();
@@ -16,13 +31,58 @@ export default function Favorites() {
 
   useEffect(() => {
     fetchResearches();
-  }, []);
+  }, [fetchResearches]);
+
+  const handleDownload = async (requestId: string, query: string) => {
+    try {
+      const response = await fetch(`/api/research/download/${requestId}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const filename = query.replace(/\s+/g, "-");
+      a.download = `${filename}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      toast.success("Research downloaded successfully");
+    } catch (error) {
+      console.error("Error downloading research:", error);
+      toast.error("Failed to download research");
+    }
+  };
+
+  const handleDelete = async (requestId: string) => {
+    if (!window.confirm("Are you sure you want to delete this research?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `/api/research/save?requestId=${requestId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        await fetchResearches();
+        toast.success("Research deleted successfully");
+      } else {
+        throw new Error("Failed to delete research");
+      }
+    } catch (error) {
+      console.error("Error deleting research:", error);
+      toast.error("Failed to delete research");
+    }
+  };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
   };
 
-  const handleFavorite = async (research: any) => {
+  const handleFavorite = async (research: Research) => {
     try {
       const response = await fetch(`/api/research/save`, {
         method: "PUT",
@@ -45,6 +105,9 @@ export default function Favorites() {
     }
   };
 
+  useEffect(() => {
+    fetchResearches();
+  }, [fetchResearches]);
   // Filter and sort papers based on search term, time filter, and sort option
   const filteredFavorites = researches.filter((paper) => paper.favorite);
 
@@ -105,7 +168,7 @@ export default function Favorites() {
           ) : (
             filteredFavorites.map((paper) => (
               <div
-                key={paper.id}
+                key={paper.requestId}
                 className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-4 border rounded-lg shadow-custom-1 hover:shadow-custom-2 gap-4"
               >
                 <div className="flex items-start lg:items-center gap-4">
@@ -158,7 +221,9 @@ export default function Favorites() {
                   <div>
                     <h3 className="font-medium mb-2">{paper.title}</h3>
                     <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-                      <span>{new Date(paper.date).toLocaleDateString()}</span>
+                      <span>
+                        {new Date(paper.createdAt).toLocaleDateString()}
+                      </span>
                       <span className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-green-500"></span>
                         {paper.status === "completed"
@@ -173,29 +238,40 @@ export default function Favorites() {
                 </div>
 
                 <div className="flex items-center gap-2 lg:gap-4">
+                  {paper.status === "completed" && (
+                    <button
+                      onClick={() =>
+                        handleDownload(paper.requestId, paper.query)
+                      }
+                      className="p-2 hover:bg-gray-100 rounded-lg"
+                      title="Download"
+                    >
+                      <FiDownload className="w-5 h-5 text-gray-600" />
+                    </button>
+                  )}
                   <button
-                    className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
-                    onClick={() => openModal("download", paper)}
-                  >
-                    <FiDownload className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
-                  </button>
-                  <button
-                    className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
-                    onClick={() => openModal("delete", paper)}
-                  >
-                    <FiTrash2 className="w-4 h-4 lg:w-5 lg:h-5 text-gray-600" />
-                  </button>
-                  <button
-                    className="p-1.5 lg:p-2 hover:bg-gray-100 rounded-lg"
                     onClick={() => handleFavorite(paper)}
+                    className="p-2 hover:bg-gray-100 rounded-lg"
+                    title={
+                      paper.favorite
+                        ? "Remove from favorites"
+                        : "Add to favorites"
+                    }
                   >
                     <FiStar
-                      className={`w-4 h-4 lg:w-5 lg:h-5 ${
+                      className={`w-5 h-5 ${
                         paper.favorite
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-gray-600"
                       }`}
                     />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(paper.requestId)}
+                    className="p-2 hover:bg-gray-100 rounded-lg text-red-500 hover:text-red-600"
+                    title="Delete"
+                  >
+                    <FiTrash2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>

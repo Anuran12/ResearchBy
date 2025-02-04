@@ -1,12 +1,32 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
 import { toast } from "react-toastify";
+
+interface Research {
+  requestId: string;
+  title: string;
+  query: string;
+  wordCount?: number;
+  professional: boolean;
+  status: "in_progress" | "completed" | "failed";
+  networkType: "Professional Network" | "General";
+  favorite: boolean;
+  tags?: string[];
+  lastModified: Date;
+  createdAt: Date;
+}
 
 interface ResearchContextType {
   isResearching: boolean;
   currentStatus: string[];
   requestId: string | null;
-  researches: any[];
+  researches: Research[];
   startResearch: (
     query: string,
     wordCount?: number,
@@ -25,9 +45,9 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   const [isResearching, setIsResearching] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<string[]>([]);
   const [requestId, setRequestId] = useState<string | null>(null);
-  const [researches, setResearches] = useState<any[]>([]);
+  const [researches, setResearches] = useState<Research[]>([]);
 
-  const fetchResearches = async () => {
+  const fetchResearches = useCallback(async () => {
     try {
       const response = await fetch("/api/research/list");
       if (!response.ok) throw new Error("Failed to fetch researches");
@@ -36,7 +56,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error("Error fetching researches:", error);
     }
-  };
+  }, []);
 
   const startResearch = async (
     query: string,

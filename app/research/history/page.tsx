@@ -6,6 +6,20 @@ import AvatarDropdown from "@/components/AvatarDropdown";
 import { useResearch } from "@/app/contexts/ResearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
+interface Research {
+  requestId: string;
+  title: string;
+  query: string;
+  wordCount?: number;
+  professional: boolean;
+  status: "in_progress" | "completed" | "failed";
+  networkType: "Professional Network" | "General";
+  favorite: boolean;
+  tags?: string[];
+  lastModified: Date;
+  createdAt: Date;
+}
+
 export default function History() {
   const { researches, fetchResearches } = useResearch();
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,7 +27,7 @@ export default function History() {
 
   useEffect(() => {
     fetchResearches();
-  }, []);
+  }, [fetchResearches]);
 
   const handleDownload = async (requestId: string, query: string) => {
     try {
@@ -35,7 +49,7 @@ export default function History() {
     }
   };
 
-  const handleFavorite = async (research: any) => {
+  const handleFavorite = async (research: Research) => {
     try {
       const response = await fetch(`/api/research/save`, {
         method: "PUT",
