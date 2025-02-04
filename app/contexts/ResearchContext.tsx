@@ -5,6 +5,7 @@ interface ResearchContextType {
   isResearching: boolean;
   currentStatus: string[];
   requestId: string | null;
+  researches: any[];
   startResearch: (
     query: string,
     wordCount?: number,
@@ -12,6 +13,7 @@ interface ResearchContextType {
   ) => Promise<void>;
   checkStatus: () => Promise<void>;
   downloadResult: () => Promise<void>;
+  fetchResearches: () => Promise<void>;
 }
 
 const ResearchContext = createContext<ResearchContextType | undefined>(
@@ -22,6 +24,18 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   const [isResearching, setIsResearching] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<string[]>([]);
   const [requestId, setRequestId] = useState<string | null>(null);
+  const [researches, setResearches] = useState<any[]>([]);
+
+  const fetchResearches = async () => {
+    try {
+      const response = await fetch("/api/research/list");
+      if (!response.ok) throw new Error("Failed to fetch researches");
+      const data = await response.json();
+      setResearches(data);
+    } catch (error) {
+      console.error("Error fetching researches:", error);
+    }
+  };
 
   const startResearch = async (
     query: string,
@@ -42,9 +56,24 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
       });
 
       const data = await response.json();
+
+      await fetch("/api/research/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestId: data.requestId,
+          query,
+          title: query,
+          wordCount,
+          professional,
+        }),
+      });
+
       setRequestId(data.requestId);
       setIsResearching(true);
       setCurrentStatus(["Starting research..."]);
+
+      await fetchResearches();
     } catch (error) {
       console.error("Error starting research:", error);
     }
@@ -60,6 +89,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
 
       if (data.status.includes("COMPLETED")) {
         setIsResearching(false);
+        await fetchResearches();
       }
     } catch (error) {
       console.error("Error checking status:", error);
@@ -71,15 +101,11 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await fetch(`/api/research/download/${requestId}`);
-      const contentType = response.headers.get("content-type");
       const blob = await response.blob();
-
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `research-result.${
-        contentType?.includes("markdown") ? "md" : "docx"
-      }`;
+      a.download = `research-${requestId}.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -95,9 +121,11 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
         isResearching,
         currentStatus,
         requestId,
+        researches,
         startResearch,
         checkStatus,
         downloadResult,
+        fetchResearches,
       }}
     >
       {children}
@@ -105,10 +133,10 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useResearch() {
+export const useResearch = () => {
   const context = useContext(ResearchContext);
   if (context === undefined) {
     throw new Error("useResearch must be used within a ResearchProvider");
   }
   return context;
-}
+};

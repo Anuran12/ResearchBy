@@ -6,6 +6,7 @@ import ResearchActionModal from "@/app/components/ResearchActionModal";
 import { AuthProvider } from "@/providers/auth";
 import { Toaster } from "react-hot-toast";
 import { ResearchProvider } from "@/app/contexts/ResearchContext";
+import ResearchInitializer from "@/app/components/ResearchInitializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,12 +36,13 @@ export default function RootLayout({
         <AuthProvider>
           <ResearchActionProvider>
             <ResearchProvider>
+              <ResearchInitializer />
               {children}
               <ResearchActionModal />
+              <Toaster />
             </ResearchProvider>
           </ResearchActionProvider>
         </AuthProvider>
-        <Toaster position="top-right" />
       </body>
     </html>
   );
