@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
+import { toast } from "react-toastify";
 
 interface ResearchContextType {
   isResearching: boolean;
@@ -12,7 +13,7 @@ interface ResearchContextType {
     professional?: boolean
   ) => Promise<void>;
   checkStatus: () => Promise<void>;
-  downloadResult: () => Promise<void>;
+  downloadResult: (query: string) => Promise<void>;
   fetchResearches: () => Promise<void>;
 }
 
@@ -96,22 +97,24 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const downloadResult = async () => {
+  const downloadResult = async (query: string) => {
     if (!requestId) return;
-
     try {
       const response = await fetch(`/api/research/download/${requestId}`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `research-${requestId}.docx`;
+      const filename = query.replace(/\s+/g, "-");
+      a.download = `${filename}.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
+      toast.success("Research downloaded successfully");
     } catch (error) {
       console.error("Error downloading result:", error);
+      toast.error("Failed to download research");
     }
   };
 

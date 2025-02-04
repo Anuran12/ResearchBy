@@ -24,14 +24,15 @@ export default function History() {
     fetchResearches();
   }, []);
 
-  const handleDownload = async (requestId: string) => {
+  const handleDownload = async (requestId: string, query: string) => {
     try {
       const response = await fetch(`/api/research/download/${requestId}`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `research-${requestId}.docx`;
+      const filename = query.replace(/\s+/g, "-");
+      a.download = `${filename}.docx`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -178,7 +179,9 @@ export default function History() {
               <div className="flex items-center gap-2">
                 {research.status === "completed" && (
                   <button
-                    onClick={() => handleDownload(research.requestId)}
+                    onClick={() =>
+                      handleDownload(research.requestId, research.query)
+                    }
                     className="p-2 hover:bg-gray-100 rounded-lg"
                     title="Download"
                   >

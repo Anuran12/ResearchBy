@@ -64,12 +64,17 @@ export default function NewResearch() {
               ].map((sampleQuery, index) => (
                 <span
                   key={index}
-                  onClick={() => setQuery(sampleQuery)}
+                  onClick={() => !isResearching && setQuery(sampleQuery)}
                   className={`px-4 py-2 rounded-full cursor-pointer transition-colors
                     ${
                       query === sampleQuery ? "bg-[#FFEB82]" : "bg-white border"
                     }
-                    hover:bg-[#FFF6C6]`}
+                    ${
+                      isResearching
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-[#FFF6C6]"
+                    }
+                  `}
                 >
                   {sampleQuery}
                 </span>
@@ -245,7 +250,7 @@ export default function NewResearch() {
         )}
         {requestId && !isResearching && currentStatus.includes("COMPLETED") && (
           <button
-            onClick={downloadResult}
+            onClick={() => downloadResult(query)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             <FiDownload />
