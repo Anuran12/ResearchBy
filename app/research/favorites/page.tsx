@@ -1,12 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  FiDownload,
-  FiEdit3,
-  FiTrash2,
-  FiStar,
-  FiSearch,
-} from "react-icons/fi";
+import { FiDownload, FiTrash2, FiStar, FiSearch } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import { useResearch } from "@/app/contexts/ResearchContext";
@@ -50,9 +44,6 @@ export default function Favorites() {
       toast.error("Failed to update favorite status");
     }
   };
-
-  // Filter only favorite researches
-  const favoriteResearches = researches.filter((research) => research.favorite);
 
   // Filter and sort papers based on search term, time filter, and sort option
   const filteredFavorites = researches.filter((paper) => paper.favorite);

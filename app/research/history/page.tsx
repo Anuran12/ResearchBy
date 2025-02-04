@@ -1,23 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  FiDownload,
-  FiEdit3,
-  FiTrash2,
-  FiStar,
-  FiSearch,
-} from "react-icons/fi";
+import { FiDownload, FiTrash2, FiStar, FiSearch } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
-import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import { useResearch } from "@/app/contexts/ResearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function History() {
-  const { openModal } = useResearchAction();
   const { researches, fetchResearches } = useResearch();
   const [searchTerm, setSearchTerm] = useState("");
-  const [timeFilter, setTimeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");
 
   useEffect(() => {
