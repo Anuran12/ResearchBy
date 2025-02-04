@@ -36,7 +36,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
       };
 
       const response = await fetch(
-        "http://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/start",
+        "https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/start",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -58,7 +58,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await fetch(
-        `http://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/status/${requestId}`
+        `https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/status/${requestId}`
       );
       const data = await response.json();
       setCurrentStatus(data.status);
@@ -76,7 +76,7 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await fetch(
-        `http://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/download/${requestId}`
+        `https://ec2-54-177-139-194.us-west-1.compute.amazonaws.com:3000/api/research/download/${requestId}`
       );
       const contentType = response.headers.get("content-type");
       const blob = await response.blob();
