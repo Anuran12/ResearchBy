@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 
 export default function ContactPage() {
   return (
@@ -125,7 +125,7 @@ export default function ContactPage() {
           </div>
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h3 className="font-semibold mb-2">
-              What subjects can I research on?"
+              What subjects can I research on?
             </h3>
             <p className="text-gray-600">
               You can research on any topic, person or company, or comparison of
