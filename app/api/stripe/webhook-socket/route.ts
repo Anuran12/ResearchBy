@@ -4,8 +4,6 @@ import { headers } from "next/headers";
 import { getStripeInstance } from "@/lib/stripe";
 
 const wss = new WebSocketServer({ noServer: true });
-
-// Store active connections
 const clients = new Set<WebSocket>();
 
 wss.on("connection", (ws) => {
@@ -51,11 +49,9 @@ export async function POST(req: Request) {
   }
 }
 
-// Handle WebSocket upgrade
 export function GET(req: Request) {
   const upgrade = req.headers.get("upgrade")?.toLowerCase();
   if (upgrade === "websocket") {
-    // For Next.js Edge Runtime, WebSocket connections aren't directly supported
     return new Response(null, {
       status: 101,
       headers: {

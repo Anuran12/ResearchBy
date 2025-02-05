@@ -23,7 +23,6 @@ export async function POST(req: Request) {
         const session = event.data.object;
         await connectDB();
 
-        // Update user with new plan details
         const user = await User.findOne({ email: session.customer_email });
         if (!user) break;
 
@@ -35,18 +34,31 @@ export async function POST(req: Request) {
           subscription.items.data[0].price.product as Stripe.Product
         ).name.toLowerCase();
 
+        // Update user plan and billing info
         user.plan = planName;
         user.stripeCustomerId = session.customer as string;
         user.subscriptionId = session.subscription as string;
         user.subscriptionStatus = "active";
 
-        // Add payment to billing history
+        // Update usage limits based on plan
+        switch (planName) {
+          case "starter":
+            user.usage.remainingCredits = 4;
+            break;
+          case "professional":
+            user.usage.remainingCredits = 999999; // Unlimited
+            break;
+          default:
+            user.usage.remainingCredits = 1; // Free plan
+        }
+
+        // Add initial payment to billing history
         const payment = {
           invoiceId: session.id,
           amount: session.amount_total! / 100,
           date: new Date(),
           status: "paid",
-          downloadUrl: "", // You can add invoice URL here if needed
+          downloadUrl: "", // Initial payment doesn't have invoice URL
         };
 
         user.billing.invoices.push(payment);
@@ -61,7 +73,7 @@ export async function POST(req: Request) {
         const user = await User.findOne({ stripeCustomerId: invoice.customer });
         if (!user) break;
 
-        // Add payment to billing history
+        // Add recurring payment to billing history
         const payment = {
           invoiceId: invoice.id,
           amount: invoice.amount_paid / 100,

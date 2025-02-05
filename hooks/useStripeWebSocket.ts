@@ -15,7 +15,6 @@ export function useStripeWebSocket() {
       case "customer.subscription.updated":
         toast.success("Subscription updated successfully!");
         break;
-      // Add more event handlers as needed
     }
   }, []);
 
