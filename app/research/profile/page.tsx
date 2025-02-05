@@ -9,6 +9,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
+import { useStripeWebSocket } from "@/hooks/useStripeWebSocket";
 
 interface UserProfile {
   name: string;
@@ -77,6 +78,8 @@ export default function Profile() {
   useEffect(() => {
     fetchUserProfile();
   }, [session]);
+
+  useStripeWebSocket();
 
   const fetchUserProfile = async () => {
     try {
