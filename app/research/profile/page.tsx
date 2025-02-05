@@ -7,7 +7,6 @@ import { FiEdit3, FiTrash2 } from "react-icons/fi";
 // import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
-import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { useStripeWebSocket } from "@/hooks/useStripeWebSocket";
 
@@ -54,12 +53,6 @@ interface UserProfile {
   createdAt: Date;
   lastLogin: Date;
   signupMethod: string;
-}
-interface Plan {
-  id: string;
-  name: string;
-  price: number;
-  features: string[];
 }
 
 export default function Profile() {
