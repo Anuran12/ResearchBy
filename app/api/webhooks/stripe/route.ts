@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { getStripeInstance } from "@/lib/stripe";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
+import Stripe from "stripe";
 
 export async function POST(req: Request) {
   try {
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
           session.subscription as string
         );
         const planName = (
-          subscription.items.data[0].price.product as any
+          subscription.items.data[0].price.product as Stripe.Product
         ).name.toLowerCase();
 
         user.plan = planName;

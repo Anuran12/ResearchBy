@@ -177,59 +177,6 @@ export default function Profile() {
     }
   };
 
-  const handleUpgrade = async () => {
-    try {
-      // Fetch available plans first
-      const plansResponse = await fetch("/api/stripe/plans");
-      if (!plansResponse.ok) {
-        throw new Error(`Plans fetch failed: ${plansResponse.statusText}`);
-      }
-
-      const plans = await plansResponse.json();
-      console.log("Available plans:", plans); // Debug log
-
-      const upgradePlan =
-        plans.find((p: Plan) => p.name === "Starter") || plans[0];
-      if (!upgradePlan) {
-        throw new Error("No plans available");
-      }
-      console.log("Selected plan:", upgradePlan); // Debug log
-
-      const response = await fetch("/api/stripe/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId: upgradePlan.id }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Checkout failed: ${errorData.error || response.statusText}`
-        );
-      }
-
-      const { sessionId } = await response.json();
-      if (!sessionId) {
-        throw new Error("No session ID returned");
-      }
-
-      const stripe = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-      );
-      if (!stripe) {
-        throw new Error("Failed to load Stripe");
-      }
-
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-      if (error) {
-        throw new Error(error.message);
-      }
-    } catch {
-      console.error("Upgrade error:"); // Debug log
-      toast.error(`Error upgrading plan`);
-    }
-  };
-
   const handleManageBilling = async () => {
     try {
       const response = await fetch("/api/stripe/create-portal", {
