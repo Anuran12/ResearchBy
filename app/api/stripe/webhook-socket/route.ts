@@ -18,7 +18,7 @@ export async function GET() {
       const pingInterval = setInterval(() => {
         try {
           controller.enqueue(new TextEncoder().encode(": ping\n\n"));
-        } catch (e) {
+        } catch {
           clearInterval(pingInterval);
           clients.delete(controller);
         }
