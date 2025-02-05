@@ -1,41 +1,58 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { toast } from "react-hot-toast";
 
 export function useStripeWebSocket() {
-  const handleStripeEvent = useCallback((event: MessageEvent) => {
-    const { type, data } = JSON.parse(event.data);
+  const wsRef = useRef<WebSocket | null>(null);
 
-    switch (type) {
-      case "checkout.session.completed":
-        toast.success("Payment completed successfully!");
-        break;
-      case "invoice.paid":
-        toast.success("Invoice paid successfully!");
-        break;
-      case "customer.subscription.updated":
-        toast.success("Subscription updated successfully!");
-        break;
-      // Add more event handlers as needed
+  const handleStripeEvent = useCallback((event: MessageEvent) => {
+    try {
+      const { type, data } = JSON.parse(event.data);
+
+      switch (type) {
+        case "checkout.session.completed":
+          toast.success("Payment completed!");
+          break;
+        case "invoice.paid":
+          toast.success("Invoice paid!");
+          break;
+        case "customer.subscription.updated":
+          toast.success("Subscription updated!");
+          break;
+      }
+    } catch (error) {
+      console.error("WebSocket message error:", error);
     }
   }, []);
 
   useEffect(() => {
-    const ws = new WebSocket(
-      `${process.env.NEXT_PUBLIC_WS_URL}/api/stripe/webhook-socket`
-    );
+    const connectWebSocket = () => {
+      const ws = new WebSocket(
+        `${process.env.NEXT_PUBLIC_WS_URL}/api/stripe/webhook-socket?type=websocket`
+      );
+      wsRef.current = ws;
 
-    ws.onopen = () => {
-      console.log("Connected to Stripe WebSocket");
+      ws.onopen = () => {
+        console.log("WebSocket connected");
+      };
+
+      ws.onmessage = handleStripeEvent;
+
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
+
+      ws.onclose = () => {
+        console.log("WebSocket closed, attempting to reconnect...");
+        setTimeout(connectWebSocket, 3000);
+      };
     };
 
-    ws.onmessage = handleStripeEvent;
-
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
+    connectWebSocket();
 
     return () => {
-      ws.close();
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
     };
   }, [handleStripeEvent]);
 }
