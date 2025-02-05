@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
     const stripe = getStripeInstance();
     const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["subscription", "subscription.items.data.price.product"],
+      expand: ["line_items", "subscription"],
     });
 
     if (!checkoutSession.customer_email) {
@@ -35,28 +35,30 @@ export async function GET(request: Request) {
       );
     }
 
-    // Get subscription details
-    const subscription = checkoutSession.subscription as Stripe.Subscription;
-    const product = subscription.items.data[0].price.product as Stripe.Product;
-    const planName = product.name.toLowerCase();
+    // Get subscription and plan details
+    const subscription = await stripe.subscriptions.retrieve(
+      checkoutSession.subscription as string,
+      {
+        expand: ["items.data.price.product"],
+      }
+    );
+
+    const planName = (
+      subscription.items.data[0].price.product as Stripe.Product
+    ).name.toLowerCase();
 
     // Update user plan and billing info
-    user.plan = planName;
-    user.stripeCustomerId = checkoutSession.customer as string;
-    user.subscriptionId = subscription.id;
-    user.subscriptionStatus = "active";
-
-    // Update usage limits based on plan
-    switch (planName) {
-      case "starter":
-        user.usage.remainingCredits = 4;
-        break;
-      case "professional":
-        user.usage.remainingCredits = 999999; // Unlimited
-        break;
-      default:
-        user.usage.remainingCredits = 1; // Free plan
-    }
+    const updates = {
+      plan: planName,
+      stripeCustomerId: checkoutSession.customer as string,
+      subscriptionId: subscription.id,
+      subscriptionStatus: "active",
+      "usage.remainingCredits":
+        planName === "starter" ? 4 : planName === "professional" ? 999999 : 1,
+      "billing.nextBillingDate": new Date(
+        subscription.current_period_end * 1000
+      ),
+    };
 
     // Add payment to billing history
     const payment = {
@@ -64,11 +66,18 @@ export async function GET(request: Request) {
       amount: checkoutSession.amount_total! / 100,
       date: new Date(),
       status: "paid",
-      downloadUrl: "", // Initial payment doesn't have invoice URL
+      downloadUrl: "",
     };
 
-    user.billing.invoices.push(payment);
-    await user.save();
+    // Update user with all changes at once
+    await User.findOneAndUpdate(
+      { email: checkoutSession.customer_email },
+      {
+        $set: updates,
+        $push: { "billing.invoices": payment },
+      },
+      { new: true }
+    );
 
     // Redirect to profile with success message
     return NextResponse.redirect(
