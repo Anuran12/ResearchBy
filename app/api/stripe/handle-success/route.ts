@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getStripeInstance } from "@/lib/stripe";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
+import Stripe from "stripe";
 
 export async function GET(request: Request) {
   try {
@@ -35,10 +36,9 @@ export async function GET(request: Request) {
     }
 
     // Get subscription details
-    const subscription = checkoutSession.subscription as any;
-    const planName = (
-      subscription.items.data[0].price.product as any
-    ).name.toLowerCase();
+    const subscription = checkoutSession.subscription as Stripe.Subscription;
+    const product = subscription.items.data[0].price.product as Stripe.Product;
+    const planName = product.name.toLowerCase();
 
     // Update user plan and billing info
     user.plan = planName;

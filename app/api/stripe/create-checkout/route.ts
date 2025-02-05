@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { getStripeInstance } from "@/lib/stripe";
-import connectDB from "@/lib/mongodb";
-import User from "@/models/User";
 
 export async function POST(req: Request) {
   try {
