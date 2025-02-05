@@ -5,8 +5,6 @@ import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import { useResearch } from "@/app/contexts/ResearchContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { useResearchAction } from "@/app/contexts/ResearchActionContext";
-import { ResearchPaper } from "@/data/research";
 
 interface Research {
   requestId: string;
@@ -24,7 +22,6 @@ interface Research {
 
 export default function Favorites() {
   const { researches, fetchResearches } = useResearch();
-  const { openModal } = useResearchAction();
   const [searchTerm, setSearchTerm] = useState("");
   const [timeFilter, setTimeFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date");
