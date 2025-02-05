@@ -5,13 +5,29 @@ import { getStripeInstance } from "@/lib/stripe";
 // Store connected clients
 const clients = new Set<ReadableStreamDefaultController>();
 
+export const runtime = "edge";
+
 export async function GET() {
   const stream = new ReadableStream({
     start(controller) {
       clients.add(controller);
 
-      // Remove client when connection closes
-      return () => clients.delete(controller);
+      // Send an initial ping to keep connection alive
+      controller.enqueue(new TextEncoder().encode(": ping\n\n"));
+
+      const pingInterval = setInterval(() => {
+        try {
+          controller.enqueue(new TextEncoder().encode(": ping\n\n"));
+        } catch (e) {
+          clearInterval(pingInterval);
+          clients.delete(controller);
+        }
+      }, 30000);
+
+      return () => {
+        clearInterval(pingInterval);
+        clients.delete(controller);
+      };
     },
   });
 

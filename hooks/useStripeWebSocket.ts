@@ -44,6 +44,10 @@ export function useStripeWebSocket() {
     eventSource.onerror = (error) => {
       console.error("SSE error:", error);
       eventSource.close();
+      // Attempt to reconnect after 3 seconds
+      setTimeout(() => {
+        new EventSource("/api/stripe/webhook-socket");
+      }, 3000);
     };
 
     return () => {
