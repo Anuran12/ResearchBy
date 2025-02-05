@@ -74,6 +74,25 @@ export default function Profile() {
 
   useStripeWebSocket();
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get("success") === "true") {
+      toast.success("Plan upgraded successfully!");
+    }
+
+    const error = urlParams.get("error");
+    if (error) {
+      const errorMessages: Record<string, string> = {
+        missing_session: "Invalid checkout session",
+        invalid_session: "Invalid checkout session",
+        user_not_found: "User not found",
+        internal_error: "An error occurred during checkout",
+      };
+      toast.error(errorMessages[error] || "An error occurred");
+    }
+  }, []);
+
   const fetchUserProfile = async () => {
     try {
       const response = await fetch("/api/user/profile");

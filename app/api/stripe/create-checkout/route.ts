@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { getStripeInstance } from "@/lib/stripe";
+import connectDB from "@/lib/mongodb";
+import User from "@/models/User";
 
 export async function POST(req: Request) {
   try {
@@ -12,6 +14,7 @@ export async function POST(req: Request) {
     const { priceId } = await req.json();
     const stripe = getStripeInstance();
 
+    // Create checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
@@ -21,10 +24,7 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      metadata: {
-        userEmail: session.user.email,
-      },
-      success_url: `${process.env.NEXTAUTH_URL}/research/profile?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXTAUTH_URL}/api/stripe/handle-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXTAUTH_URL}/research/profile`,
       customer_email: session.user.email,
     });
