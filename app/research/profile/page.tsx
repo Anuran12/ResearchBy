@@ -8,6 +8,7 @@ import { FiEdit3, FiTrash2 } from "react-icons/fi";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
 import { loadStripe } from "@stripe/stripe-js";
+import Link from "next/link";
 
 interface UserProfile {
   name: string;
@@ -558,12 +559,11 @@ export default function Profile() {
                     {userProfile?.usage?.remainingCredits} credits remaining
                   </p>
                 </div>
-                <button
-                  onClick={handleUpgrade}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm"
-                >
-                  Upgrade Plan
-                </button>
+                <Link href="/research/plans">
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                    Upgrade Plan
+                  </button>
+                </Link>
               </div>
 
               <div className="space-y-2">
