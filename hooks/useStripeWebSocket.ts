@@ -1,18 +1,17 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export function useStripeWebSocket() {
   const router = useRouter();
-  const wsRef = useRef<WebSocket | null>(null);
 
   const handleStripeEvent = useCallback(
-    (event: MessageEvent) => {
+    (data: string) => {
       try {
-        const { type, data } = JSON.parse(event.data);
-        console.log("Received WebSocket event:", type);
+        const event = JSON.parse(data);
+        console.log("Received SSE event:", event.type);
 
-        switch (type) {
+        switch (event.type) {
           case "checkout.session.completed":
             toast.success("Payment completed successfully!");
             router.refresh();
@@ -26,45 +25,29 @@ export function useStripeWebSocket() {
             router.refresh();
             break;
           default:
-            console.log("Unhandled event type:", type);
+            console.log("Unhandled event type:", event.type);
         }
       } catch (error) {
-        console.error("Error handling WebSocket message:", error);
+        console.error("Error handling SSE message:", error);
       }
     },
     [router]
   );
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-      const wsUrl = `${protocol}//${window.location.host}/api/stripe/webhook-socket`;
+    const eventSource = new EventSource("/api/stripe/webhook-socket");
 
-      wsRef.current = new WebSocket(wsUrl);
-
-      wsRef.current.onopen = () => {
-        console.log("Connected to Stripe WebSocket");
-      };
-
-      wsRef.current.onmessage = handleStripeEvent;
-
-      wsRef.current.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-
-      wsRef.current.onclose = () => {
-        console.log("WebSocket connection closed");
-        // Attempt to reconnect after 3 seconds
-        setTimeout(connectWebSocket, 3000);
-      };
+    eventSource.onmessage = (event) => {
+      handleStripeEvent(event.data);
     };
 
-    connectWebSocket();
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error);
+      eventSource.close();
+    };
 
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
+      eventSource.close();
     };
   }, [handleStripeEvent]);
 }
