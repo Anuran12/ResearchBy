@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
     const stripe = getStripeInstance();
     const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["line_items", "subscription"],
+      expand: ["subscription"],
     });
 
     if (!checkoutSession.customer_email) {
@@ -27,13 +27,6 @@ export async function GET(request: Request) {
     }
 
     await connectDB();
-    const user = await User.findOne({ email: checkoutSession.customer_email });
-
-    if (!user) {
-      return NextResponse.redirect(
-        `${process.env.NEXTAUTH_URL}/research/profile?error=user_not_found`
-      );
-    }
 
     // Get subscription and plan details
     const subscription = await stripe.subscriptions.retrieve(
@@ -48,19 +41,6 @@ export async function GET(request: Request) {
     ).name.toLowerCase();
 
     // Update user plan and billing info
-    const updates = {
-      plan: planName,
-      stripeCustomerId: checkoutSession.customer as string,
-      subscriptionId: subscription.id,
-      subscriptionStatus: "active",
-      "usage.remainingCredits":
-        planName === "starter" ? 4 : planName === "professional" ? 999999 : 1,
-      "billing.nextBillingDate": new Date(
-        subscription.current_period_end * 1000
-      ),
-    };
-
-    // Add payment to billing history
     const payment = {
       invoiceId: sessionId,
       amount: checkoutSession.amount_total! / 100,
@@ -69,15 +49,37 @@ export async function GET(request: Request) {
       downloadUrl: "",
     };
 
-    // Update user with all changes at once
-    await User.findOneAndUpdate(
+    // Use updateOne instead of findOneAndUpdate
+    const result = await User.updateOne(
       { email: checkoutSession.customer_email },
       {
-        $set: updates,
-        $push: { "billing.invoices": payment },
-      },
-      { new: true }
+        $set: {
+          plan: planName,
+          stripeCustomerId: checkoutSession.customer as string,
+          subscriptionId: subscription.id,
+          subscriptionStatus: "active",
+          "usage.remainingCredits":
+            planName === "starter"
+              ? 4
+              : planName === "professional"
+              ? 999999
+              : 1,
+          "billing.nextBillingDate": new Date(
+            subscription.current_period_end * 1000
+          ),
+        },
+        $push: {
+          "billing.invoices": payment,
+        },
+      }
     );
+
+    if (result.modifiedCount === 0) {
+      console.error("Failed to update user:", checkoutSession.customer_email);
+      return NextResponse.redirect(
+        `${process.env.NEXTAUTH_URL}/research/profile?error=update_failed`
+      );
+    }
 
     // Redirect to profile with success message
     return NextResponse.redirect(
