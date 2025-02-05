@@ -8,7 +8,6 @@ import { FiEdit3, FiTrash2 } from "react-icons/fi";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
 import Link from "next/link";
-import { useStripeWebSocket } from "@/hooks/useStripeWebSocket";
 
 interface UserProfile {
   name: string;
@@ -71,8 +70,6 @@ export default function Profile() {
   useEffect(() => {
     fetchUserProfile();
   }, [session]);
-
-  useStripeWebSocket();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
