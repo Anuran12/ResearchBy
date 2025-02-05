@@ -5,16 +5,14 @@ import { getStripeInstance } from "@/lib/stripe";
 
 const wss = new WebSocketServer({ noServer: true });
 
-// Store active connections using a Map to track client IDs
-const clients = new Map<string, WebSocket>();
+// Store active connections
+const clients = new Set<WebSocket>();
 
 wss.on("connection", (ws) => {
-  // Generate a unique ID for each connection
-  const connectionId = Math.random().toString(36).substring(2);
-  clients.set(connectionId, ws);
+  clients.add(ws);
 
   ws.on("close", () => {
-    clients.delete(connectionId);
+    clients.delete(ws);
   });
 });
 
@@ -31,15 +29,14 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
 
-    // Broadcast to connected clients
+    // Broadcast the event to all connected clients
     const message = JSON.stringify({
       type: event.type,
       data: event.data.object,
     });
 
     clients.forEach((client) => {
-      if (client.readyState === 1) {
-        // WebSocket.OPEN
+      if (client.readyState === WebSocket.OPEN) {
         client.send(message);
       }
     });
@@ -54,14 +51,16 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
-  if (new URL(req.url).searchParams.get("type") === "websocket") {
+// Handle WebSocket upgrade
+export function GET(req: Request) {
+  const upgrade = req.headers.get("upgrade")?.toLowerCase();
+  if (upgrade === "websocket") {
+    // For Next.js Edge Runtime, WebSocket connections aren't directly supported
     return new Response(null, {
       status: 101,
       headers: {
         Upgrade: "websocket",
         Connection: "Upgrade",
-        "Sec-WebSocket-Accept": "accepted",
       },
     });
   }
