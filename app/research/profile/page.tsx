@@ -189,19 +189,6 @@ export default function Profile() {
     }
   };
 
-  const handleManageBilling = async () => {
-    try {
-      const response = await fetch("/api/stripe/create-portal", {
-        method: "POST",
-      });
-
-      const { url } = await response.json();
-      window.location.href = url;
-    } catch {
-      toast.error("Error accessing billing portal");
-    }
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -447,7 +434,7 @@ export default function Profile() {
               Billing
             </h2>
             <div className="space-y-4 lg:space-y-6">
-              <div>
+              {/* <div>
                 <h3 className="text-sm text-gray-600 mb-3 lg:mb-4">
                   Payment Methods
                 </h3>
@@ -470,26 +457,60 @@ export default function Profile() {
                 <button className="flex items-center gap-2 text-blue-600 hover:underline text-sm lg:text-base">
                   <span>+</span> Add Payment Method
                 </button>
-              </div>
+              </div> */}
 
               <div>
                 <h3 className="text-sm text-gray-600 mb-3 lg:mb-4">
                   Billing History
                 </h3>
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between p-3 border rounded-lg gap-2 lg:gap-0">
-                  <div>
-                    <div className="text-sm lg:text-base">Invoice #2024001</div>
-                    <div className="text-sm text-gray-500">2024-01-13</div>
+                {userProfile?.billing?.invoices?.length ? (
+                  <div className="space-y-3">
+                    {userProfile.billing.invoices.map((invoice) => (
+                      <div
+                        key={invoice.invoiceId}
+                        className="flex flex-col lg:flex-row lg:items-center lg:justify-between p-3 border rounded-lg gap-2 lg:gap-0"
+                      >
+                        <div>
+                          <div className="text-sm lg:text-base">
+                            Invoice #{invoice.invoiceId.slice(-8)}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {new Date(invoice.date).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span
+                            className={`text-sm lg:text-base ${
+                              invoice.status === "paid"
+                                ? "text-green-500"
+                                : "text-yellow-500"
+                            }`}
+                          >
+                            {invoice.status.charAt(0).toUpperCase() +
+                              invoice.status.slice(1)}
+                          </span>
+                          <span className="text-sm lg:text-base">
+                            ${invoice.amount}
+                          </span>
+                          {invoice.downloadUrl && (
+                            <button
+                              onClick={() =>
+                                window.open(invoice.downloadUrl, "_blank")
+                              }
+                              className="text-blue-600 hover:underline text-sm lg:text-base"
+                            >
+                              Download
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-green-500 text-sm lg:text-base">
-                      Paid
-                    </span>
-                    <button className="text-blue-600 hover:underline text-sm lg:text-base">
-                      Download
-                    </button>
+                ) : (
+                  <div className="text-sm text-gray-500 p-3 border rounded-lg">
+                    No billing history available
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -500,23 +521,26 @@ export default function Profile() {
               <h2 className="text-base lg:text-lg font-semibold">
                 Current Plan
               </h2>
-              <button
-                onClick={handleManageBilling}
-                className="text-blue-600 hover:underline text-sm lg:text-base"
-              >
-                Manage Billing
-              </button>
             </div>
 
             <div className="space-y-4">
               <div className="flex justify-between items-center p-4 border rounded-lg">
                 <div>
                   <h3 className="font-medium mb-1">
-                    {userProfile?.plan || "Free"}
+                    {(userProfile?.plan || "Free").charAt(0).toUpperCase() +
+                      (userProfile?.plan || "Free").slice(1)}
                   </h3>
                   <p className="text-sm text-gray-600">
                     {userProfile?.usage?.remainingCredits} credits remaining
                   </p>
+                  {userProfile?.billing?.nextBillingDate && (
+                    <p className="text-sm text-gray-600 mt-1">
+                      Next billing date:{" "}
+                      {new Date(
+                        userProfile.billing.nextBillingDate
+                      ).toLocaleDateString()}
+                    </p>
+                  )}
                 </div>
                 <Link href="/research/plans">
                   <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
