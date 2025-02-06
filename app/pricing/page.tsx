@@ -9,7 +9,7 @@ export default function PricingPage() {
       <Header />
 
       {/* Hero Section */}
-      <div className="py-16 pt-24 lg:py-24 px-4 lg:px-[15vw] bg-gradient-to-b from-[#FFF8D6] to-white">
+      <div className="py-16 pt-24 lg:py-24 px-4 lg:px-[5vw] bg-gradient-to-b from-[#FFF8D6] to-white">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl lg:text-[5vw] font-bold mb-6 leading-[1]">
             Simple, Transparent Pricing
@@ -21,14 +21,12 @@ export default function PricingPage() {
       </div>
 
       {/* Pricing Grid */}
-      <div className="py-16 px-4 lg:px-[15vw]">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="py-16 px-4 lg:px-[5vw]">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Free Plan */}
           <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold mb-4">Free</h2>
-            <p className="text-gray-600 mb-6">
-              Perfect for trying out our platform
-            </p>
+            <p className="text-gray-600 mb-6">Perfect for evaluation</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$0</span>
               <span className="text-gray-600">/month</span>
@@ -43,11 +41,11 @@ export default function PricingPage() {
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Standard queue processing</span>
+                <span>Basic research capabilities</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Basic research capabilities</span>
+                <span>Standard processing</span>
               </li>
             </ul>
           </div>
@@ -58,7 +56,7 @@ export default function PricingPage() {
               Most Popular
             </div>
             <h2 className="text-2xl font-bold mb-4">Starter</h2>
-            <p className="text-gray-600 mb-6">For bloggers and freelancers</p>
+            <p className="text-gray-600 mb-6">For individuals</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$40</span>
               <span className="text-gray-600">/month</span>
@@ -69,19 +67,19 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>4 research documents/month</span>
+                <span>4 documents/month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Priority queue processing</span>
+                <span>Mixed research capabilities</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Advanced research capabilities</span>
+                <span>Priority processing</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Additional docs: $12 each</span>
+                <span>Extra docs: $12 each</span>
               </li>
             </ul>
           </div>
@@ -89,7 +87,7 @@ export default function PricingPage() {
           {/* Professional Plan */}
           <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold mb-4">Professional</h2>
-            <p className="text-gray-600 mb-6">For teams and businesses</p>
+            <p className="text-gray-600 mb-6">For businesses</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$95</span>
               <span className="text-gray-600">/month</span>
@@ -100,19 +98,42 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Unlimited research documents</span>
+                <span>10 documents/month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Instant processing</span>
+                <span>Flexible research allocation</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Premium research capabilities</span>
+                <span>Extra docs: $11 each</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Premium Plan */}
+          <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
+            <h2 className="text-2xl font-bold mb-4">Premium</h2>
+            <p className="text-gray-600 mb-6">For enterprises</p>
+            <div className="mb-6">
+              <span className="text-4xl font-bold">$270</span>
+              <span className="text-gray-600">/month</span>
+            </div>
+            <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
+              Upgrade Now
+            </button>
+            <ul className="space-y-4">
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>30 documents/month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Dedicated support</span>
+                <span>Full research access</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Extra docs: $10 each</span>
               </li>
             </ul>
           </div>

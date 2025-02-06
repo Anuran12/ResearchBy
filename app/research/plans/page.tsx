@@ -23,7 +23,7 @@ export default function Plans() {
 
         {/* Pricing Grid */}
         <div className="py-16 px-4 lg:px-[5vw]">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {plans.map((plan, index) => (
               <div
                 key={plan.id}
