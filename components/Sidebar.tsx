@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
@@ -9,6 +9,23 @@ import { usePathname } from "next/navigation";
 function Sidebar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState<{
+    email: string;
+    plan: string;
+  } | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch("/api/user/profile");
+        const data = await response.json();
+        setUserProfile(data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   return (
     <>
@@ -202,21 +219,38 @@ function Sidebar() {
 
         {/* Footer section */}
         <div className="mt-auto">
-          <div className="p-4 bg-[#FFF8D6] rounded-lg mb-4">
-            <div className="mb-2">Free Plan</div>
-            <select className="w-full bg-white p-2 rounded">
-              <option>anuran@gmail.com</option>
-              <option>sayan@gmail.com</option>
-            </select>
-          </div>
+          <div className="bg-[#FEF9E7] p-4 rounded-lg mb-4">
+            <div className="mb-4">
+              <h3 className="font-medium text-lg">
+                {userProfile?.plan
+                  ? `${userProfile.plan
+                      .charAt(0)
+                      .toUpperCase()}${userProfile.plan.slice(1)} Plan`
+                  : "Loading..."}
+              </h3>
+              <div className="relative mt-2">
+                <select
+                  disabled
+                  className="w-full p-2 bg-white rounded border appearance-none cursor-not-allowed"
+                >
+                  <option>{userProfile?.email || "Loading..."}</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
 
-          <div className="text-sm text-gray-600">
-            <Link href="/terms" className="block mb-1">
-              terms & condition
-            </Link>
-            {/* <Link href="/support" className="block">
-              support
-            </Link> */}
+            <div className="text-sm text-gray-600">
+              <Link href="/terms" className="block mb-1">
+                terms & condition
+              </Link>
+              {/* <Link href="/support" className="block">
+                support
+              </Link> */}
+            </div>
           </div>
         </div>
       </div>
