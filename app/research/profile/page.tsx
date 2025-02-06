@@ -189,6 +189,19 @@ export default function Profile() {
     }
   };
 
+  const updateUsage = async () => {
+    try {
+      const response = await fetch("/api/research/update-usage", {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Failed to update usage");
+      const data = await response.json();
+      // Update local state if needed
+    } catch (error) {
+      toast.error("Failed to update usage stats");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -531,7 +544,18 @@ export default function Profile() {
                       (userProfile?.plan || "Free").slice(1)}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    {userProfile?.usage?.remainingCredits} credits remaining
+                    {userProfile?.plan === "starter"
+                      ? "4"
+                      : userProfile?.plan === "professional"
+                      ? "10"
+                      : userProfile?.plan === "premium"
+                      ? "30"
+                      : "1"}{" "}
+                    researches per month
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {userProfile?.usage?.remainingCredits || 0} researches
+                    remaining
                   </p>
                   {userProfile?.billing?.nextBillingDate && (
                     <p className="text-sm text-gray-600 mt-1">
@@ -556,13 +580,28 @@ export default function Profile() {
                     className="h-full bg-blue-600 rounded-full"
                     style={{
                       width: `${
-                        (userProfile?.usage?.researchCount || 0) * 10
+                        (userProfile?.usage?.researchCount || 0) *
+                        (userProfile?.plan === "starter"
+                          ? 25
+                          : userProfile?.plan === "professional"
+                          ? 10
+                          : userProfile?.plan === "premium"
+                          ? 3.33
+                          : 100)
                       }%`,
                     }}
                   ></div>
                 </div>
                 <p className="text-sm text-gray-600">
-                  {userProfile?.usage?.researchCount || 0} / 10 researches
+                  {userProfile?.usage?.researchCount || 0} /{" "}
+                  {userProfile?.plan === "starter"
+                    ? "4"
+                    : userProfile?.plan === "professional"
+                    ? "10"
+                    : userProfile?.plan === "premium"
+                    ? "30"
+                    : "1"}{" "}
+                  researches
                 </p>
               </div>
             </div>

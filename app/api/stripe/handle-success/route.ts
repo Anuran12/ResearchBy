@@ -81,8 +81,11 @@ export async function GET(request: Request) {
               planName === "starter"
                 ? 4
                 : planName === "professional"
-                ? 999999
+                ? 10
+                : planName === "premium"
+                ? 30
                 : 1,
+            "usage.researchCount": 0,
             "billing.nextBillingDate": new Date(
               subscription.current_period_end * 1000
             ),
