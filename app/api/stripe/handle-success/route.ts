@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get("session_id");
 
-    console.log("Session ID:", sessionId);
+    console.log("1. Session ID:", sessionId);
 
     if (!sessionId) {
       return NextResponse.redirect(
@@ -18,11 +18,12 @@ export async function GET(request: Request) {
     }
 
     const stripe = getStripeInstance();
-    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ["subscription"],
-    });
+    const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId);
 
-    console.log("Customer Email:", checkoutSession.customer_email);
+    console.log("2. Checkout Session:", {
+      customer_email: checkoutSession.customer_email,
+      subscription: checkoutSession.subscription,
+    });
 
     if (!checkoutSession.customer_email) {
       return NextResponse.redirect(
@@ -32,80 +33,92 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    // First check if user exists
+    // First verify user exists
     const existingUser = await User.findOne({
       email: checkoutSession.customer_email,
     });
-    console.log("Existing User:", existingUser?._id);
+    console.log("3. Found User:", existingUser?._id);
 
     if (!existingUser) {
-      console.error("User not found in database");
+      console.error("User not found:", checkoutSession.customer_email);
       return NextResponse.redirect(
         `${process.env.NEXTAUTH_URL}/research/profile?error=user_not_found`
       );
     }
 
-    // Get subscription and plan details
+    // Get subscription details
     const subscription = await stripe.subscriptions.retrieve(
-      checkoutSession.subscription as string,
-      {
-        expand: ["items.data.price.product"],
-      }
+      checkoutSession.subscription as string
     );
+
+    console.log("4. Subscription:", {
+      id: subscription.id,
+      status: subscription.status,
+      current_period_end: subscription.current_period_end,
+    });
+
+    // Get the price and product details
+    const priceId = subscription.items.data[0].price.id;
+    const price = await stripe.prices.retrieve(priceId, {
+      expand: ["product"],
+    });
 
     const planName = (
-      subscription.items.data[0].price.product as Stripe.Product
-    ).name.toLowerCase();
+      (price.product as Stripe.Product).name || "free"
+    ).toLowerCase();
+    console.log("5. Plan Name:", planName);
 
-    console.log("Plan Name:", planName);
-
-    // Create update object
-    const updateData = {
-      plan: planName,
-      stripeCustomerId: checkoutSession.customer as string,
-      subscriptionId: subscription.id,
-      subscriptionStatus: "active",
-      "usage.remainingCredits":
-        planName === "starter" ? 4 : planName === "professional" ? 999999 : 1,
-      "billing.nextBillingDate": new Date(
-        subscription.current_period_end * 1000
-      ),
-    };
-
-    console.log("Update Data:", updateData);
-
-    // Try direct update first
-    const result = await User.findByIdAndUpdate(
-      existingUser._id,
-      {
-        $set: updateData,
-        $push: {
-          "billing.invoices": {
-            invoiceId: sessionId,
-            amount: checkoutSession.amount_total! / 100,
-            date: new Date(),
-            status: "paid",
-            downloadUrl: "",
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: existingUser._id },
+        {
+          $set: {
+            plan: planName,
+            stripeCustomerId: checkoutSession.customer as string,
+            subscriptionId: subscription.id,
+            subscriptionStatus: "active",
+            "usage.remainingCredits":
+              planName === "starter"
+                ? 4
+                : planName === "professional"
+                ? 999999
+                : 1,
+            "billing.nextBillingDate": new Date(
+              subscription.current_period_end * 1000
+            ),
+          },
+          $push: {
+            "billing.invoices": {
+              invoiceId: sessionId,
+              amount: checkoutSession.amount_total! / 100,
+              date: new Date(),
+              status: "paid",
+              downloadUrl: "",
+            },
           },
         },
-      },
-      { new: true }
-    );
-
-    console.log("Update Result:", result);
-
-    if (!result) {
-      console.error("Failed to update user");
-      return NextResponse.redirect(
-        `${process.env.NEXTAUTH_URL}/research/profile?error=update_failed`
+        { new: true }
       );
-    }
 
-    return NextResponse.redirect(
-      `${process.env.NEXTAUTH_URL}/research/profile?success=true`
-    );
+      console.log("6. Updated User:", {
+        id: updatedUser?._id,
+        plan: updatedUser?.plan,
+        credits: updatedUser?.usage?.remainingCredits,
+      });
+
+      if (!updatedUser) {
+        throw new Error("Update failed");
+      }
+
+      return NextResponse.redirect(
+        `${process.env.NEXTAUTH_URL}/research/profile?success=true`
+      );
+    } catch (updateError) {
+      console.error("Update error:", updateError);
+      throw updateError;
+    }
   } catch (error) {
-    console.error("Success handler error:", error);
+    console.error("Full error details:", error);
     return NextResponse.redirect(
       `${process.env.NEXTAUTH_URL}/research/profile?error=internal_error`
     );
