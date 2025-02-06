@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import AvatarDropdown from "@/components/AvatarDropdown";
-import { FiEdit3, FiTrash2 } from "react-icons/fi";
 // import { useResearchAction } from "@/app/contexts/ResearchActionContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserAvatar from "@/components/UserAvatar";
@@ -186,19 +185,6 @@ export default function Profile() {
     } finally {
       setAvatarFile(null);
       setAvatarPreview(null);
-    }
-  };
-
-  const updateUsage = async () => {
-    try {
-      const response = await fetch("/api/research/update-usage", {
-        method: "POST",
-      });
-      if (!response.ok) throw new Error("Failed to update usage");
-      const data = await response.json();
-      // Update local state if needed
-    } catch (error) {
-      toast.error("Failed to update usage stats");
     }
   };
 

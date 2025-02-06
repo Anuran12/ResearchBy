@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import User from "@/models/User";
 import connectToDatabase from "@/lib/mongodb";
 
-export async function POST(request: Request) {
+export async function POST() {
   try {
     const session = await getServerSession();
     if (!session?.user?.email) {
