@@ -26,6 +26,7 @@ interface UserProfile {
       date: string;
       status: string;
       downloadUrl: string;
+      type?: "subscription" | "extra_doc";
     }>;
     nextBillingDate: Date;
   };
@@ -471,7 +472,9 @@ export default function Profile() {
                       >
                         <div>
                           <div className="text-sm lg:text-base">
-                            Invoice #{invoice.invoiceId.slice(-8)}
+                            {invoice.type === "extra_doc"
+                              ? "Extra Document Purchase"
+                              : `Invoice #${invoice.invoiceId.slice(-8)}`}
                           </div>
                           <div className="text-sm text-gray-500">
                             {new Date(invoice.date).toLocaleDateString()}

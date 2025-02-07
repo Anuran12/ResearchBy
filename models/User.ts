@@ -48,6 +48,11 @@ const userSchema = new mongoose.Schema({
           enum: ["paid", "pending", "failed"],
         },
         downloadUrl: String,
+        type: {
+          type: String,
+          enum: ["subscription", "extra_doc"],
+          default: "subscription",
+        },
       },
     ],
     nextBillingDate: { type: Date, default: Date.now },

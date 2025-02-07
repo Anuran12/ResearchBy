@@ -4,6 +4,8 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState, useEffect } from "react";
 import { FiDownload } from "react-icons/fi";
 import { useResearch } from "@/app/contexts/ResearchContext";
+import { toast } from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 export default function NewResearch() {
   const [query, setQuery] = useState("");
@@ -29,7 +31,58 @@ export default function NewResearch() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
-    await startResearch(query, wordCount || undefined, isProfessional);
+
+    // Check remaining credits
+    try {
+      const response = await fetch("/api/user/check-credits");
+      const { remainingCredits, plan } = await response.json();
+
+      if (remainingCredits <= 0) {
+        // Calculate extra document cost based on plan
+        const extraDocCost =
+          plan === "starter"
+            ? 12
+            : plan === "professional"
+            ? 11
+            : plan === "premium"
+            ? 10
+            : 0;
+
+        const shouldPurchase = window.confirm(
+          `You have used all your credits for this month. Would you like to purchase an extra document for $${extraDocCost}?`
+        );
+
+        if (shouldPurchase) {
+          // Redirect to extra document purchase
+          const checkoutResponse = await fetch(
+            "/api/stripe/create-extra-doc-checkout",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ plan }),
+            }
+          );
+
+          const { sessionId } = await checkoutResponse.json();
+          const stripe = await loadStripe(
+            process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+          );
+          await stripe?.redirectToCheckout({ sessionId });
+          return;
+        } else {
+          toast.error(
+            "No remaining credits. Please upgrade your plan or purchase extra credits."
+          );
+          return;
+        }
+      }
+
+      // Proceed with research if credits are available
+      await startResearch(query, wordCount || undefined, isProfessional);
+    } catch (error) {
+      toast.error("Error checking credits");
+      console.error(error);
+    }
   };
 
   return (
