@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import connectDB from "@/lib/mongodb";
 import Research from "@/models/Research";
 import User from "@/models/User";
+import cloudinary from "@/lib/cloudinary";
 
 export async function POST(request: Request) {
   try {
@@ -134,7 +135,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const research = await Research.findOneAndDelete({
+    const research = await Research.findOne({
       requestId,
       userId: user._id,
     });
@@ -142,6 +143,18 @@ export async function DELETE(request: Request) {
     if (!research) {
       return Response.json({ error: "Research not found" }, { status: 404 });
     }
+
+    // Delete from Cloudinary if exists
+    if (research.documentPublicId) {
+      await cloudinary.uploader.destroy(research.documentPublicId, {
+        resource_type: "raw",
+      });
+    }
+
+    await Research.findOneAndDelete({
+      requestId,
+      userId: user._id,
+    });
 
     return Response.json({ message: "Research deleted successfully" });
   } catch (error) {

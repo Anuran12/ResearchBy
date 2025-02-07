@@ -54,6 +54,19 @@ const researchSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  documentUrl: {
+    type: String,
+    default: null,
+  },
+  documentPublicId: {
+    type: String,
+    default: null,
+  },
+  documentContentType: {
+    type: String,
+    default:
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  },
 });
 
 export default mongoose.models.Research ||
