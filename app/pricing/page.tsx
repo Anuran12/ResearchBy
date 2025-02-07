@@ -2,6 +2,7 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FiCheck } from "react-icons/fi";
+import Link from "next/link";
 
 export default function PricingPage() {
   return (
@@ -22,18 +23,22 @@ export default function PricingPage() {
 
       {/* Pricing Grid */}
       <div className="py-16 px-4 lg:px-[5vw]">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
           {/* Free Plan */}
           <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold mb-4">Free</h2>
-            <p className="text-gray-600 mb-6">Perfect for evaluation</p>
+            <p className="text-gray-600 mb-6">
+              Perfect for one-time users or evaluation purposes
+            </p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$0</span>
               <span className="text-gray-600">/month</span>
             </div>
-            <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-              Get Started Free
-            </button>
+            <Link href="/research">
+              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
+                Get Started Free
+              </button>
+            </Link>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
@@ -45,7 +50,7 @@ export default function PricingPage() {
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Standard processing</span>
+                <span>Standard queue processing</span>
               </li>
             </ul>
           </div>
@@ -56,14 +61,19 @@ export default function PricingPage() {
               Most Popular
             </div>
             <h2 className="text-2xl font-bold mb-4">Starter</h2>
-            <p className="text-gray-600 mb-6">For individuals</p>
+            <p className="text-gray-600 mb-6">
+              Ideal for individuals and small teams with occasional research
+              needs
+            </p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$40</span>
               <span className="text-gray-600">/month</span>
             </div>
-            <button className="w-full py-3 px-4 bg-[#F9DD4D] rounded-lg mb-8 font-bold hover:bg-[#FCE38A] transition-colors">
-              Upgrade Now
-            </button>
+            <Link href="/research/plans">
+              <button className="w-full py-3 px-4 bg-[#F9DD4D] rounded-lg mb-8 font-bold hover:bg-[#FCE38A] transition-colors">
+                Upgrade Now
+              </button>
+            </Link>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
@@ -87,14 +97,18 @@ export default function PricingPage() {
           {/* Professional Plan */}
           <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold mb-4">Professional</h2>
-            <p className="text-gray-600 mb-6">For businesses</p>
+            <p className="text-gray-600 mb-6">
+              Perfect for businesses with regular research requirements
+            </p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$95</span>
               <span className="text-gray-600">/month</span>
             </div>
-            <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-              Upgrade Now
-            </button>
+            <Link href="/research/plans">
+              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
+                Upgrade Now
+              </button>
+            </Link>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
@@ -114,14 +128,18 @@ export default function PricingPage() {
           {/* Premium Plan */}
           <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
             <h2 className="text-2xl font-bold mb-4">Premium</h2>
-            <p className="text-gray-600 mb-6">For enterprises</p>
+            <p className="text-gray-600 mb-6">
+              Designed for enterprises and research-intensive organizations
+            </p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$270</span>
               <span className="text-gray-600">/month</span>
             </div>
-            <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-              Upgrade Now
-            </button>
+            <Link href="/research/plans">
+              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
+                Upgrade Now
+              </button>
+            </Link>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
