@@ -2,6 +2,40 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 
+export const planFeatures = {
+  free: [
+    "Generate 1 comprehensive research document",
+    "Standard queue processing",
+    "Basic research capabilities",
+    "Perfect for one-time users or evaluation purposes",
+  ],
+  starter: [
+    "4 research documents per month",
+    "Mixed research capability allocation",
+    "2 documents with Web, Media, and LLM research",
+    "2 documents with comprehensive research (including Professional Network data)",
+    "Additional documents: $12 each",
+    "Ideal for individuals and small teams with occasional research needs",
+  ],
+  professional: [
+    "10 research documents per month",
+    "Flexible research capability allocation",
+    "3 documents with Web, Media, and LLM research",
+    "7 documents with comprehensive research (including Professional Network data)",
+    "Additional documents: $11 each",
+    "Perfect for businesses with regular research requirements",
+  ],
+  premium: [
+    "30 research documents per month",
+    "Full access to all research capabilities",
+    "Unlimited use of Web and Media research",
+    "Unlimited use of LLM research",
+    "Unlimited access to Professional Network data",
+    "Additional documents: $10 each",
+    "Designed for enterprises and research-intensive organizations",
+  ],
+};
+
 interface Plan {
   id: string;
   name: string;
@@ -24,7 +58,16 @@ export function usePlans() {
     try {
       const response = await fetch("/api/stripe/plans");
       const data = await response.json();
-      setPlans(data);
+
+      // Merge Stripe data with local features
+      const plansWithFeatures = data.map((plan: Plan) => ({
+        ...plan,
+        features:
+          planFeatures[plan.name.toLowerCase() as keyof typeof planFeatures] ||
+          [],
+      }));
+
+      setPlans(plansWithFeatures);
     } catch (error) {
       toast.error("Failed to load plans");
     } finally {

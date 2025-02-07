@@ -22,14 +22,14 @@ export default function Plans() {
         </div>
 
         {/* Pricing Grid */}
-        <div className="py-16 px-4 lg:px-[5vw]">
+        <div className="py-16 px-4 lg:px-[1vw]">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
             {plans.map((plan, index) => (
               <div
                 key={plan.id}
                 className={`${
                   index === 1 ? "border-2 border-[#F9DD4D] relative" : "border"
-                } rounded-lg p-8 hover:shadow-xl transition-shadow`}
+                } rounded-lg py-8 px-4 hover:shadow-xl transition-shadow`}
               >
                 {index === 1 && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F9DD4D] px-4 py-1 rounded-full text-sm font-bold">
@@ -37,7 +37,7 @@ export default function Plans() {
                   </div>
                 )}
                 <h2 className="text-2xl font-bold mb-4">{plan.name}</h2>
-                <p className="text-gray-600 mb-6">{plan.description}</p>
+                <p className="text-gray-600 mb-6 text-sm">{plan.description}</p>
                 <div className="mb-6">
                   <span className="text-4xl font-bold">
                     {new Intl.NumberFormat("en-US", {
@@ -61,7 +61,7 @@ export default function Plans() {
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center gap-3">
                       <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                      <span>{feature}</span>
+                      <span className="text-[13px] w-[90%]">{feature}</span>
                     </li>
                   ))}
                 </ul>

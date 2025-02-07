@@ -42,15 +42,15 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>1 research document</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Basic research capabilities</span>
+                <span>Generate 1 comprehensive research document</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
                 <span>Standard queue processing</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Basic research capabilities</span>
               </li>
             </ul>
           </div>
@@ -77,19 +77,23 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>4 documents/month</span>
+                <span>4 research documents per month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Mixed research capabilities</span>
+                <span>Mixed research capability allocation</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Priority processing</span>
+                <span>2 documents with Web, Media, and LLM research</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Extra docs: $12 each</span>
+                <span>2 documents with comprehensive research</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Additional documents: $12 each</span>
               </li>
             </ul>
           </div>
@@ -112,15 +116,23 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>10 documents/month</span>
+                <span>10 research documents per month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Flexible research allocation</span>
+                <span>Flexible research capability allocation</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Extra docs: $11 each</span>
+                <span>3 documents with Web, Media, and LLM research</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>7 documents with comprehensive research</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Additional documents: $11 each</span>
               </li>
             </ul>
           </div>
@@ -143,15 +155,27 @@ export default function PricingPage() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>30 documents/month</span>
+                <span>30 research documents per month</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Full research access</span>
+                <span>Full access to all research capabilities</span>
               </li>
               <li className="flex items-center gap-3">
                 <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Extra docs: $10 each</span>
+                <span>Unlimited use of Web and Media research</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Unlimited use of LLM research</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Unlimited access to Professional Network data</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                <span>Additional documents: $10 each</span>
               </li>
             </ul>
           </div>
