@@ -28,45 +28,6 @@ export async function GET() {
 
     console.log("Processed plans:", plans);
 
-    // Free Plan features
-    const freePlanFeatures = [
-      "Generate 1 comprehensive research document",
-      "Standard queue processing",
-      "Basic research capabilities",
-      "Perfect for one-time users or evaluation purposes",
-    ];
-
-    // Starter Plan features
-    const starterPlanFeatures = [
-      "4 research documents per month",
-      "Mixed research capability allocation",
-      "2 documents with Web, Media, and LLM research",
-      "2 documents with comprehensive research (including Professional Network data)",
-      "Additional documents: $12 each",
-      "Ideal for individuals and small teams with occasional research needs",
-    ];
-
-    // Professional Plan features
-    const professionalPlanFeatures = [
-      "10 research documents per month",
-      "Flexible research capability allocation",
-      "3 documents with Web, Media, and LLM research",
-      "7 documents with comprehensive research (including Professional Network data)",
-      "Additional documents: $11 each",
-      "Perfect for businesses with regular research requirements",
-    ];
-
-    // Premium Plan features
-    const premiumPlanFeatures = [
-      "30 research documents per month",
-      "Full access to all research capabilities",
-      "Unlimited use of Web and Media research",
-      "Unlimited use of LLM research",
-      "Unlimited access to Professional Network data",
-      "Additional documents: $10 each",
-      "Designed for enterprises and research-intensive organizations",
-    ];
-
     return NextResponse.json(plans);
   } catch (error) {
     console.error("Stripe error:", error);
