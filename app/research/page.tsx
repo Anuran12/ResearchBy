@@ -6,6 +6,7 @@ import { FiDownload } from "react-icons/fi";
 import { useResearch } from "@/app/contexts/ResearchContext";
 import { toast } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
+import ExtraDocModal from "@/app/components/ExtraDocModal";
 
 export default function NewResearch() {
   const [query, setQuery] = useState("");
@@ -19,6 +20,9 @@ export default function NewResearch() {
     checkStatus,
     downloadResult,
   } = useResearch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [extraDocCost, setExtraDocCost] = useState(0);
+  const [currentPlan, setCurrentPlan] = useState("");
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -32,14 +36,13 @@ export default function NewResearch() {
     e.preventDefault();
     if (!query.trim()) return;
 
-    // Check remaining credits
     try {
       const response = await fetch("/api/user/check-credits");
       const { remainingCredits, plan } = await response.json();
+      setCurrentPlan(plan);
 
       if (remainingCredits <= 0) {
-        // Calculate extra document cost based on plan
-        const extraDocCost =
+        const cost =
           plan === "starter"
             ? 12
             : plan === "professional"
@@ -48,40 +51,38 @@ export default function NewResearch() {
             ? 10
             : 0;
 
-        const shouldPurchase = window.confirm(
-          `You have used all your credits for this month. Would you like to purchase an extra document for $${extraDocCost}?`
-        );
-
-        if (shouldPurchase) {
-          // Redirect to extra document purchase
-          const checkoutResponse = await fetch(
-            "/api/stripe/create-extra-doc-checkout",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ plan }),
-            }
-          );
-
-          const { sessionId } = await checkoutResponse.json();
-          const stripe = await loadStripe(
-            process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-          );
-          await stripe?.redirectToCheckout({ sessionId });
-          return;
-        } else {
-          toast.error(
-            "No remaining credits. Please upgrade your plan or purchase extra credits."
-          );
-          return;
-        }
+        setExtraDocCost(cost);
+        setIsModalOpen(true);
+        return;
       }
 
       // Proceed with research if credits are available
       await startResearch(query, wordCount || undefined, isProfessional);
     } catch (error) {
-      toast.error("Error checking credits");
       console.error(error);
+      toast.error("Failed to check credits");
+    }
+  };
+
+  const handlePurchaseExtraDoc = async () => {
+    try {
+      const checkoutResponse = await fetch(
+        "/api/stripe/create-extra-doc-checkout",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan: currentPlan }),
+        }
+      );
+
+      const { sessionId } = await checkoutResponse.json();
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+      );
+      await stripe?.redirectToCheckout({ sessionId });
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to initiate purchase");
     }
   };
 
@@ -311,6 +312,13 @@ export default function NewResearch() {
           </button>
         )}
       </div>
+      <ExtraDocModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onPurchase={handlePurchaseExtraDoc}
+        plan={currentPlan}
+        extraDocCost={extraDocCost}
+      />
     </ProtectedRoute>
   );
 }
