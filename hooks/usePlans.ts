@@ -49,10 +49,22 @@ interface Plan {
 export function usePlans() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPlan, setCurrentPlan] = useState<string>("");
 
   useEffect(() => {
     fetchPlans();
+    fetchCurrentPlan();
   }, []);
+
+  const fetchCurrentPlan = async () => {
+    try {
+      const response = await fetch("/api/user/check-credits");
+      const data = await response.json();
+      setCurrentPlan(data.plan || "free");
+    } catch (error) {
+      console.error("Error fetching current plan:", error);
+    }
+  };
 
   const fetchPlans = async () => {
     try {
@@ -93,5 +105,5 @@ export function usePlans() {
     }
   };
 
-  return { plans, loading, handleSubscribe };
+  return { plans, loading, handleSubscribe, currentPlan };
 }
