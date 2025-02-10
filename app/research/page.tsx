@@ -4,7 +4,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { useState, useEffect } from "react";
 import { FiDownload } from "react-icons/fi";
 import { useResearch } from "@/app/contexts/ResearchContext";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import ExtraDocModal from "@/app/components/ExtraDocModal";
 
@@ -31,6 +31,30 @@ export default function NewResearch() {
     }
     return () => clearInterval(interval);
   }, [isResearching]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get("success") === "true") {
+      // Add a slight delay to ensure the toast is visible
+      setTimeout(() => {
+        toast.success("Plan upgraded successfully!");
+      }, 100);
+      // Clean up the URL
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+
+    const error = urlParams.get("error");
+    if (error) {
+      const errorMessages: Record<string, string> = {
+        missing_session: "Invalid checkout session",
+        invalid_session: "Invalid checkout session",
+        user_not_found: "User not found",
+        internal_error: "An error occurred during checkout",
+      };
+      toast.error(errorMessages[error] || "An error occurred");
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +112,7 @@ export default function NewResearch() {
 
   return (
     <ProtectedRoute>
+      <Toaster position="top-center" />
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
         <div className="flex justify-between items-center w-full">
           <h1 className="text-xl lg:text-2xl font-bold">
@@ -110,7 +135,7 @@ export default function NewResearch() {
             {/* Sample Queries */}
             <div className="flex flex-wrap gap-2">
               {[
-                "IBM vs Salesforce",
+                "Detailed analysis of Apple ",
                 "Future of AI Technology",
                 "Blockchain in Finance",
                 "Cloud Computing Trends",

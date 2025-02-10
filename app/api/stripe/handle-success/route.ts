@@ -114,7 +114,7 @@ export async function GET(request: Request) {
       }
 
       return NextResponse.redirect(
-        `${process.env.NEXTAUTH_URL}/research/profile?success=true`
+        `${process.env.NEXTAUTH_URL}/research?success=true`
       );
     } catch (updateError) {
       console.error("Update error:", updateError);
