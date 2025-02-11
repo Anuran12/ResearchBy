@@ -23,6 +23,25 @@ export default function NewResearch() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [extraDocCost, setExtraDocCost] = useState(0);
   const [currentPlan, setCurrentPlan] = useState("");
+  const [displayQuery, setDisplayQuery] = useState("");
+
+  // Load stored query on mount
+  useEffect(() => {
+    const storedQuery = localStorage.getItem("currentResearchQuery");
+    if (storedQuery) {
+      setDisplayQuery(storedQuery);
+    }
+  }, []);
+
+  // Update display query when new research starts
+  useEffect(() => {
+    if (isResearching) {
+      const storedQuery = localStorage.getItem("currentResearchQuery");
+      if (storedQuery) {
+        setDisplayQuery(storedQuery);
+      }
+    }
+  }, [isResearching]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -300,7 +319,7 @@ export default function NewResearch() {
 
             <div className="mb-4">
               <span className="text-sm text-gray-500">Query:</span>
-              <span className="ml-2 font-medium">{query}</span>
+              <span className="ml-2 font-medium">{displayQuery}</span>
             </div>
 
             {isResearching && (
@@ -329,7 +348,7 @@ export default function NewResearch() {
         )}
         {requestId && !isResearching && currentStatus.includes("COMPLETED") && (
           <button
-            onClick={() => downloadResult(query)}
+            onClick={() => downloadResult(requestId, displayQuery)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             <FiDownload />

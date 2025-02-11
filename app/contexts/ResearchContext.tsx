@@ -5,6 +5,7 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useEffect,
 } from "react";
 import { toast } from "react-toastify";
 
@@ -33,7 +34,7 @@ interface ResearchContextType {
     professional?: boolean
   ) => Promise<void>;
   checkStatus: () => Promise<void>;
-  downloadResult: (query: string) => Promise<void>;
+  downloadResult: (requestId: string, query: string) => Promise<void>;
   fetchResearches: () => Promise<void>;
 }
 
@@ -42,10 +43,22 @@ const ResearchContext = createContext<ResearchContextType | undefined>(
 );
 
 export function ResearchProvider({ children }: { children: ReactNode }) {
-  const [isResearching, setIsResearching] = useState(false);
+  const [isResearching, setIsResearching] = useState<boolean>(false);
   const [currentStatus, setCurrentStatus] = useState<string[]>([]);
   const [requestId, setRequestId] = useState<string | null>(null);
   const [researches, setResearches] = useState<Research[]>([]);
+
+  // Load research state from localStorage on initial mount
+  useEffect(() => {
+    const storedRequestId = localStorage.getItem("currentResearchId");
+    const storedQuery = localStorage.getItem("currentResearchQuery");
+
+    if (storedRequestId) {
+      setRequestId(storedRequestId);
+      setIsResearching(true);
+      checkStatus(); // Check status immediately
+    }
+  }, []);
 
   const fetchResearches = useCallback(async () => {
     try {
@@ -78,6 +91,10 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
 
       const data = await response.json();
 
+      // Save to localStorage
+      localStorage.setItem("currentResearchId", data.requestId);
+      localStorage.setItem("currentResearchQuery", query);
+
       await fetch("/api/research/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -101,23 +118,53 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   };
 
   const checkStatus = async () => {
-    if (!requestId) return;
+    const storedRequestId = localStorage.getItem("currentResearchId");
+    const currentRequestId = requestId || storedRequestId;
+
+    if (!currentRequestId) return;
 
     try {
-      const response = await fetch(`/api/research/status/${requestId}`);
-      const data = await response.json();
-      setCurrentStatus(data.status);
+      const response = await fetch(`/api/research/status/${currentRequestId}`);
+      if (!response.ok) {
+        throw new Error("Failed to check status");
+      }
 
-      if (data.status.includes("COMPLETED")) {
+      const data = await response.json();
+
+      if (data.error) {
+        console.error("Status check error:", data.error);
         setIsResearching(false);
+        localStorage.removeItem("currentResearchId");
+        localStorage.removeItem("currentResearchQuery");
+        setCurrentStatus((prevStatus) => [
+          ...prevStatus,
+          "Research process failed",
+        ]);
+        toast.error(data.error);
         await fetchResearches();
+        return;
+      }
+
+      if (Array.isArray(data.status)) {
+        setCurrentStatus(data.status);
+      } else if (typeof data.status === "string") {
+        setCurrentStatus([data.status]);
+      }
+
+      if (data.status?.includes("COMPLETED")) {
+        setIsResearching(false);
+        localStorage.removeItem("currentResearchId");
+        localStorage.removeItem("currentResearchQuery");
+        await fetchResearches();
+        toast.success("Research completed successfully!");
       }
     } catch (error) {
       console.error("Error checking status:", error);
+      toast.error("Failed to check research status. Retrying...");
     }
   };
 
-  const downloadResult = async (query: string) => {
+  const downloadResult = async (requestId: string, query: string) => {
     if (!requestId) return;
     try {
       const response = await fetch(`/api/research/download/${requestId}`);
