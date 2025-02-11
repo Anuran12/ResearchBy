@@ -57,6 +57,7 @@ function Sidebar() {
           <Link
             href="/research"
             className="flex justify-center items-center gap-2 p-3 mb-2 bg-black text-white rounded-lg"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <Image src={New} alt="logo" width={20} height={20} />
             <span className="font-bold">New Research</span>
@@ -67,6 +68,7 @@ function Sidebar() {
             className={`flex items-center gap-2 p-3 mb-2 rounded-lg transition-colors duration-200 hover:bg-black/10 ${
               pathname === "/research/favorites" ? "bg-black/10" : ""
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <svg
               width="20"
@@ -103,6 +105,7 @@ function Sidebar() {
             className={`flex items-center gap-2 p-3 mb-2 rounded-lg transition-colors duration-200 hover:bg-black/10 ${
               pathname === "/research/history" ? "bg-black/10" : ""
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <svg
               width="20"
@@ -145,6 +148,7 @@ function Sidebar() {
             className={`flex items-center gap-2 p-3 mb-2 rounded-lg transition-colors duration-200 hover:bg-black/10 ${
               pathname === "/research/settings" ? "bg-black/10" : ""
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <svg
               width="20"
@@ -187,6 +191,7 @@ function Sidebar() {
             className={`flex items-center gap-2 p-3 mb-2 rounded-lg transition-colors duration-200 hover:bg-black/10 ${
               pathname === "/research/plans" ? "bg-black/10" : ""
             }`}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <svg
               width="20"
@@ -244,7 +249,11 @@ function Sidebar() {
             </div>
 
             <div className="text-sm text-gray-600">
-              <Link href="/terms" className="block mb-1">
+              <Link
+                href="/terms"
+                className="block mb-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 terms & condition
               </Link>
               {/* <Link href="/support" className="block">
