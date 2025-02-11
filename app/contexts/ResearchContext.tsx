@@ -51,7 +51,6 @@ export function ResearchProvider({ children }: { children: ReactNode }) {
   // Load research state from localStorage on initial mount
   useEffect(() => {
     const storedRequestId = localStorage.getItem("currentResearchId");
-    const storedQuery = localStorage.getItem("currentResearchQuery");
 
     if (storedRequestId) {
       setRequestId(storedRequestId);
