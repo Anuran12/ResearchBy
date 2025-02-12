@@ -134,7 +134,7 @@ export default function NewResearch() {
       <Toaster position="top-center" />
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-xl lg:text-2xl font-bold">
+          <h1 className="text-xl lg:text-2xl font-bold pl-12 lg:pl-0">
             Research Document Generator
           </h1>
           <AvatarDropdown />

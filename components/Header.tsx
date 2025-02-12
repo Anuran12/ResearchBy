@@ -53,7 +53,7 @@ function Header() {
 
           {/* Mobile menu button */}
           <button
-            className="lg:hidden z-50 p-2"
+            className="lg:hidden z-50 p-2 mr-4 font-bold"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >

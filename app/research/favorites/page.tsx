@@ -112,7 +112,7 @@ export default function Favorites() {
     <ProtectedRoute>
       <div className="w-full py-4 px-4 flex flex-col gap-4">
         <div className="flex justify-between items-center gap-4">
-          <h1 className="text-xl lg:text-2xl font-bold">
+          <h1 className="text-xl lg:text-2xl font-bold pl-12 lg:pl-0">
             Favorite Research Papers
           </h1>
           <AvatarDropdown />

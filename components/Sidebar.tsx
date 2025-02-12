@@ -32,7 +32,7 @@ function Sidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-4 left-4 z-50 lg:hidden"
+        className="fixed top-4 left-4 z-50 lg:hidden font-bold text-2xl bg-white rounded-full py-2 px-3 shadow-md"
       >
         {isMobileMenuOpen ? "✕" : "☰"}
       </button>
