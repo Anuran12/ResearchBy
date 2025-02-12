@@ -134,7 +134,7 @@ export default function NewResearch() {
       <Toaster position="top-center" />
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-6 lg:gap-8">
         <div className="flex justify-between items-center w-full">
-          <h1 className="text-xl lg:text-2xl font-bold pl-12 lg:pl-0">
+          <h1 className="text-lg lg:text-2xl font-bold pl-12 lg:pl-0">
             Research Document Generator
           </h1>
           <AvatarDropdown />
@@ -163,7 +163,7 @@ export default function NewResearch() {
                 <span
                   key={index}
                   onClick={() => !isResearching && setQuery(sampleQuery)}
-                  className={`px-4 py-2 rounded-full cursor-pointer transition-colors
+                  className={`px-4 py-2 rounded-full cursor-pointer transition-colors text-sm lg:text-base
                     ${
                       query === sampleQuery ? "bg-[#FFEB82]" : "bg-white border"
                     }
@@ -200,7 +200,7 @@ export default function NewResearch() {
                 </select>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-2 w-[70%] sm:w-auto bg-white px-8 py-1 border rounded-lg">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-2 lg:w-[70%] sm:w-auto bg-white px-8 py-3 lg:py-1 border rounded-lg w-full">
                 <div className="flex items-center gap-7">
                   <div className="w-6 h-6 flex items-center justify-center">
                     <svg
@@ -234,10 +234,10 @@ export default function NewResearch() {
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-lg font-semibold">
+                    <h2 className="text-sm lg:text-lg font-semibold">
                       Professional Network Search
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-sm lg:text-base">
                       Include insights from professional networks in your
                       research
                     </p>

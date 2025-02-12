@@ -125,7 +125,7 @@ export default function History() {
     <ProtectedRoute>
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl lg:text-2xl font-bold pl-12 lg:pl-0">
+          <h1 className="text-lg lg:text-2xl font-bold pl-12 lg:pl-0">
             Research History
           </h1>
           <AvatarDropdown />

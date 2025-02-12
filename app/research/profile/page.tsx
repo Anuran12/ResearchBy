@@ -197,7 +197,7 @@ export default function Profile() {
     <ProtectedRoute>
       <div className="w-full py-4 lg:py-6 px-4 lg:px-5 flex flex-col gap-4 lg:gap-6">
         <div className="flex justify-between items-center w-full gap-4 lg:gap-0">
-          <h1 className="text-xl lg:text-2xl font-bold pl-12 lg:pl-0">
+          <h1 className="text-lg lg:text-2xl font-bold pl-12 lg:pl-0">
             Account Settings
           </h1>
           <AvatarDropdown />
