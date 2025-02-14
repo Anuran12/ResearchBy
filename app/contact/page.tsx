@@ -25,37 +25,28 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const templateParams = {
-        to_name: "ResearchBy.ai Team",
-        to_email: "support@researchby.ai",
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        reply_to: formData.email,
-      };
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      const response = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
-
-      if (response.status === 200) {
-        toast.success("Message sent successfully! We'll get back to you soon.");
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          subject: "General Inquiry",
-          message: "",
-        });
-      } else {
+      if (!response.ok) {
         throw new Error("Failed to send message");
       }
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        subject: "General Inquiry",
+        message: "",
+      });
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Contact Error:", error);
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
