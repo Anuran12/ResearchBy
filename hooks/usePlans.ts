@@ -2,37 +2,50 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 
-export const planFeatures = {
+// Add these types at the top of the file
+type PlanFeature = string | { title: string; subFeatures: string[] };
+type PlanFeatures = Record<string, PlanFeature[]>;
+
+export const planFeatures: PlanFeatures = {
   free: [
     "Generate 1 comprehensive research document",
     "Standard queue processing",
     "Basic research capabilities",
-    "Perfect for one-time users or evaluation purposes",
   ],
   starter: [
     "4 research documents per month",
-    "Mixed research capability allocation",
-    "2 documents with Web, Media, and LLM research",
-    "2 documents with comprehensive research (including Professional Network data)",
+    {
+      title: "Mixed research capability allocation",
+      subFeatures: [
+        "2 documents with Web, Media, and LLM research",
+        "2 documents with comprehensive research",
+      ],
+    },
     "Additional documents: $12 each",
-    "Ideal for individuals and small teams with occasional research needs",
   ],
   professional: [
     "10 research documents per month",
-    "Flexible research capability allocation",
-    "3 documents with Web, Media, and LLM research",
-    "7 documents with comprehensive research (including Professional Network data)",
+    {
+      title: "Flexible research capability allocation",
+      subFeatures: [
+        "3 documents with Web, Media, and LLM research",
+        "7 documents with comprehensive research",
+      ],
+    },
     "Additional documents: $11 each",
-    "Perfect for businesses with regular research requirements",
   ],
   premium: [
     "30 research documents per month",
     "Full access to all research capabilities",
-    "Unlimited use of Web and Media research",
-    "Unlimited use of LLM research",
-    "Unlimited access to Professional Network data",
+    {
+      title: "Research capabilities include",
+      subFeatures: [
+        "Unlimited use of Web and Media research",
+        "Unlimited use of LLM research",
+        "Unlimited access to Professional Network data",
+      ],
+    },
     "Additional documents: $10 each",
-    "Designed for enterprises and research-intensive organizations",
   ],
 };
 
@@ -105,5 +118,16 @@ export function usePlans() {
     }
   };
 
-  return { plans, loading, handleSubscribe, currentPlan };
+  const transformedPlans = plans.map((plan) => ({
+    ...plan,
+    features:
+      planFeatures[plan.name.toLowerCase() as keyof typeof planFeatures] || [],
+  }));
+
+  return {
+    plans: transformedPlans,
+    loading,
+    handleSubscribe,
+    currentPlan,
+  };
 }

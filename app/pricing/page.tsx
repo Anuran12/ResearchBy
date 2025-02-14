@@ -2,7 +2,89 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FiCheck } from "react-icons/fi";
+import { BiCircle } from "react-icons/bi";
 import Link from "next/link";
+
+const plans = [
+  {
+    id: "free",
+    name: "Free",
+    description: "Perfect for one-time users or evaluation purposes",
+    price: 0,
+    currency: "USD",
+    interval: "month",
+    features: [
+      "Generate 1 comprehensive research document",
+      "Standard queue processing",
+      "Basic research capabilities",
+      "Perfect for one-time users or evaluation purposes",
+    ],
+  },
+  {
+    id: "starter",
+    name: "Starter",
+    description:
+      "Ideal for individuals and small teams with occasional research needs",
+    price: 40,
+    currency: "USD",
+    interval: "month",
+    features: [
+      "4 research documents per month",
+      {
+        title: "Mixed research capability allocation",
+        subFeatures: [
+          "2 documents with Web, Media, and LLM research",
+          "2 documents with comprehensive research (including Professional Network data)",
+        ],
+      },
+      "Additional documents: $12 each",
+      "Ideal for individuals and small teams with occasional research needs",
+    ],
+  },
+  {
+    id: "professional",
+    name: "Professional",
+    description: "Perfect for businesses with regular research requirements",
+    price: 95,
+    currency: "USD",
+    interval: "month",
+    features: [
+      "10 research documents per month",
+      {
+        title: "Flexible research capability allocation",
+        subFeatures: [
+          "3 documents with Web, Media, and LLM research",
+          "7 documents with comprehensive research (including Professional Network data)",
+        ],
+      },
+      "Additional documents: $11 each",
+      "Perfect for businesses with regular research requirements",
+    ],
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    description:
+      "Designed for enterprises and research-intensive organizations",
+    price: 270,
+    currency: "USD",
+    interval: "month",
+    features: [
+      "30 research documents per month",
+      "Full access to all research capabilities",
+      {
+        title: "Research capabilities include",
+        subFeatures: [
+          "Unlimited use of Web and Media research",
+          "Unlimited use of LLM research",
+          "Unlimited access to Professional Network data",
+        ],
+      },
+      "Additional documents: $10 each",
+      "Designed for enterprises and research-intensive organizations",
+    ],
+  },
+];
 
 export default function PricingPage() {
   return (
@@ -24,195 +106,73 @@ export default function PricingPage() {
       {/* Pricing Grid */}
       <div className="py-16 px-4 lg:px-[5vw]">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-          {/* Free Plan */}
-          <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
-            <h2 className="text-2xl font-bold mb-4">Free</h2>
-            <p className="text-gray-600 mb-6">
-              Perfect for one-time users or evaluation purposes
-            </p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold">$0</span>
-              <span className="text-gray-600">/month</span>
-            </div>
-            <Link href="/research">
-              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-                Get Started Free
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Generate 1 comprehensive research document</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Standard queue processing</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Basic research capabilities</span>
-              </li>
-            </ul>
-          </div>
+          {plans.map((plan, index) => {
+            const isPlanHighlighted = index === 1;
 
-          {/* Starter Plan */}
-          <div className="border-2 border-[#F9DD4D] rounded-lg p-8 relative hover:shadow-xl transition-shadow">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F9DD4D] px-4 py-1 rounded-full text-sm font-bold">
-              Most Popular
-            </div>
-            <h2 className="text-2xl font-bold mb-4">Starter</h2>
-            <p className="text-gray-600 mb-6">
-              Ideal for individuals and small teams with occasional research
-              needs
-            </p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold">$40</span>
-              <span className="text-gray-600">/month</span>
-            </div>
-            <Link href="/research/plans">
-              <button className="w-full py-3 px-4 bg-[#F9DD4D] rounded-lg mb-8 font-bold hover:bg-[#FCE38A] transition-colors">
-                Upgrade Now
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>4 research documents per month</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Mixed research capability allocation</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>2 documents with Web, Media, and LLM research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>2 documents with comprehensive research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Additional documents: $12 each</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Professional Plan */}
-          <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
-            <h2 className="text-2xl font-bold mb-4">Professional</h2>
-            <p className="text-gray-600 mb-6">
-              Perfect for businesses with regular research requirements
-            </p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold">$95</span>
-              <span className="text-gray-600">/month</span>
-            </div>
-            <Link href="/research/plans">
-              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-                Upgrade Now
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>10 research documents per month</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Flexible research capability allocation</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>3 documents with Web, Media, and LLM research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>7 documents with comprehensive research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Additional documents: $11 each</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Premium Plan */}
-          <div className="border rounded-lg p-8 hover:shadow-xl transition-shadow">
-            <h2 className="text-2xl font-bold mb-4">Premium</h2>
-            <p className="text-gray-600 mb-6">
-              Designed for enterprises and research-intensive organizations
-            </p>
-            <div className="mb-6">
-              <span className="text-4xl font-bold">$270</span>
-              <span className="text-gray-600">/month</span>
-            </div>
-            <Link href="/research/plans">
-              <button className="w-full py-3 px-4 border-2 border-black rounded-lg mb-8 font-bold hover:bg-black hover:text-white transition-colors">
-                Upgrade Now
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>30 research documents per month</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Full access to all research capabilities</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Unlimited use of Web and Media research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Unlimited use of LLM research</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Unlimited access to Professional Network data</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                <span>Additional documents: $10 each</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ Section */}
-      <div className="py-16 px-4 lg:px-[15vw] bg-[#F9FAFB]">
-        <h2 className="text-3xl lg:text-[2.5vw] font-bold text-center mb-12">
-          Frequently Asked Questions
-        </h2>
-        <div className="max-w-3xl mx-auto space-y-4">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="font-semibold mb-2">
-              How does the billing cycle work?
-            </h3>
-            <p className="text-gray-600">
-              All plans are billed monthly and you can upgrade, downgrade, or
-              cancel at any time.
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="font-semibold mb-2">Can I switch plans anytime?</h3>
-            <p className="text-gray-600">
-              Yes, you can switch between plans at any time. The new rate will
-              be prorated based on your billing cycle.
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="font-semibold mb-2">
-              What payment methods do you accept?
-            </h3>
-            <p className="text-gray-600">
-              We accept all major credit cards, PayPal, and bank transfers for
-              our services.
-            </p>
-          </div>
+            return (
+              <div
+                key={plan.id}
+                className={`${
+                  isPlanHighlighted ? "border-2 border-[#F9DD4D]" : "border"
+                } rounded-lg p-8 hover:shadow-xl transition-shadow relative`}
+              >
+                {isPlanHighlighted && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#F9DD4D] px-4 py-1 rounded-full text-sm font-bold">
+                    Most Popular
+                  </div>
+                )}
+                <h2 className="text-2xl font-bold mb-4">{plan.name}</h2>
+                <p className="text-gray-600 mb-6">{plan.description}</p>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">${plan.price}</span>
+                  <span className="text-gray-600">/{plan.interval}</span>
+                </div>
+                <Link
+                  href={plan.id === "free" ? "/research" : "/research/plans"}
+                >
+                  <button
+                    className={`w-full py-3 px-4 rounded-lg mb-8 font-bold transition-colors ${
+                      index === 1
+                        ? "bg-[#F9DD4D] hover:bg-[#FCE38A]"
+                        : "border-2 border-black hover:bg-black hover:text-white"
+                    }`}
+                  >
+                    {plan.id === "free" ? "Get Started Free" : "Upgrade Now"}
+                  </button>
+                </Link>
+                <ul className="space-y-4">
+                  {plan.features.map((feature, idx) =>
+                    typeof feature === "string" ? (
+                      <li key={idx} className="flex items-center gap-3">
+                        <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                        <span className="text-[13px] w-[90%]">{feature}</span>
+                      </li>
+                    ) : (
+                      <React.Fragment key={idx}>
+                        <li className="flex items-center gap-3">
+                          <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                          <span className="text-[13px] w-[90%]">
+                            {feature.title}
+                          </span>
+                        </li>
+                        <ul className="space-y-2 ml-8 mt-2">
+                          {feature.subFeatures.map((subFeature, subIdx) => (
+                            <li
+                              key={subIdx}
+                              className="flex items-center gap-3"
+                            >
+                              <BiCircle className="text-[#F9DD4D] w-4 h-4" />
+                              <span className="text-sm">{subFeature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </React.Fragment>
+                    )
+                  )}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
 

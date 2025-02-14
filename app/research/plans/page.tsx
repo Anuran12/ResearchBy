@@ -3,6 +3,8 @@ import { usePlans } from "@/hooks/usePlans";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AvatarDropdown from "@/components/AvatarDropdown";
 import { FiCheck } from "react-icons/fi";
+import { BiCircle } from "react-icons/bi";
+import React from "react";
 
 export default function Plans() {
   const { plans, loading, handleSubscribe, currentPlan } = usePlans();
@@ -81,12 +83,36 @@ export default function Plans() {
                       : "Upgrade Now"}
                   </button>
                   <ul className="space-y-4">
-                    {plan.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-3">
-                        <FiCheck className="text-[#F9DD4D] w-5 h-5" />
-                        <span className="text-[13px] w-[90%]">{feature}</span>
-                      </li>
-                    ))}
+                    {plan.features.map((feature, idx) =>
+                      typeof feature === "string" ? (
+                        <li key={idx} className="flex items-center gap-3">
+                          <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                          <span className="text-[13px] w-[90%]">{feature}</span>
+                        </li>
+                      ) : (
+                        <React.Fragment key={idx}>
+                          <li className="flex items-center gap-3">
+                            <FiCheck className="text-[#F9DD4D] w-5 h-5" />
+                            <span className="text-[13px] w-[90%]">
+                              {feature.title}
+                            </span>
+                          </li>
+                          <ul className="space-y-2 ml-8 mt-2">
+                            {feature.subFeatures.map((subFeature, subIdx) => (
+                              <li
+                                key={subIdx}
+                                className="flex items-center gap-3"
+                              >
+                                <BiCircle className="text-[#F9DD4D] w-4 h-4" />
+                                <span className="text-[13px]">
+                                  {subFeature}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </React.Fragment>
+                      )
+                    )}
                   </ul>
                 </div>
               );
