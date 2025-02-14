@@ -93,6 +93,11 @@ export default function TermsPage() {
                 Subscription cancellations must be made 24 hours before renewal
               </li>
               <li>Price changes will be notified 30 days in advance</li>
+              <li>
+                Upgrading to a higher plan will immediately start the new
+                subscription period, and any remaining credits from the current
+                plan will be forfeited
+              </li>
             </ul>
           </section>
 
