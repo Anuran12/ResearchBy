@@ -6,6 +6,14 @@ import { FiCheck } from "react-icons/fi";
 import { BiCircle } from "react-icons/bi";
 import React from "react";
 
+const isLowerTier = (planName: string, currentPlan: string) => {
+  const tiers = ["free", "starter", "professional", "premium"];
+  return (
+    tiers.indexOf(planName.toLowerCase()) <
+    tiers.indexOf(currentPlan.toLowerCase())
+  );
+};
+
 export default function Plans() {
   const { plans, loading, handleSubscribe, currentPlan } = usePlans();
 
@@ -67,9 +75,11 @@ export default function Plans() {
                   </div>
                   <button
                     onClick={() => handleSubscribe(plan.id)}
-                    disabled={isCurrentPlan}
+                    disabled={
+                      isCurrentPlan || isLowerTier(plan.name, currentPlan)
+                    }
                     className={`w-full py-3 px-4 rounded-lg mb-8 font-bold transition-colors ${
-                      isCurrentPlan
+                      isCurrentPlan || isLowerTier(plan.name, currentPlan)
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                         : index === 1
                         ? "bg-[#F9DD4D] hover:bg-[#FCE38A]"
@@ -78,6 +88,8 @@ export default function Plans() {
                   >
                     {isCurrentPlan
                       ? "Current Plan"
+                      : isLowerTier(plan.name, currentPlan)
+                      ? "Available After Current Plan Expires"
                       : index === 0
                       ? "Get Started Free"
                       : "Upgrade Now"}
