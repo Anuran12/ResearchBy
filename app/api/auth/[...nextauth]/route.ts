@@ -76,7 +76,7 @@ const handler = NextAuth({
               billing: {
                 paymentMethods: [],
                 invoices: [],
-                nextBillingDate: new Date(),
+                nextBillingDate: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours from now
               },
               settings: {
                 display: {

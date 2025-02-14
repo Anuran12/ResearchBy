@@ -87,7 +87,7 @@ export async function GET(request: Request) {
                 : 1,
             "usage.researchCount": 0,
             "billing.nextBillingDate": new Date(
-              subscription.current_period_end * 1000
+              Date.now() + 2 * 60 * 60 * 1000 // 2 hours in milliseconds
             ),
           },
           $push: {
