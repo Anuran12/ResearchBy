@@ -79,12 +79,27 @@ export default function NewResearch() {
     e.preventDefault();
     if (!query.trim()) return;
 
+    // Immediately update button state
+    const button = e.currentTarget.querySelector(
+      'button[type="submit"]'
+    ) as HTMLButtonElement;
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Researching...";
+    }
+
     try {
       const response = await fetch("/api/user/check-credits");
       const { remainingCredits, plan } = await response.json();
       setCurrentPlan(plan);
 
       if (remainingCredits <= 0) {
+        // Reset button state if no credits
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Start Research";
+        }
+
         const cost =
           plan === "starter"
             ? 12
@@ -102,6 +117,11 @@ export default function NewResearch() {
       // Proceed with research if credits are available
       await startResearch(query, wordCount || undefined, isProfessional);
     } catch (error) {
+      // Reset button state on error
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Start Research";
+      }
       console.error(error);
       toast.error("Failed to check credits");
     }
@@ -285,10 +305,9 @@ export default function NewResearch() {
 
             <button
               type="submit"
-              disabled={isResearching || !query.trim()}
               className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
             >
-              {isResearching ? "Researching..." : "Start Research"}
+              Start Research
             </button>
           </form>
         </div>
