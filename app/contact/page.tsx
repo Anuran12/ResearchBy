@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FiMail } from "react-icons/fi";
 import { toast } from "react-hot-toast";
-import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,10 +14,6 @@ export default function ContactPage() {
     subject: "General Inquiry",
     message: "",
   });
-
-  useEffect(() => {
-    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
