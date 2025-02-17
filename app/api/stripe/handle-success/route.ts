@@ -68,6 +68,8 @@ export async function GET(request: Request) {
     ).toLowerCase();
     console.log("5. Plan Name:", planName);
 
+    const nextBillingDate = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours from now
+
     try {
       const updatedUser = await User.findOneAndUpdate(
         { _id: existingUser._id },
@@ -86,9 +88,7 @@ export async function GET(request: Request) {
                 ? 30
                 : 1,
             "usage.researchCount": 0,
-            "billing.nextBillingDate": new Date(
-              Date.now() + 2 * 60 * 60 * 1000 // 2 hours in milliseconds
-            ),
+            "billing.nextBillingDate": nextBillingDate,
           },
           $push: {
             "billing.invoices": {
