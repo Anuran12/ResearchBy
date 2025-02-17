@@ -116,7 +116,7 @@ export default function Plans() {
                                 className="flex items-center gap-3"
                               >
                                 <BiCircle className="text-[#F9DD4D] w-4 h-4" />
-                                <span className="text-[13px]">
+                                <span className="text-[13px] w-[90%]">
                                   {subFeature}
                                 </span>
                               </li>

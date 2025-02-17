@@ -7,7 +7,6 @@ import { useResearch } from "@/app/contexts/ResearchContext";
 import { toast, Toaster } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import ExtraDocModal from "@/app/components/ExtraDocModal";
-import { useRouter } from "next/navigation";
 
 export default function NewResearch() {
   const [query, setQuery] = useState("");
@@ -25,7 +24,6 @@ export default function NewResearch() {
   const [extraDocCost, setExtraDocCost] = useState(0);
   const [currentPlan, setCurrentPlan] = useState("");
   const [displayQuery, setDisplayQuery] = useState("");
-  const router = useRouter();
 
   // Load stored query on mount
   useEffect(() => {
