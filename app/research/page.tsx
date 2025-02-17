@@ -7,6 +7,7 @@ import { useResearch } from "@/app/contexts/ResearchContext";
 import { toast, Toaster } from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import ExtraDocModal from "@/app/components/ExtraDocModal";
+import { useRouter } from "next/navigation";
 
 export default function NewResearch() {
   const [query, setQuery] = useState("");
@@ -24,6 +25,7 @@ export default function NewResearch() {
   const [extraDocCost, setExtraDocCost] = useState(0);
   const [currentPlan, setCurrentPlan] = useState("");
   const [displayQuery, setDisplayQuery] = useState("");
+  const router = useRouter();
 
   // Load stored query on mount
   useEffect(() => {
@@ -74,6 +76,34 @@ export default function NewResearch() {
       toast.error(errorMessages[error] || "An error occurred");
     }
   }, []);
+
+  // Add this effect to check plan validity every minute
+  useEffect(() => {
+    const checkPlanValidity = async () => {
+      try {
+        const response = await fetch("/api/plans/check-validity");
+        const data = await response.json();
+
+        if (data.plan === "free" && currentPlan !== "free") {
+          // Plan has been downgraded to free
+          toast.error("Your plan has expired", {
+            id: "plan-expired-research", // Unique ID to prevent duplicate toasts
+          });
+          // // Use router to redirect instead of reload
+          // router.push("/research/profile");
+        }
+      } catch (error) {
+        console.error("Error checking plan validity:", error);
+      }
+    };
+
+    // Check only once when component mounts
+    checkPlanValidity();
+
+    // Then check every 5 minutes instead of every minute
+    const interval = setInterval(checkPlanValidity, 300000);
+    return () => clearInterval(interval);
+  }, [currentPlan]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

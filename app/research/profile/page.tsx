@@ -90,6 +90,32 @@ export default function Profile() {
     }
   }, []);
 
+  useEffect(() => {
+    const checkPlanValidity = async () => {
+      try {
+        const response = await fetch("/api/plans/check-validity");
+        const data = await response.json();
+
+        if (data.plan !== userProfile?.plan) {
+          // Plan has changed
+          fetchUserProfile(); // Refresh profile data
+          // Show a one-time notification
+          toast.error("Your plan has expired and been reset to Free plan", {
+            id: "plan-expired", // Unique ID to prevent duplicate toasts
+          });
+        }
+      } catch (error) {
+        console.error("Error checking plan validity:", error);
+      }
+    };
+
+    // Only set up interval if we have a userProfile
+    if (userProfile) {
+      const interval = setInterval(checkPlanValidity, 60000); // Check every minute
+      return () => clearInterval(interval);
+    }
+  }, [userProfile?.plan]);
+
   const fetchUserProfile = async () => {
     try {
       const response = await fetch("/api/user/profile");

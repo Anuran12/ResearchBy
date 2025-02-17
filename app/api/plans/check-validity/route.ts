@@ -17,15 +17,35 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // Add logging to debug expiration check
+    console.log("Checking plan validity:", {
+      currentTime: new Date(),
+      nextBillingDate: user.billing?.nextBillingDate,
+      hasExpired:
+        user.billing?.nextBillingDate &&
+        new Date() > user.billing.nextBillingDate,
+    });
+
     // Check if plan has expired
     if (
       user.billing?.nextBillingDate &&
-      new Date() > user.billing.nextBillingDate
+      new Date() > user.billing.nextBillingDate &&
+      user.plan !== "free" // Only reset if not already free
     ) {
+      console.log("Plan expired, resetting to free plan");
       user.plan = "free";
       user.usage.remainingCredits = 1;
       user.subscriptionStatus = "canceled";
       await user.save();
+
+      return NextResponse.json({
+        plan: user.plan,
+        remainingCredits: user.usage.remainingCredits,
+        subscriptionStatus: user.subscriptionStatus,
+        nextBillingDate: user.billing?.nextBillingDate,
+        currentTime: new Date(),
+        justExpired: true, // Flag to indicate this is the first time we're notifying
+      });
     }
 
     return NextResponse.json({
@@ -33,6 +53,8 @@ export async function GET() {
       remainingCredits: user.usage.remainingCredits,
       subscriptionStatus: user.subscriptionStatus,
       nextBillingDate: user.billing?.nextBillingDate,
+      currentTime: new Date(),
+      justExpired: false,
     });
   } catch (error) {
     console.error("Plan check error:", error);
